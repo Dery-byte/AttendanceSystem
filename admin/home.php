@@ -120,14 +120,14 @@ if($_SESSION == ""){
                                 </li>
                             </ul>
                         </li>
-                        <li class="nav-item">
-                            <a href="senate_deduction.php" class="nav-link">
-                                <i class="nav-icon fas fa-sticky-note"></i>
-                                <p>
-                                    Deduction
-                                </p>
-                            </a>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a href="senate_deduction.php" class="nav-link">-->
+<!--                                <i class="nav-icon fas fa-sticky-note"></i>-->
+<!--                                <p>-->
+<!--                                    Deduction-->
+<!--                                </p>-->
+<!--                            </a>-->
+<!--                        </li>-->
                         <li class="nav-item">
                             <a href="senate_positions.php" class="nav-link">
                                 <i class="nav-icon fas fa-briefcase"></i>
@@ -137,12 +137,12 @@ if($_SESSION == ""){
                             </a>
                         </li>
 
-                        <li class="nav-item">
-                            <a href="print_payroll.php" class="nav-link">
-                                <i class="nav-icon fas fa-money-bill-alt"></i>
-                                <p>Payroll</p>
-                            </a>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a href="print_payroll.php" class="nav-link">-->
+<!--                                <i class="nav-icon fas fa-money-bill-alt"></i>-->
+<!--                                <p>Payroll</p>-->
+<!--                            </a>-->
+<!--                        </li>-->
                         <li class="nav-item">
                             <a href="print_sched.php" class="nav-link">
                                 <i class="nav-icon far fa-clock"></i>
