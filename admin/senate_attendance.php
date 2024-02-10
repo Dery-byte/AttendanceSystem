@@ -189,7 +189,7 @@ global $db;
                                             <th>Name</th>
                                             <th>Time In</th>
                                             <th>Time Out</th>
-                                            <th>Scheduled Meeting</th>
+                                            <th>Scheduled Meeting(s)</th>
 
                                         </tr>
                                     </thead>
@@ -209,7 +209,7 @@ $sql = "SELECT * FROM senate_attendance, senate_list, senate_sched WHERE senate_
                                             <td><?php echo $row['senator_name']; ?></td>
                                             <td><?php echo $row['attendance_timein']; ?> <span class="float-right badge bg-success">On Time</span></td>
                                             <td><?php echo $row['attendance_timeout']; ?></td>
-                                            <td><?php echo $row['schedule']; ?></td>
+                                            <td><?php echo $row['schedule']; ?> (<?php echo $row['meeting_name']; ?>)</td>
                                         </tr>
                                         <?php
                   }
@@ -221,7 +221,7 @@ $sql = "SELECT * FROM senate_attendance, senate_list, senate_sched WHERE senate_
                                             <td><?php echo $row['senator_name']; ?></td>
                                             <td><?php echo $row['attendance_timein']; ?> <span class="float-right badge bg-warning">Late</span></td>
                                             <td><?php echo $row['attendance_timeout']; ?></td>
-                                            <td><?php echo $row['schedule']; ?></td>
+                                            <td><?php echo $row['schedule']; ?> (<?php echo $row['meeting_name']; ?>)</td>
 
                                         </tr>
                                         <?php

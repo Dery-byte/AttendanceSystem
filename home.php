@@ -17,7 +17,7 @@ $code = $_POST['operation'];
 if($code == "time-in")
 {
 $id = $_POST['student_id'];
-$schedule=$_POST['emp_schedule'];
+$schedule=$_POST['senate_schedule'];
 $sql = "SELECT * FROM senate_list WHERE student_id = '$id'";
 $result = mysqli_query($db, $sql);
 if(!$row = $result->fetch_assoc()) {
@@ -27,8 +27,11 @@ $_SESSION['mess'] = "<div id='time' class='alert alert-danger' role='alert'>
 header("Location: home.php");
 }
 else {
-$sql2 = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND attendance_date = '$date'";
-$result2 = mysqli_query($db, $sql2);
+//$sql2 = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND attendance_date = '$date'";
+
+    $sql2 = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND schedule = '$schedule'";
+
+    $result2 = mysqli_query($db, $sql2);
 if(!$row2 = $result2->fetch_assoc()) {
 $fname = $row['senator_fname'];
 $lname = $row['senator_lname'];
@@ -41,7 +44,13 @@ $hrs = $interval->format('%h');
 $mins = $interval->format('%i');
 $mins = $mins/60;
 $int = $hrs + $mins;
-if($int > 4){
+$scheduleInattendance= $row['schedule'];
+//$schedule=$_POST['senate_schedule'];
+
+
+
+
+if($scheduleInattendance !=$schedule ){
 $int = $int - 1;
 }
 $sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
@@ -182,7 +191,7 @@ header("Location: home.php");
                     <div class="input-group mb-3">
 <!--                        <label class="col-sm-3 col-form-label">Schedule</label>-->
                         <div class="input-group mb-3">
-                            <select name="emp_schedule" class="form-control" required="True">
+                            <select name="senate_schedule" class="form-control" required>
                                 <option hidden> - Select Schedule -</option>
                                 <?php
                                 $sql = "SELECT * FROM senate_sched";
@@ -192,6 +201,7 @@ header("Location: home.php");
                                     ?>
                                     <option value="<?php echo $row['sched_id']; ?>">
                                         <?php echo $row['sched_in']; ?> - <?php echo $row['sched_out']; ?>
+                                       ( <?php echo $row['meeting_name']; ?> )
                                     </option>
                                     <?php
                                 }

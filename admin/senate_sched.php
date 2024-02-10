@@ -224,8 +224,9 @@ include("controller.php");
                                 <table id="example1" class="table table-bordered dataTable no-footer" role="grid" aria-describedby="example1_info">
                                     <thead>
                                         <tr>
-                                            <th>Time in</th>
-                                            <th>Time out</th>
+                                            <th>Start Time</th>
+                                            <th>End Time</th>
+                                            <th>Meeting Name</th>
                                             <th>Actions</th>
                                         </tr>
                                     </thead>
@@ -239,6 +240,8 @@ include("controller.php");
                                         <tr>
                                             <td><?php echo $row['sched_in']; ?></td>
                                             <td><?php echo $row['sched_out']; ?></td>
+                                            <td><?php echo $row['meeting_name']; ?></td>
+
                                             <td>
                                                 <button class="btn btn-success btn-flat sched_edit" id="<?php echo $row['sched_id']; ?>"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-danger btn-flat del_sched" id="<?php echo $row['sched_id']; ?>"><i class="fas fa-trash"></i></button>
@@ -272,9 +275,22 @@ include("controller.php");
                 </div>
                 <div class="modal-body">
                     <form method="POST">
+
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label"></label>
-                            <label class="col-sm-3 col-form-label">Time in</label>
+                            <label class="col-sm-3 col-form-label">Meeting Name</label>
+                            <div class="col-sm-7">
+                                <div class="">
+                                    <div class="input-group " data-target-input="nearest">
+                                        <input type="text" name="meeting_name" class="form-control" required placeholder="Meeting name">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Start Time</label>
                             <div class="col-sm-7">
                                 <div class="bootstrap-timepicker">
                                     <div class="input-group date" id="timepicker" data-target-input="nearest">
@@ -286,7 +302,7 @@ include("controller.php");
 
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label"></label>
-                            <label class="col-sm-3 col-form-label">Time out</label>
+                            <label class="col-sm-3 col-form-label">End Time</label>
                             <div class="col-sm-7">
                                 <div class="bootstrap-timepicker">
                                     <div class="input-group date" id="secondpicker" data-target-input="nearest">

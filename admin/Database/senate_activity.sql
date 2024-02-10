@@ -102,7 +102,8 @@ CREATE TABLE `senate_position` (
 CREATE TABLE `senate_sched` (
   `sched_id` int(11) NOT NULL,
   `sched_in` time NOT NULL,
-  `sched_out` time NOT NULL
+  `sched_out` time NOT NULL,
+  `meeting_name` varchar(225) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------

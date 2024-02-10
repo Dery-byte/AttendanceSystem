@@ -155,6 +155,8 @@ if(isset($_POST['add_employee']))
 //ADD SCHEDULE
 if(isset($_POST['add_sched']))
 {
+
+  $meeting_name=$_POST['meeting_name'];
   $in = $_POST['sched_timein'];
   $out = $_POST['sched_timeout'];
 
@@ -165,7 +167,7 @@ if(isset($_POST['add_sched']))
   $chkresult = mysqli_query($db, $chkquery);
 
   if(!$row = $chkresult->fetch_assoc()) {
-    $sql = "INSERT INTO senate_sched (sched_in, sched_out) VALUES ('$in_24', '$out_24')";
+    $sql = "INSERT INTO senate_sched (meeting_name, sched_in, sched_out) VALUES ('$meeting_name','$in_24', '$out_24')";
     $result = mysqli_query($db, $sql);
 
     $_SESSION['success'] = "New Schedule has been added ! ";
