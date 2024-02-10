@@ -31,8 +31,12 @@ if(isset($_POST['Sign_in']))
          </script>';
   }
   else {
+//      session_start();
       $_SESSION['senator_fname'] = $row['senator_fname'];
       $_SESSION['senator_lname'] = $row['senator_lname'];
+      $_SESSION['senator_photo'] = $row['senator_photo'];
+
+
 
       $_SESSION['student_id'] = $row['student_id'];
       $sql = "SELECT * FROM senate_list WHERE student_id = '$username' and password = '$password' ";
@@ -101,11 +105,10 @@ if(isset($_POST['add_employee']))
   $contact = $_POST['emp_contact'];
   $gender = $_POST['emp_gender'];
   $position = $_POST['emp_position'];
-  //$sched = $_POST['Senate_schedule'];
 
+  //$sched = $_POST['Senate_schedule'];
 //  $sched = $_POST['Senate_schedule'];
   $regdate = date("Y-m-d");
-
 //  $sql = "SELECT sched_in, sched_out FROM senate_sched WHERE sched_id = '$sched'";
 //  $result = mysqli_query($db, $sql);
 //  while($row = mysqli_fetch_array($result))
@@ -123,12 +126,9 @@ if(isset($_POST['add_employee']))
     move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "admin/img/".$filename);
   }
 
-
 //  $query = "INSERT INTO senate_list (student_id, emp_fname, emp_lname, emp_position, emp_address, emp_contact, emp_gender, emp_timein, emp_timeout, sched_id, emp_regdate, emp_photo)
 //                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$in', '$out', '$sched', '$regdate', '$target_file')";
 //  $resquery = mysqli_query($db, $query);
-
-
 
     $query = "INSERT INTO senate_list (student_id, senator_fname, senator_lname, senator_position, senator_address, senator_contact, senator_gender, senator_regdate, senator_photo)
                           VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$regdate', '$target_file')";

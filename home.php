@@ -144,14 +144,14 @@ header("Location: home.php");
         <li class="nav-item dropdown">
             <a class="nav-link" data-toggle="dropdown" href="#">
 <!--                <i class="fas fa-user"></i>-->
-                <img src="dist/img/me.jpg" style="border-radius: 50%;width: 40px;height: 40px;" alt="User Image">
-                <span class="hidden-xs"><?php echo  $_SESSION['senator_lname']; ?>  <?php echo $_SESSION['senator_fname'];?> </span>
+                <img src="<?php echo   $_SESSION['senator_photo'];?>" style="border-radius: 50%;width: 40px;height: 40px;" alt="User Image">
+                <span class="hidden-xs"><?php echo $_SESSION['senator_fname']; ?> <?php echo $_SESSION['senator_lname']?></span>
 
             </a>
             <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span class="dropdown-item dropdown-header" style="max-height: 150px; overflow:hidden; background:#222d32;">
                             <div class="image">
-                                <img src="dist/img/me.jpg" style="border-radius: 50%;width: 100px;height: 100px;" alt="User Image">
+                                <img src="<?php echo   $_SESSION['senator_photo'];?>" style="border-radius: 50%; width:100px;height: 100px;" alt="User Image">
                             </div>
                         </span>
                 <form method="POST">

@@ -44,12 +44,12 @@ include("controller.php");
                 <li class="nav-item dropdown">
                     <a class="nav-link" data-toggle="dropdown" href="#">
                         <i class="fas fa-user"></i>
-                        <span class="hidden-xs"><?php echo $_SESSION['senator_fname']; ?></span>
+                        <span class="hidden-xs"><?php echo $_SESSION['senator_fname']; ?> <?php echo $_SESSION['senator_lname']?></span>
                     </a>
                     <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
                         <span class="dropdown-item dropdown-header" style="max-height: 150px; overflow:hidden; background:#222d32;">
                             <div class="image">
-                                <img src="dist/img/me.jpg" style="border-radius: 50%;width:100px;height: 100px;" alt="User Image">
+                                <img src="<?php echo   $_SESSION['senator_photo'];?>" style="border-radius: 50%; width:100px;height: 100px;" alt="User Image">
                             </div>
                         </span>
                         <form method="POST">
@@ -85,6 +85,8 @@ include("controller.php");
                                 </p>
                             </a>
                         </li>
+
+
                         <li class="nav-item has-treeview menu-open">
                             <a href="#" class="nav-link">
                                 <i class="nav-icon fas fa-users"></i>
@@ -139,9 +141,7 @@ include("controller.php");
                         </li>
                     </ul>
                 </nav>
-
             </div>
-
         </aside>
         <div class="content-wrapper">
             <div class="content-header">
@@ -153,6 +153,7 @@ include("controller.php");
                         <div class="col-sm-6">
                             <h1 class="m-0 text-dark">Senators</h1>
                         </div>
+
                         <div class="col-sm-6">
                             <ol class="breadcrumb float-sm-right">
                                 <li class="breadcrumb-item"><a href="home.php">Home</a></li>
@@ -167,7 +168,9 @@ include("controller.php");
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
+<!--                               --><?php //echo $_SESSION['senator_photo'];?>
 
+<!--                                <img src="--><?php //echo $_SESSION['senator_photo'];?><!--" style="border-radius: 50%" width="40px" height="40px">-->
 
 <!--                                <div align="right">-->
 <!--                                    <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i> New</button>-->
@@ -203,7 +206,7 @@ include("controller.php");
 
 
 
-                                            <td><img src="<?php echo $row['senator_photo'];?>" style="width: 40px; height: 40px;"></td>
+                                            <td><img src="<?php echo $row['senator_photo'];?>" style="width: 40px; height: 40px; border-radius: 50%"></td>
 
 
 
