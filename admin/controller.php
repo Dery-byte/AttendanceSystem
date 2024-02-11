@@ -107,10 +107,6 @@ if(isset($_POST['add_employee']))
   $position = $_POST['emp_position'];
   $password = $_POST['password'];
   $type = $_POST['type'];
-
-
-    //$sched = $_POST['Senate_schedule'];
-//  $sched = $_POST['Senate_schedule'];
   $regdate = date("Y-m-d");
 //  $sql = "SELECT sched_in, sched_out FROM senate_sched WHERE sched_id = '$sched'";
 //  $result = mysqli_query($db, $sql);

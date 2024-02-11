@@ -68,8 +68,8 @@ include("controller.php");
                     <th>Schedule</th>
                 </tr>
                 <?php
-      $s = $_SESSION['start_month'];
-      $e = $_SESSION['end_month'];
+//      $s = $_SESSION['start_month'];
+//      $e = $_SESSION['end_month'];
       $sql = "SELECT * FROM senate_attendance, senate_sched WHERE senate_attendance.schedule = senate_sched.sched_id ";
       $result = mysqli_query($db, $sql);
       while($row = mysqli_fetch_array($result))
