@@ -105,8 +105,11 @@ if(isset($_POST['add_employee']))
   $contact = $_POST['emp_contact'];
   $gender = $_POST['emp_gender'];
   $position = $_POST['emp_position'];
+  $password = $_POST['password'];
+  $type = $_POST['type'];
 
-  //$sched = $_POST['Senate_schedule'];
+
+    //$sched = $_POST['Senate_schedule'];
 //  $sched = $_POST['Senate_schedule'];
   $regdate = date("Y-m-d");
 //  $sql = "SELECT sched_in, sched_out FROM senate_sched WHERE sched_id = '$sched'";
@@ -130,8 +133,8 @@ if(isset($_POST['add_employee']))
 //                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$in', '$out', '$sched', '$regdate', '$target_file')";
 //  $resquery = mysqli_query($db, $query);
 
-    $query = "INSERT INTO senate_list (student_id, senator_fname, senator_lname, senator_position, senator_address, senator_contact, senator_gender, senator_regdate, senator_photo)
-                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$regdate', '$target_file')";
+    $query = "INSERT INTO senate_list (student_id, senator_fname, senator_lname, senator_position, senator_address, senator_contact, senator_gender, senator_regdate, senator_photo, password, type)
+                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$regdate', '$target_file', '$password','$type')";
     $resquery = mysqli_query($db, $query);
   echo '<script>
            setTimeout(function() {

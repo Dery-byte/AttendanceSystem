@@ -197,6 +197,23 @@ include("./admin/controller.php");
 
                                 </div>
                             </div>
+
+                            <div class="form-group row">
+                                <label class="col-sm-1 col-form-label"></label>
+                                <label class="col-sm-3 col-form-label">Password</label>
+                                <div class="col-sm-7">
+                                    <input type="password" class="form-control" name="password" placeholder="Enter password" required>
+                                </div>
+                            </div>
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-1 col-form-label"></label>
+<!--                                <label class="col-sm-3 col-form-label">Member Type</label>-->
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="type"  value="member" hidden placeholder="Member Type" required>
+                                </div>
+                            </div>
                     </div>
 
                     <div class="modal-footer justify-content-between">

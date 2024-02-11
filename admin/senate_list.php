@@ -175,6 +175,11 @@ include("controller.php");
 <!--                                <div align="right">-->
 <!--                                    <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i> New</button>-->
 <!--                                </div><br>-->
+                                <div  data-toggle="modal" align="right" data-target="#modal-default">
+                                    <button  class="btn btn-primary btn-flat" name="Sign_in"><i class="fas fas fa-plus"></i> Add Senator</button>
+                                </div>
+
+                                <br>
 
 
                                 <table id="example1" class="table table-bordered dataTable no-footer" role="grid" aria-describedby="example1_info">
@@ -237,138 +242,149 @@ include("controller.php");
         </div>
 
     </div>
-<!---->
-<!--    <div class="modal fade" id="modal-default">-->
-<!--        <div class="modal-dialog">-->
-<!--            <div class="modal-content">-->
-<!--                <div class="modal-header">-->
-<!--                    <h4 class="modal-title">Add Employee</h4>-->
-<!--                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">-->
-<!--                        <span aria-hidden="true">&times;</span>-->
-<!--                    </button>-->
-<!--                </div>-->
-<!---->
-<!--                <div class="modal-body">-->
-<!--                    <form method="POST" enctype="multipart/form-data">-->
-<!---->
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Employee Tag</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <input type="number" class="form-control" name="emp_tag" placeholder="Enter Card Tag" required>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Firstname</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <input type="text" class="form-control" name="emp_name" placeholder="Enter First Name" required>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Lastname</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <input type="text" class="form-control" name="emp_lastname" placeholder="Enter Last Name" required>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Address</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <input type="text" class="form-control" name="emp_address" placeholder="Enter Address" required>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Contact Info</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <input type="number" class="form-control" name="emp_contact" placeholder="Enter Contact Number" required>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Gender</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <select name="emp_gender" class="form-control" required>-->
-<!--                                    <option hidden> - Select -</option>-->
-<!--                                    <option value="Male">Male</option>-->
-<!--                                    <option value="Female">Female</option>-->
-<!--                                    <option value="Prefer Not">Prefer Not to say</option>-->
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                                           <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Position</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <select name="emp_position" class="form-control" required>-->
-<!--                                    <option hidden> - Select -</option>-->
-<!--                                    --><?php
-//                $sql = "SELECT * FROM emp_position";
-//                $result = mysqli_query($db, $sql);
-//                while($row = mysqli_fetch_array($result))
-//                {
-//                ?>
-<!--                                    <option value="--><?php //echo $row['pos_id']; ?><!--">--><?php //echo $row['position_title']; ?><!--</option>-->
-<!--                                    --><?php
-//                }
-//                ?>
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                                                <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Schedule</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <select name="emp_schedule" class="form-control" required>-->
-<!--                                    <option hidden> - Select -</option>-->
-<!--                                    --><?php
-//                $sql = "SELECT * FROM emp_sched";
-//                $result = mysqli_query($db, $sql);
-//                while($row = mysqli_fetch_array($result))
-//                {
-//                ?>
-<!--                                    <option value="--><?php //echo $row['sched_id']; ?><!--">--><?php //echo $row['sched_in']; ?><!-- - --><?php //echo $row['sched_out']; ?><!--</option>-->
-<!--                                    --><?php
-//                }
-//                ?>
-<!--                                </select>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Photo</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*">-->
-<!---->
-<!--                            </div>-->
-<!--                        </div>-->
-<!---->
-<!--                </div>-->
-<!---->
-<!--                <div class="modal-footer justify-content-between">-->
-<!--                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>-->
-<!--                    <button type="submit" class="btn btn-primary btn-flat" name="add_employee"><i class="fas fa-save"></i> Save</button>-->
-<!--                    </form>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--            <!-- /.modal-content -->-->
-<!--        </div>-->
-<!--        <!-- /.modal-dialog -->-->
-<!--    </div>-->
+<!--=================================================================================================-->
+
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Register senate Member</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Student ID</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="student_id" placeholder="Enter Student ID" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Firstname</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="emp_name" placeholder="Enter First Name" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Lastname</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="emp_lastname" placeholder="Enter Last Name" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Bank Details</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="emp_address" placeholder="Bank Account No. And Name" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Contact Info</label>
+                            <div class="col-sm-7">
+                                <input type="number" class="form-control" name="emp_contact" placeholder="Enter Contact Number" required>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Gender</label>
+                            <div class="col-sm-7">
+                                <select name="emp_gender" class="form-control" required>
+                                    <option hidden> - Select -</option>
+                                    <option value="Male">Male</option>
+                                    <option value="Female">Female</option>
+                                    <option value="Prefer Not">Prefer Not to say</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Position</label>
+                            <div class="col-sm-7">
+                                <select name="emp_position" class="form-control" required>
+                                    <option hidden> - Select -</option>
+                                    <?php
+                                    $sql = "SELECT * FROM senate_position";
+                                    $result = mysqli_query($db, $sql);
+                                    while($row = mysqli_fetch_array($result))
+                                    {
+                                        ?>
+                                        <option value="<?php echo $row['pos_id']; ?>">
+
+                                            <?php echo $row['position_title']; ?>
+
+                                        </option>
+                                        <?php
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!--                            <div class="form-group row">-->
+                        <!--                                <label class="col-sm-3 col-form-label">Schedule</label>-->
+                        <!--                                <div class="col-sm-7">-->
+                        <!--                                    <select name="emp_schedule" class="form-control" required>-->
+                        <!--                                        <option hidden> - Select Schedule -</option>-->
+                        <!--                                        --><?php
+                        //                                        $sql = "SELECT * FROM senate_sched";
+                        //                                        $result = mysqli_query($db, $sql);
+                        //                                        while($row = mysqli_fetch_array($result))
+                        //                                        {
+                        //                                            ?>
+                        <!--                                            <option value="--><?php //echo $row['sched_id']; ?><!--">--><?php //echo $row['sched_in']; ?><!-- - --><?php //echo $row['sched_out']; ?><!--</option>-->
+                        <!--                                            --><?php
+                        //                                        }
+                        //                                        ?>
+                        <!--                                    </select>-->
+                        <!--                                </div>-->
+                        <!---->
+                        <!--                            </div>-->
+
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Photo</label>
+                            <div class="col-sm-7">
+                                <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*">
+
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Password</label>
+                            <div class="col-sm-7">
+                                <input type="password" class="form-control" name="password" placeholder="Enter password" required>
+                            </div>
+                        </div>
 
 
+                        <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <!--                                <label class="col-sm-3 col-form-label">Member Type</label>-->
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" name="type"  value="member" hidden placeholder="Member Type" required>
+                            </div>
+                        </div>
+                </div>
 
-
-
-
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
+                    <button type="submit" class="btn btn-primary btn-flat" name="add_employee"><i class="fas fa-save"></i> Save</button>
+                    </form>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    </div>
 
 
 
