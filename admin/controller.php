@@ -44,10 +44,10 @@ if(isset($_POST['Sign_in']))
       $row = $result->fetch_assoc();
       $_SESSION['student_id'] = $username;
       if ($row['type'] === 'admin') {
-          header("Location: admin/home.php");
+          header("Location: ../admin/home.php");
       }
       else if ($row['type']==='member'){
-          header("Location: home.php");
+          header("Location: ../normal_user/home.php");
       }
   }
 }
@@ -58,7 +58,7 @@ if(isset($_POST['logout'])) {
   session_start();
   if(session_destroy())
   {
-    header("Location: ././index.php");
+    header("Location: ../login/index.php");
   }
 }
 
@@ -94,6 +94,90 @@ if(isset($_POST['add_position']))
 
 
 
+// ADD SENATOR BY ADMIN
+//========================================================================================================================
+if(isset($_POST['add_senator']))
+{
+    $tag = $_POST['student_id'];
+    $fname = $_POST['emp_name'];
+    $lname = $_POST['emp_lastname'];
+    $address = $_POST['emp_address'];
+    $contact = $_POST['emp_contact'];
+    $gender = $_POST['emp_gender'];
+    $position = $_POST['emp_position'];
+    $password = $_POST['password'];
+    $type = $_POST['type'];
+    $regdate = date("Y-m-d");
+//  $sql = "SELECT sched_in, sched_out FROM senate_sched WHERE sched_id = '$sched'";
+//  $result = mysqli_query($db, $sql);
+//  while($row = mysqli_fetch_array($result))
+//  {
+//    $in = $row['sched_in'];
+//    $out = $row['sched_out'];
+//  }
+
+
+
+    $target_dir = "../admin/img/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $filename = $_FILES['fileToUpload']['name'];
+    if(!empty($filename)){
+        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/img/".$filename);
+    }
+
+//  $query = "INSERT INTO senate_list (student_id, emp_fname, emp_lname, emp_position, emp_address, emp_contact, emp_gender, emp_timein, emp_timeout, sched_id, emp_regdate, emp_photo)
+//                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$in', '$out', '$sched', '$regdate', '$target_file')";
+//  $resquery = mysqli_query($db, $query);
+
+    $query = "INSERT INTO senate_list (student_id, senator_fname, senator_lname, senator_position, senator_address, senator_contact, senator_gender, senator_regdate, senator_photo, password, type)
+                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$regdate', '$target_file', '$password','$type')";
+    $resquery = mysqli_query($db, $query);
+    echo '<script>
+           setTimeout(function() {
+               Swal.fire({
+                   title: "Success !",
+                   text: "Registration successful",
+                   type: "success"
+                 }).then(function() {
+                     window.location = "senate_list.php";
+                 });
+           }, 30);
+       </script>';
+
+}
+
+
+
+//=======================================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // ADD SENATOR
 if(isset($_POST['add_employee']))
@@ -118,11 +202,11 @@ if(isset($_POST['add_employee']))
 
 
 
-  $target_dir = "admin/img/";
+  $target_dir = "../admin/img/";
   $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
   $filename = $_FILES['fileToUpload']['name'];
   if(!empty($filename)){
-    move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "admin/img/".$filename);
+    move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/img/".$filename);
   }
 
 //  $query = "INSERT INTO senate_list (student_id, emp_fname, emp_lname, emp_position, emp_address, emp_contact, emp_gender, emp_timein, emp_timeout, sched_id, emp_regdate, emp_photo)
@@ -139,7 +223,7 @@ if(isset($_POST['add_employee']))
                    text: "Registration successful",
                    type: "success"
                  }).then(function() {
-                     window.location = "index.php";
+                     window.location = "login/index.php";
                  });
            }, 30);
        </script>';
@@ -154,7 +238,6 @@ if(isset($_POST['add_employee']))
 //ADD SCHEDULE
 if(isset($_POST['add_sched']))
 {
-
   $meeting_name=$_POST['meeting_name'];
   $in = $_POST['sched_timein'];
   $out = $_POST['sched_timeout'];

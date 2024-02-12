@@ -376,7 +376,7 @@ include("controller.php");
 
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
-                    <button type="submit" class="btn btn-primary btn-flat" name="add_employee"><i class="fas fa-save"></i> Save</button>
+                    <button type="submit" class="btn btn-primary btn-flat" name="add_senator"><i class="fas fa-save"></i> Add</button>
                     </form>
                 </div>
             </div>
