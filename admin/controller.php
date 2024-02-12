@@ -43,6 +43,10 @@ if(isset($_POST['Sign_in']))
       $result = mysqli_query($db, $sql);
       $row = $result->fetch_assoc();
       $_SESSION['student_id'] = $username;
+
+
+
+
       if ($row['type'] === 'admin') {
           header("Location: ../admin/home.php");
       }
@@ -99,6 +103,15 @@ if(isset($_POST['add_position']))
 if(isset($_POST['add_senator']))
 {
     $tag = $_POST['student_id'];
+
+
+//    =====CHECK IF STUDENT_ID ALREADY EXIST IN DB====
+//        $sql = "SELECT * FROM senate_list WHERE student_id = '$tag'";
+//        $result = mysqli_query($db, $sql);
+//    if ($result && $result->num_rows > 0) {
+//        // $tag already exists in the database
+//        echo "The student ID already exists in the database.";
+//    }
     $fname = $_POST['emp_name'];
     $lname = $_POST['emp_lastname'];
     $sprogram = $_POST['senator_program'];
@@ -145,7 +158,6 @@ if(isset($_POST['add_senator']))
                  });
            }, 30);
        </script>';
-
 }
 
 
@@ -172,6 +184,9 @@ if(isset($_POST['senator_registration']))
 //    $in = $row['sched_in'];
 //    $out = $row['sched_out'];
 //  }
+
+
+
 
 
 

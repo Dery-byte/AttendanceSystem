@@ -101,12 +101,32 @@ include("../admin/controller.php");
                                 <label class="col-sm-1 col-form-label"></label>
                                 <label class="col-sm-3 col-form-label">Student ID</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" name="student_id" placeholder="Enter Student ID" required>
+                                    <input type="text" class="form-control" name="student_id" id="student_id" placeholder="Enter Student ID" required>
+
+                                    <span id="status" style="color: purple; font-style: italic"></span>
+
                                 </div>
                             </div>
                             <div class="form-group row">
                                 <label class="col-sm-1 col-form-label"></label>
                                 <label class="col-sm-3 col-form-label">Firstname</label>
+<!--                                --><?php
+//                                $sql = "SELECT * FROM senate_position";
+//                                $result = mysqli_query($db, $sql);
+//                                while($row = mysqli_fetch_array($result))
+//                                {
+//                                ?>
+<!--                                <option value="--><?php //echo $row['pos_id']; ?><!--">-->
+<!---->
+<!--                                    --><?php //echo $row['position_title']; ?>
+<!---->
+<!--                                </option>-->
+<!--                                --><?php
+//                                        }
+//                                        ?>
+
+
+
                                 <div class="col-sm-7">
                                     <input type="text" class="form-control" name="emp_name" placeholder="Enter First Name" required>
                                 </div>
@@ -241,6 +261,45 @@ include("../admin/controller.php");
         </div>
     </div>
     <br><br><br><br><br><br>
+
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var form = document.getElementById("modal-default");
+            var inputField = document.getElementById("student_id");
+            var statusElement = document.getElementById("status");
+
+            inputField.addEventListener("input", function() {
+                var tag = inputField.value.trim(); // Trim whitespace from the input
+                if (tag.length === 0) {
+                    statusElement.textContent = ""; // Clear status if input is empty
+                    return;
+                }
+
+                // Make an AJAX request to check if student ID exists
+                var xhr = new XMLHttpRequest();
+                xhr.onreadystatechange = function() {
+                    if (xhr.readyState === XMLHttpRequest.DONE) {
+                        if (xhr.status === 200) {
+                            var response = xhr.responseText;
+                            statusElement.textContent = response;
+                        } else {
+                            statusElement.textContent = "Error: Unable to perform check.";
+                        }
+                    }
+                };
+
+                xhr.open("POST", "check_user_id.php", true);
+                xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xhr.send("student_id=" + encodeURIComponent(tag));
+            });
+        });
+    </script>
+
+
+
+
 
     <script src="plugins/jquery/jquery.min.js"></script>
     <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
