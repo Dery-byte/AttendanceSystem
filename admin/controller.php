@@ -149,38 +149,8 @@ if(isset($_POST['add_senator']))
 
 
 //=======================================================================================================================================
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 // ADD SENATOR
-if(isset($_POST['add_employee']))
+if(isset($_POST['senator_registration']))
 {
   $tag = $_POST['student_id'];
   $fname = $_POST['emp_name'];
@@ -208,7 +178,6 @@ if(isset($_POST['add_employee']))
   if(!empty($filename)){
     move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/img/".$filename);
   }
-
 //  $query = "INSERT INTO senate_list (student_id, emp_fname, emp_lname, emp_position, emp_address, emp_contact, emp_gender, emp_timein, emp_timeout, sched_id, emp_regdate, emp_photo)
 //                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$in', '$out', '$sched', '$regdate', '$target_file')";
 //  $resquery = mysqli_query($db, $query);
@@ -223,17 +192,12 @@ if(isset($_POST['add_employee']))
                    text: "Registration successful",
                    type: "success"
                  }).then(function() {
-                     window.location = "login/index.php";
+                     window.location = "index.php";
                  });
            }, 30);
        </script>';
 
 }
-
-
-
-
-
 
 //ADD SCHEDULE
 if(isset($_POST['add_sched']))

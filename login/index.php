@@ -74,7 +74,7 @@ include("../admin/controller.php");
                         <button type="submit" class="btn btn-primary btn-flat" name="Sign_in"><i class="fas fa-sign-in-alt"></i> Sign In</button>
                     </div>
                 </form>
-                <div class="register" data-toggle="modal" data-target="#modal-default" style="position: absolute; margin-top: -36px">
+                <div class="register" data-toggle="modal" data-target="#modal-default" style="position: absolute; margin-top: -39px">
                     <button type="submit" class="btn btn-primary btn-flat" name="Sign_in"><i class="fas fa-sign-in-alt"></i> Register</button>
                 </div>
             </div>
@@ -123,7 +123,11 @@ include("../admin/controller.php");
                                 <label class="col-sm-1 col-form-label"></label>
                                 <label class="col-sm-3 col-form-label">Bank Details</label>
                                 <div class="col-sm-7">
-                                    <input type="text" class="form-control" name="emp_address" placeholder="Bank Account No. And Name" required>
+
+                                    <textarea cols="34" rows="3" type="text" class="form-control" name="emp_address" placeholder="Bank Account No. And Name" required>
+
+                                    </textarea>
+<!--                                    <input type="text" class="form-control" name="emp_address" placeholder="Bank Account No. And Name" required>-->
                                 </div>
                             </div>
                             <div class="form-group row">
@@ -218,7 +222,7 @@ include("../admin/controller.php");
 
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
-                        <button type="submit" class="btn btn-primary btn-flat" name="add_employee"><i class="fas fa-save"></i> Save</button>
+                        <button type="submit" class="btn btn-primary btn-flat" name="senator_registration"><i class="fas fa-save"></i> Save</button>
                         </form>
                     </div>
                 </div>
