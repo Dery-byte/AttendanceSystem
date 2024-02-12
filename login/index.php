@@ -119,6 +119,15 @@ include("../admin/controller.php");
                                 </div>
                             </div>
 
+
+                            <div class="form-group row">
+                                <label class="col-sm-1 col-form-label"></label>
+                                <label class="col-sm-3 col-form-label">Program</label>
+                                <div class="col-sm-7">
+                                    <input type="text" class="form-control" name="senator_program" placeholder="Enter Program of study" required>
+                                </div>
+                            </div>
+
                             <div class="form-group row">
                                 <label class="col-sm-1 col-form-label"></label>
                                 <label class="col-sm-3 col-form-label">Bank Details</label>

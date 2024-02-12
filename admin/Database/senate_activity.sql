@@ -76,6 +76,7 @@ CREATE TABLE `senate_list` (
   `senator_contact` varchar(100) NOT NULL,
   `senator_gender` varchar(100) NOT NULL,
   `senator_regdate` date NOT NULL,
+  `program` varchar(200) NOT NULL,
   `senator_photo` varchar(100) NOT NULL,
   `password` varchar(100) Null,
   `type` varchar(70) null
