@@ -4,6 +4,7 @@
 
 <?php
 include("../admin/controller.php");
+require_once('../normal_user/auth_user.php');
 ini_set('display_errors', 0);
 ini_set('display_errors', false);
 date_default_timezone_set('Africa/Accra');

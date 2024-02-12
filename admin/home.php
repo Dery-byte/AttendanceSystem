@@ -1,10 +1,12 @@
 <?php
 include("controller.php");
+require_once('../normal_user/auth_user.php');
+
 global $db;
 
-if($_SESSION == ""){
-    header("Location: index.php"); 
-}
+//if($_SESSION == ""){
+//    header("Location: index.php");
+//}
 ?>
 <!DOCTYPE html>
 <html>

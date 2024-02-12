@@ -1,6 +1,8 @@
 
 <?php
 include("controller.php");
+require_once('../normal_user/auth_user.php');
+
 ?>
 <!DOCTYPE html>
 <html>

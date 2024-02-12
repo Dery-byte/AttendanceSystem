@@ -1,5 +1,7 @@
 <?php
 include("controller.php");
+require_once('../normal_user/auth_user.php');
+
 global $db;
 
 ?>
