@@ -291,6 +291,10 @@ header("Location: home.php");
         $('#time').html(momentNow.format('hh:mm:ss A'));
     }, 100);
     </script>
+
+
+<script>
+</script>
 </body>
 
 
