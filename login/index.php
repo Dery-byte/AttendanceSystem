@@ -1,7 +1,60 @@
 
 <?php
 include("../admin/controller.php");
+
+
+
+
+
+//
+//// Check if the user is already logged in
+//if (isset($_SESSION['student_id']) && $_SESSION['student_id'] === true) {
+//    header('Location: ../admin/home.php'); // Redirect to dashboard or any other page
+//    exit();
+//}
+//
+//// Handle login form submission and authentication
+//if ($_SERVER["REQUEST_METHOD"] == "POST") {
+//    // Perform login authentication
+//    // If login is successful, set session variables and redirect to dashboard
+//    // Otherwise, display error message
+//        // Set session variables
+//        $_SESSION['student_id'] = true;
+//        // Redirect to dashboard or main page
+//        header('Location: ../admin/home.php');
+//        exit();
+//
+//}
 ?>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 <!DOCTYPE html>
 <html>
 
@@ -324,6 +377,10 @@ include("../admin/controller.php");
         $('#time').html(momentNow.format('hh:mm:ss A'));
     }, 100);
     </script>
+
+
+
+
 </body>
 
 </html>

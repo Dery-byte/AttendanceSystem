@@ -25,7 +25,7 @@ if(isset($_POST['Sign_in']))
                      text: "Username or Password is incorrect !",
                      type: "error"
                    }).then(function() {
-                       window.location = "index.php";
+                       window.location = "../login/index.php";
                    });
              }, 30);
          </script>';
@@ -44,9 +44,6 @@ if(isset($_POST['Sign_in']))
       $row = $result->fetch_assoc();
       $_SESSION['student_id'] = $username;
 
-
-
-
       if ($row['type'] === 'admin') {
           header("Location: ../admin/home.php");
       }
@@ -55,6 +52,11 @@ if(isset($_POST['Sign_in']))
       }
   }
 }
+
+//CHECK IF USER IS LOGGED IN
+//function isLoggedIn() {
+//    return isset($_SESSION['student_id']) && $_SESSION['student_id'] === true;
+//}
 
 // LOGOUT CODE
 //============================
@@ -492,14 +494,24 @@ if(isset($_POST["emp_del_id"]))
 if(isset($_POST["emp_delete"]))
  {
    $id = $_POST['del_id'];
+//   $sql = "DELETE FROM senate_list WHERE senate_id = '$id'";
 
-   $sql = "DELETE FROM senate_list WHERE senate_id = '$id'";
+
+//   new query to delte records from both tables
+//    $db->query("SET SQL_SAFE_UPDATES = 0");
+    $sql = "DELETE FROM senate_list WHERE senate_id = '$id'";
+    $sql2 = "DELETE FROM senate_attendance WHERE senate_id = '$id'";
+
+
+//    =================END NEW QUERY====================================
    $result = mysqli_query($db, $sql);
-   echo '<script>
+    $result = mysqli_query($db, $sql2);
+
+    echo '<script>
             setTimeout(function() {
                 Swal.fire({
                     title: "Success !",
-                    text: "Employee has been Deleted !",
+                    text: "Senator has been Deleted !",
                     type: "success"
                   }).then(function() {
                       window.location = "senate_list.php";

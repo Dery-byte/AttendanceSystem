@@ -7,6 +7,14 @@ global $db;
 //if($_SESSION == ""){
 //    header("Location: index.php");
 //}
+
+
+
+
+
+
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -283,6 +291,20 @@ global $db;
         <?php
 include("footer.php");
 ?>
+
+
+        <script>
+            window.onload = function () {
+                if (window.history && window.history.pushState) {
+                    window.history.pushState('forward', null, ''); // Clear history state
+                    window.onpopstate = function () {
+                        // Redirect to home page if user tries to navigate back
+                        window.location.href = 'dashboard.php'; // Redirect to dashboard or any other page
+                    };
+                }
+            };
+        </script>
+
 
         <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="plugins/datatables/jquery.dataTables.js"></script>

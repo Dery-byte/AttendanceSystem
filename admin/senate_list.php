@@ -217,10 +217,6 @@ require_once('../normal_user/auth_user.php');
 
 
 
-
-
-
-
                                             <td><?php echo $row['senator_fname']; ?> <?php echo $row['senator_lname']; ?></td>
                                             <td><?php echo $row['senator_position']; ?></td>
 <!--                                            <td>--><?php //echo $row['emp_timein']; ?><!-- - --><?php //echo $row['emp_timeout']; ?><!--</td>-->

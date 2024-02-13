@@ -7,4 +7,12 @@ if (!isset($_SESSION['student_id'])) {
     header("Location: ../login/index.php");
     exit;
 }
+
+
+
+//// Check if the user is already logged in
+//if (isset($_SESSION['student_id']) && $_SESSION['student_id'] === true) {
+//    header('Location: dashboard.php'); // Redirect to dashboard or any other page
+//    exit();
+//}
 ?>

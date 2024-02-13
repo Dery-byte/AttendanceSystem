@@ -97,6 +97,11 @@ include("controller.php");
     <script src="plugins/bootstrap-switch/js/bootstrap-switch.min.js"></script>
 
 
+
+
+
+
+
     <script type="text/javascript">
     var interval = setInterval(function() {
         var momentNow = moment();
