@@ -145,12 +145,12 @@ require_once('../normal_user/auth_user.php');
 <!--                                <p>Payroll</p>-->
 <!--                            </a>-->
 <!--                        </li>-->
-                        <li class="nav-item">
-                            <a href="print_sched.php" class="nav-link">
-                                <i class="nav-icon far fa-clock"></i>
-                                <p>Schedules</p>
-                            </a>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a href="print_sched.php" class="nav-link">-->
+<!--                                <i class="nav-icon far fa-clock"></i>-->
+<!--                                <p>Schedules</p>-->
+<!--                            </a>-->
+<!--                        </li>-->
                     </ul>
                 </nav>
 

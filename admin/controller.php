@@ -270,13 +270,7 @@ if(isset($_POST["pos_id"]))
                   <input type="text" class="form-control" name="update_title" value="'.$title.'" placeholder="" required>
                 </div>
               </div>
-              <div class="form-group row">
-                <label class="col-sm-1 col-form-label"></label>
-                <label class="col-sm-3 col-form-label">Rate / Hour</label>
-                <div class="col-sm-7">
-                  <input type="text" class="form-control" name="update_rate" value="'.number_format($rate,2).'" placeholder="" required>
-                </div>
-              </div>
+              
               ';
     }
     $output .= "</form>";
@@ -447,7 +441,7 @@ if(isset($_POST["emp_update"]))
    $gender = $_POST['update_gender'];
 
    $sql = "UPDATE senate_list SET senator_fname = '".$fname."', senator_lname = '".$lname."', senator_address = '".$address."', senator_contact = '".$contact."', senator_gender = '".$gender."'
-   WHERE student_id = '".$card."'";
+   WHERE senate_id = '".$card."'";
    $result = mysqli_query($db, $sql);
 
    echo '<script>
@@ -533,6 +527,20 @@ if(isset($_POST["sched_id"]))
 
          $output .= '
               <input type="text" name="del_id" class="form-control" value="'.$id.'" hidden>
+              
+              
+               <div class="form-group row">
+                            <label class="col-sm-1 col-form-label"></label>
+                            <label class="col-sm-3 col-form-label">Meeting Name</label>
+                            <div class="col-sm-7">
+                                <div class="">
+                                    <div class="input-group " data-target-input="nearest">
+                                        <input type="text" value="'.$row['meeting_name'].'" name="sched_update_meeting_name"  class="form-control" required placeholder="Meeting name">
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
               <div class="form-group row">
                 <label class="col-sm-1 col-form-label"></label>
                 <label class="col-sm-3 col-form-label">Time in</label>
@@ -544,6 +552,7 @@ if(isset($_POST["sched_id"]))
                   </div>
                 </div>
               </div>
+              
               <div class="form-group row">
                 <label class="col-sm-1 col-form-label"></label>
                 <label class="col-sm-3 col-form-label">Time out</label>
@@ -555,6 +564,9 @@ if(isset($_POST["sched_id"]))
                   </div>
                 </div>
               </div>
+//              dende
+              
+               
               ';
     }
     $output .= "</form>";
@@ -570,8 +582,11 @@ if(isset($_POST["edit_sched"]))
    $id = $_POST['del_id'];
    $in = $_POST['sched_update_in'];
    $out = $_POST['sched_update_out'];
+   $schedule_name = $_POST['sched_update_meeting_name'];
 
-   $sql = "UPDATE emp_sched SET sched_in = '$in', sched_out = '$out' WHERE sched_id = '$id'";
+
+
+   $sql = "UPDATE senate_sched SET sched_in = '$in', sched_out = '$out', meeting_name = '$schedule_name' WHERE sched_id = '$id'";
    $result = mysqli_query($db, $sql);
 
    echo '<script>
@@ -696,6 +711,26 @@ if(isset($_POST["deduct_id"]))
 
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 if(isset($_POST["deduct_update"]))
  {
    $id = $_POST['deduct_edit_id'];
@@ -717,6 +752,13 @@ if(isset($_POST["deduct_update"]))
             }, 30);
         </script>';
 }
+
+
+
+
+
+
+
 
 if(isset($_POST["del_id"]))
 {
@@ -817,9 +859,8 @@ if(isset($_POST["change"]))
    $id = $_POST['change_sched_id'];
    $new = $_POST['new_sched'];
 
-   $sql = "UPDATE senate_list SET sched_id = '$new' WHERE emp_id = '$id'";
+   $sql = "UPDATE senate_list SET sched_id = '$new' WHERE senate_id = '$id'";
    $result = mysqli_query($db, $sql);
-
    echo '<script>
             setTimeout(function() {
                 Swal.fire({

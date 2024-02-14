@@ -1,4 +1,4 @@
-use staf_activity;
+use senate_activity;
 -- phpMyAdmin SQL Dump
 -- version 5.2.0
 -- https://www.phpmyadmin.net/
@@ -50,21 +50,19 @@ INSERT INTO `accounts` (`id`, `username`, `password`, `name`, `type`) VALUES
 --
 
 CREATE TABLE `senate_attendance` (
-  `senate_attendance_id` int NOT NULL,
-  `employee_id` varchar(100) NOT NULL,
-  `employee_name` varchar(100) NOT NULL,
+  `attendance_id` int NOT NULL,
+  `senator_id` varchar(100) NOT NULL,
+  `senator_name` varchar(100) NOT NULL,
   `attendance_date` date NOT NULL,
   `attendance_timein` time NOT NULL,
   `attendance_timeout` time NOT NULL,
-  `attendance_hour` int NOT NULL
+  `attendance_hour` int NOT NULL, 
+  `schedule` varchar(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `emp_attendance`
---
 
-INSERT INTO `senate_attendance` (`senate_attendance_id`, `employee_id`, `employee_name`, `attendance_date`, `attendance_timein`, `attendance_timeout`, `attendance_hour`) VALUES
-(1, '1', 'Hasan, Md. Mehedi', '2023-02-04', '11:55:51', '11:56:01', 0);
 
 -- --------------------------------------------------------
 
@@ -75,25 +73,24 @@ INSERT INTO `senate_attendance` (`senate_attendance_id`, `employee_id`, `employe
 CREATE TABLE `senate_list` (
   `senate_id` int NOT NULL,
   `student_id` varchar(100) NOT NULL,
-  `emp_fname` varchar(100) NOT NULL,
-  `emp_lname` varchar(100) NOT NULL,
-  `emp_position` int NOT NULL,
-  `emp_address` varchar(100) NOT NULL,
-  `emp_contact` varchar(100) NOT NULL,
-  `emp_gender` varchar(100) NOT NULL,
-  `emp_timein` time NOT NULL,
-  `emp_timeout` time NOT NULL,
+  `senator_fname` varchar(100) NOT NULL,
+  `senator_lname` varchar(100) NOT NULL,
+  `senator_position` int NOT NULL,
+  `senator_address` varchar(100) NOT NULL,
+  `senator_contact` varchar(100) NOT NULL,
+  `senator_gender` varchar(100) NOT NULL,
+  `senator_timein` time NOT NULL,
+  `senator_timeout` time NOT NULL,
   `sched_id` int NOT NULL,
-  `emp_regdate` date NOT NULL,
-  `emp_photo` varchar(100) NOT NULL
+  `senator_regdate` date NOT NULL,
+  `senator_photo` varchar(100) NOT NULL,
+  `senator_program` varchar(200) Not Null,
+  `password` varchar(200) not null
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `emp_list`
 --
-
-INSERT INTO `senate_list` (`senate_id`, `student_id`, `emp_fname`, `emp_lname`, `emp_position`, `emp_address`, `emp_contact`, `emp_gender`, `emp_timein`, `emp_timeout`, `sched_id`, `emp_regdate`, `emp_photo`) VALUES
-(1, '1', 'Md. Mehedi', 'Hasan', 1, 'Sonatola Puraton bondor , Sonatola , Bogura .', '01608445456', 'Male', '09:54:00', '17:00:00', 1, '2023-02-04', 'img/Untitled-2.jpg');
 
 -- --------------------------------------------------------
 
@@ -111,13 +108,12 @@ CREATE TABLE `senate_position` (
 -- Dumping data for table `emp_position`
 --
 
-INSERT INTO `senate_position` (`pos_id`, `position_title`, `position_rate`) VALUES
-(1, 'Staf', 8);
+
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `emp_sched`
+-- Table structure for table `senate_sched`
 --
 
 CREATE TABLE `senate_sched` (
@@ -126,112 +122,61 @@ CREATE TABLE `senate_sched` (
   `sched_out` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
---
--- Dumping data for table `emp_sched`
---
-
-INSERT INTO `senate_sched` (`sched_id`, `sched_in`, `sched_out`) VALUES
-(1, '09:54:00', '17:00:00');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `salary_deduct`
---
-
-CREATE TABLE `salary_deduct` (
-  `deduct_id` int NOT NULL,
-  `deduct_desc` varchar(100) NOT NULL,
-  `deduct_amount` int NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `salary_deduct`
---
-
-INSERT INTO `salary_deduct` (`deduct_id`, `deduct_desc`, `deduct_amount`) VALUES
-(1, 'A Group', 10000);
-
---
--- Indexes for dumped tables
---
-
---
--- Indexes for table `accounts`
---
-ALTER TABLE `accounts`
-  ADD PRIMARY KEY (`id`);
-
---
--- Indexes for table `emp_attendance`
+-- Indexes for table `senate_attendance`
 --
 ALTER TABLE `senate_attendance`
   ADD PRIMARY KEY (`senate_attendance_id`);
 
 --
--- Indexes for table `emp_list`
+-- Indexes for table `senate_list`
 --
 ALTER TABLE `senate_list`
   ADD PRIMARY KEY (`senate_id`);
 
 --
--- Indexes for table `emp_position`
+-- Indexes for table `senate_position`
 --
 ALTER TABLE `senate_position`
   ADD PRIMARY KEY (`pos_id`);
 
 --
--- Indexes for table `emp_sched`
+-- Indexes for table `senate_sched`
 --
 ALTER TABLE `senate_sched`
   ADD PRIMARY KEY (`sched_id`);
 
 --
--- Indexes for table `salary_deduct`
 --
-ALTER TABLE `salary_deduct`
-  ADD PRIMARY KEY (`deduct_id`);
-
---
--- AUTO_INCREMENT for dumped tables
 --
 
 --
--- AUTO_INCREMENT for table `accounts`
 --
-ALTER TABLE `accounts`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
--- AUTO_INCREMENT for table `emp_attendance`
+-- AUTO_INCREMENT for table `senate_attendance`
 --
 ALTER TABLE `senate_attendance`
-  MODIFY `senate_attendance_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `attendance_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `emp_list`
+-- AUTO_INCREMENT for table `senate_list`
 --
 ALTER TABLE `senate_list`
   MODIFY `senate_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `emp_position`
+-- AUTO_INCREMENT for table `senate_position`
 --
 ALTER TABLE `senate_position`
   MODIFY `pos_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
--- AUTO_INCREMENT for table `emp_sched`
+-- AUTO_INCREMENT for table `senate_sched`
 --
 ALTER TABLE `senate_sched`
   MODIFY `sched_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
---
--- AUTO_INCREMENT for table `salary_deduct`
---
-ALTER TABLE `salary_deduct`
-  MODIFY `deduct_id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;

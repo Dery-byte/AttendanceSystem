@@ -148,12 +148,12 @@ global $db;
 <!--                                <p>Payroll</p>-->
 <!--                            </a>-->
 <!--                        </li>-->
-                        <li class="nav-item">
-                            <a href="print_sched.php" class="nav-link">
-                                <i class="nav-icon far fa-clock"></i>
-                                <p>Schedules</p>
-                            </a>
-                        </li>
+<!--                        <li class="nav-item">-->
+<!--                            <a href="print_sched.php" class="nav-link">-->
+<!--                                <i class="nav-icon far fa-clock"></i>-->
+<!--                                <p>Schedules</p>-->
+<!--                            </a>-->
+<!--                        </li>-->
                     </ul>
                 </nav>
 
@@ -223,11 +223,18 @@ global $db;
                                 </div><br>
                                 <table id="example1" class="table table-bordered dataTable no-footer" role="grid" aria-describedby="example1_info">
                                     <thead>
+
+
                                         <tr>
+                                            <th>Id</th>
                                             <th>Position Title</th>
-                                            <th>Rate / Hour</th>
                                             <th>Tools</th>
                                         </tr>
+
+
+
+
+
                                     </thead>
                                     <tbody>
                                         <?php
@@ -239,8 +246,8 @@ global $db;
 
 
                                         <tr>
+                                            <td><?php echo $row['pos_id']; ?></td>
                                             <td><?php echo $row['position_title']; ?></td>
-                                            <td><?php echo number_format($row['position_rate'], 2); ?></td>
                                             <td>
                                                 <button class="btn btn-success btn-flat pos_edit" id="<?php echo $row['pos_id']; ?>"><i class="fas fa-edit"></i></button>
                                                 <button class="btn btn-danger btn-flat pos_delete" id="<?php echo $row['pos_id']; ?>"><i class="fas fa-trash"></i></button>
