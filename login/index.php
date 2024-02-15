@@ -193,6 +193,24 @@ include("../admin/controller.php");
                             </div>
 
 
+
+
+                            <div class="form-group row">
+                                <label class="col-sm-1 col-form-label"></label>
+                                <label class="col-sm-3 col-form-label">D O B</label>
+                                <div class="col-sm-7">
+                                    <input type="date" class="form-control" name="date_of_birth" placeholder="Enter Last Name" required>
+                                </div>
+                            </div>
+
+
+
+
+
+
+
+
+
                             <div class="form-group row">
                                 <label class="col-sm-1 col-form-label"></label>
                                 <label class="col-sm-3 col-form-label">Program</label>
