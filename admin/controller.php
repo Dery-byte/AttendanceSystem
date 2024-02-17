@@ -178,8 +178,6 @@ if(isset($_POST['add_position']))
 if(isset($_POST['add_senator']))
 {
     $tag = $_POST['student_id'];
-
-
 //    =====CHECK IF STUDENT_ID ALREADY EXIST IN DB====
 //        $sql = "SELECT * FROM senate_list WHERE student_id = '$tag'";
 //        $result = mysqli_query($db, $sql);
@@ -199,14 +197,6 @@ if(isset($_POST['add_senator']))
 
     $type = $_POST['type'];
     $regdate = date("Y-m-d");
-//  $sql = "SELECT sched_in, sched_out FROM senate_sched WHERE sched_id = '$sched'";
-//  $result = mysqli_query($db, $sql);
-//  while($row = mysqli_fetch_array($result))
-//  {
-//    $in = $row['sched_in'];
-//    $out = $row['sched_out'];
-//  }
-
 
 
     $target_dir = "../admin/img/";

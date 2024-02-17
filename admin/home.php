@@ -293,9 +293,9 @@ global $db;
             </section>
 
 
+
+
         </div>
-
-
 
         <?php
 include("footer.php");

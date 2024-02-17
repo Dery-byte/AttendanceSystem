@@ -121,13 +121,15 @@ CREATE TABLE `senate_sched` (
   `sched_in` time NOT NULL,
   `sched_out` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+use staf_activity;
 
-
-create table `sched_minutes`(
-`minutes_id` int not null primary key auto_increment,
-`file` LONGBLOB,
-`desciption` varchar(255)
-)ENGINE=InnoDB DEFAULT CHARSET=latin1;
+CREATE TABLE `sched_minutes` (
+    `minutes_id` INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+    `file` LONGBLOB,
+    `description` VARCHAR(255),
+    `schedule_id` INT NOT NULL,
+    FOREIGN KEY (`schedule_id`) REFERENCES `senate_sched` (`sched_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Indexes for table `senate_attendance`
 --
