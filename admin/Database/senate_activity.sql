@@ -79,7 +79,7 @@ CREATE TABLE `senate_list` (
   `senator_address` varchar(100) NOT NULL,
   `senator_contact` varchar(100) NOT NULL,
   `senator_gender` varchar(100) NOT NULL,
-  `senator_timein` time NOT NULL,
+  `senator_DOB` date NOT NULL,
   `senator_timeout` time NOT NULL,
   `sched_id` int NOT NULL,
   `senator_regdate` date NOT NULL,
@@ -121,6 +121,13 @@ CREATE TABLE `senate_sched` (
   `sched_in` time NOT NULL,
   `sched_out` time NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+create table `sched_minutes`(
+`minutes_id` int not null primary key auto_increment,
+`file` LONGBLOB,
+`desciption` varchar(255)
+)ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Indexes for table `senate_attendance`
 --

@@ -1,7 +1,3 @@
-
-
-
-
 <?php
 include("../admin/controller.php");
 require_once('../normal_user/auth_user.php');
@@ -16,286 +12,582 @@ $out = "12:00:00";
 
 if(isset($_POST['attendance']))
 {
-$_SESSION['expire'] = date("H:i:s", time() + 1);
-$code = $_POST['operation'];
-if($code == "time-in")
-{
-$id = $_POST['student_id'];
-$schedule=$_POST['senate_schedule'];
-$sql = "SELECT * FROM senate_list WHERE student_id = '$id'";
-$result = mysqli_query($db, $sql);
-if(!$row = $result->fetch_assoc()) {
-$_SESSION['mess'] = "<div id='time' class='alert alert-danger' role='alert'>
+    $_SESSION['expire'] = date("H:i:s", time() + 1);
+    $code = $_POST['operation'];
+    if($code == "time-in")
+    {
+        $id = $_POST['student_id'];
+        $schedule=$_POST['senate_schedule'];
+        $sql = "SELECT * FROM senate_list WHERE student_id = '$id'";
+        $result = mysqli_query($db, $sql);
+        if(!$row = $result->fetch_assoc()) {
+            $_SESSION['mess'] = "<div id='time' class='alert alert-danger' role='alert'>
     <i class='fas fa-times'></i> Senator ID is not registered !
 </div>";
-header("Location: home.php");
-}
-else {
+            header("Location: home.php");
+        }
+        else {
 //$sql2 = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND attendance_date = '$date'";
 
-    $sql2 = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND schedule = '$schedule'";
+            $sql2 = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND schedule = '$schedule'";
 
-    $result2 = mysqli_query($db, $sql2);
-if(!$row2 = $result2->fetch_assoc()) {
-$fname = $row['senator_fname'];
-$lname = $row['senator_lname'];
-$full = $lname . ', ' . $fname;
-$card = $row['student_id'];
-$first = new DateTime($in);
-$second = new DateTime($out);
-$interval = $first->diff($second);
-$hrs = $interval->format('%h');
-$mins = $interval->format('%i');
-$mins = $mins/60;
-$int = $hrs + $mins;
-$scheduleInattendance= $row['schedule'];
+            $result2 = mysqli_query($db, $sql2);
+            if(!$row2 = $result2->fetch_assoc()) {
+                $fname = $row['senator_fname'];
+                $lname = $row['senator_lname'];
+                $full = $lname . ', ' . $fname;
+                $card = $row['student_id'];
+                $first = new DateTime($in);
+                $second = new DateTime($out);
+                $interval = $first->diff($second);
+                $hrs = $interval->format('%h');
+                $mins = $interval->format('%i');
+                $mins = $mins/60;
+                $int = $hrs + $mins;
+                $scheduleInattendance= $row['schedule'];
 //$schedule=$_POST['senate_schedule'];
 
-
-
-
-if($scheduleInattendance !=$schedule ){
-$int = $int - 1;
-}
-$sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
+                if($scheduleInattendance !=$schedule ){
+                    $int = $int - 1;
+                }
+                $sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
 VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
-$result3 = mysqli_query($db, $sql3);
-$_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
+                $result3 = mysqli_query($db, $sql3);
+                $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
     <i class='fas fa-check'></i> Time in: $full .You've log your attendance.
 </div>";
-header("Location: home.php");
-}
-else {
-$_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
+                header("Location: home.php");
+            }
+            else {
+                $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
     <i class='fas fa-exclamation'></i> You've already logged attendance.
 </div>";
-header("Location: home.php");
-}
-}
-}
-if($code == "time-out")
-{
-$id = $_POST['student_id'];
-$sql = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND attendance_date = '$date'";
-$result = mysqli_query($db, $sql);
-if(!$row = $result->fetch_assoc()) {
-$_SESSION['mess'] = "<div id='time' class='alert alert-danger' role='alert'>
+                header("Location: home.php");
+            }
+        }
+    }
+    if($code == "time-out")
+    {
+        $id = $_POST['student_id'];
+        $sql = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND attendance_date = '$date'";
+        $result = mysqli_query($db, $sql);
+        if(!$row = $result->fetch_assoc()) {
+            $_SESSION['mess'] = "<div id='time' class='alert alert-danger' role='alert'>
     <i class='fas fa-times'></i> You've not logged attendance for this schedule !
 </div>";
-header("Location: home.php");
-}
-else {
-$query = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND attendance_date = '$date'";
-$queryres = mysqli_query($db, $query);
-while($rowres = mysqli_fetch_array($queryres))
-{
-$timein = $row['attendance_timein'];
-}
-$first = new DateTime($timein);
-$second = new DateTime($in);
-$interval = $first->diff($second);
-$hrs = $interval->format('%h');
-$mins = $interval->format('%i');
-$mins = $mins/60;
-$int = $hrs + $mins;
-if($int > 4){
-$int = $int - 1;
-}
-$sql2 = "UPDATE senate_attendance SET attendance_timeout = '$in', attendance_hour = '$int' WHERE senator_id = '$id' AND attendance_date = '$date'";
-$result2 = mysqli_query($db, $sql2);
-$_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
+            header("Location: home.php");
+        }
+        else {
+            $query = "SELECT * FROM senate_attendance WHERE senator_id = '$id' AND attendance_date = '$date'";
+            $queryres = mysqli_query($db, $query);
+            while($rowres = mysqli_fetch_array($queryres))
+            {
+                $timein = $row['attendance_timein'];
+            }
+            $first = new DateTime($timein);
+            $second = new DateTime($in);
+            $interval = $first->diff($second);
+            $hrs = $interval->format('%h');
+            $mins = $interval->format('%i');
+            $mins = $mins/60;
+            $int = $hrs + $mins;
+            if($int > 4){
+                $int = $int - 1;
+            }
+            $sql2 = "UPDATE senate_attendance SET attendance_timeout = '$in', attendance_hour = '$int' WHERE senator_id = '$id' AND attendance_date = '$date'";
+            $result2 = mysqli_query($db, $sql2);
+            $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
     <i class='fas fa-check'></i> Timed Out
 </div>";
-header("Location: home.php");
-}
-}
+            header("Location: home.php");
+        }
+    }
 }
 ?>
+
+
 <!DOCTYPE html>
-<html>
-
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title> Senate Attendance</title>
-    <!-- Tell the browser to be responsive to screen width -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- Font Awesome -->
-    <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
-    <!-- Ionicons -->
-    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
-    <!-- DataTables -->
-    <link rel="stylesheet" href="plugins/datatables-bs4/css/dataTables.bootstrap4.css">
-    <!-- Theme style -->
-    <link rel="stylesheet" href="dist/css/adminlte.min.css">
-    <!-- Google Font: Source Sans Pro -->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
-    <script src="dist/js/1.js"></script>
-    <script src="dist/js/2.js"></script>
-    <script src="dist/js/3.js"></script>
-    <style type="text/css">
-    .mt20 {
-        margin-top: 20px;
-    }
-    .result {
-        font-size: 20px;
-    }
-    .bold {
-        font-weight: bold;
-    }
-    </style>
-</head>
+<html lang="en">
+    <head>        
+        <!-- META SECTION -->
+        <title>GRASSAG Senate</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <!-- END META SECTION -->
+        
+        <!-- CSS INCLUDE -->        
+        <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
+        <!-- EOF CSS INCLUDE -->                                      
+    </head>
+    <body>
+        <!-- START PAGE CONTAINER -->
+        <div class="page-container">
+            
+            <!-- START PAGE SIDEBAR -->
+            <div class="page-sidebar">
+                <!-- START X-NAVIGATION -->
+                <ul class="x-navigation">
+                    <li class="">
+                     <h1>   <a href="home.php" style="text-decoration: none"> SENATE UCC </a> </h1>
+                        <a href="#" class="x-navigation-control"></a>
 
 
-<body class="hold-transition login-page">
-<nav class=" navbar navbar-expand navbar-white navbar-light">
-    <form class="form-inline ml-3">
-        <div class="input-group input-group-sm">
-        </div>
-    </form>
-    <ul class="navbar-nav ml-auto">
-        <li class="nav-item dropdown">
-            <a class="nav-link" data-toggle="dropdown" href="#">
-<!--                <i class="fas fa-user"></i>-->
-                <img src="<?php echo   $_SESSION['senator_photo'];?>" style="border-radius: 50%;width: 40px;height: 40px;" alt="User Image">
-                <span class="hidden-xs"><?php echo $_SESSION['senator_fname']; ?> <?php echo $_SESSION['senator_lname']?></span>
 
-            </a>
-            <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                        <span class="dropdown-item dropdown-header" style="max-height: 150px; overflow:hidden; background:#222d32;">
-                            <div class="image">
-                                <img src="<?php echo   $_SESSION['senator_photo'];?>" style="border-radius: 50%; width:100px;height: 100px;" alt="User Image">
+
+<!--                        PROFILE STARTS-->
+
+                    </li>
+                    <li class="xn-profile">
+<!--                        <a href="#" class="profile-mini">-->
+<!--                            <img src="assets/images/users/avatar.jpg" alt="John Doe"/>-->
+<!--                        </a>-->
+                        <div class="profile">
+                            <div class="profile-image">
+                                <img src="<?php echo   $_SESSION['senator_photo'];?>" style="border-radius: 50%;width: 95px;height: 95px;" alt="User Image">
                             </div>
-                        </span>
-                <form method="POST">
-<!--                    <button type="submit" name="logout" class="dropdown-item dropdown-footer">Logout</button>-->
-                    <button type="submit" class="btn  btn-flat" name="logout"><i class="fas fa-sign-in-alt"></i> Logout</button>
-                </form>
+                            <div class="profile-data">
+                                <div class="profile-data-name"><?php echo $_SESSION['senator_fname']; ?> <?php echo $_SESSION['senator_lname']?></div>
+                                <div class="profile-data-title"><?php echo $_SESSION['senator_program']; ?></div>
+                            </div>
+                            <div class="profile-controls">
+                                <a href="Profile.php" class="profile-control-left"><span class="fa fa-info"></span></a>
+<!--                                <a href="pages-messages.html" class="profile-control-right"><span class="fa fa-envelope"></span></a>-->
+                            </div>
+                        </div>                                                                        
+                    </li>
+
+
+
+                    <!--                        PROFILE ENDS-->
+
+
+
+                    <li class="xn-title">Navigation</li>
+                        <ul>
+
+                            <li><a href="home.php"><span class="fa fa-book"></span> Dashboard</a></li>
+
+                            <li><a href="minutes.php"><span class="fa fa-folder"></span> Minutes</a></li>
+                        </ul>
+
+                    <!-- END X-NAVIGATION -->
             </div>
-        </li>
-    </ul>
-</nav>
-
-    <div class="login-box">
-        <div class="login-logo">
-            <p id="date"><?php echo $today; ?></p>
-            <p id="time" class="bold"><?php echo $time; ?></p>
-        </div>
-        <!-- /.login-logo -->
-        <div class="card">
-            <div class="card-body login-card-body">
-                <p class="login-box-msg">Log Attendance</p>
+            <!-- END PAGE SIDEBAR -->
 
 
 
 
 
 
-                <form method="POST" id="log_attendance">
-                    <div class="input-group mb-3">
-<!--                        <label class="col-sm-3 col-form-label">Schedule</label>-->
-                        <span id="scheduleError" style="color: #dc0b2a; font-family: "Helvetica Neue", sans-serif";></span>
-                        <div class="input-group mb-3">
-                            <select name="senate_schedule" class="form-control" id="senate_schedule" required>
-                                <option hidden selected  value="0" > - Select Schedule -</option>
-                                <?php
-                                $sql = "SELECT * FROM senate_sched";
-                                $result = mysqli_query($db, $sql);
-                                while($row = mysqli_fetch_array($result))
-                                {
-                                    ?>
-                                    <option value="<?php echo $row['sched_id']; ?>">
-                                        <?php echo $row['sched_in']; ?> - <?php echo $row['sched_out']; ?>
-                                       ( <?php echo $row['meeting_name']; ?> )
-                                    </option>
-                                    <?php
-                                }
-                                ?>
-                            </select>
+
+
+
+
+
+
+
+
+
+
+
+
+            <!-- PAGE CONTENT -->
+            <div class="page-content">
+                
+                <!-- START X-NAVIGATION VERTICAL -->
+                <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+                    <!-- TOGGLE NAVIGATION -->
+                    <li class="xn-icon-button">
+                        <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
+                    </li>
+                    <!-- END TOGGLE NAVIGATION -->
+                    <!-- SEARCH -->
+<!--                    <li class="xn-search">-->
+<!--                        <form role="form">-->
+<!--                            <input type="text" name="search" placeholder="Search..."/>-->
+<!--                        </form>-->
+<!--                    </li>   -->
+                    <!-- END SEARCH -->
+
+
+                    <!-- POWER OFF -->
+
+                                        <li class="xn-icon-button pull-right last">
+
+                    <form method="POST">
+                        <button type="submit"   class="btn  btn-flat" name="logout"><i class="fas fa-sign-in-alt"><span class="fa fa-sign-out"></span>Logout</button>
+                    </form
+                                        </li>
+
+
+<!--                    <li class="xn-icon-button pull-right last">-->
+<!--                        <a href="#">-->
+<!--                            -->
+<!--                        </a>-->
+<!--                        <ul class="xn-drop-left animated zoomIn">-->
+<!--                            <li><a href="pages-lock-screen.html"><span class="fa fa-lock"></span> Lock Screen</a></li>-->
+<!--                            <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span> Sign Out</a></li>-->
+<!--                        </ul>                        -->
+<!--                    </li> -->
+                    <!-- END POWER OFF -->
+
+
+
+
+
+
+
+
+
+                </ul>
+                <!-- END X-NAVIGATION VERTICAL -->
+
+                <!-- START BREADCRUMB -->
+                <ul class="breadcrumb">
+                    <li><a href="#">Home</a></li>                    
+                    <li class="active">Dashboard</li>
+                </ul>
+                <!-- END BREADCRUMB -->
+
+
+
+
+
+                
+                <!-- PAGE CONTENT WRAPPER -->
+                <div class="page-content-wrap">
+                    
+                    <!-- START WIDGETS -->                    
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            <!-- START WIDGET LOG ATTENDANCE -->
+                            <div class="widget widget-default widget-item-icon">
+                                <div class="login-logo">
+                                    <div id="date" class="widget-title"><?php echo $today; ?></div>
+                                    <div id="time" class="widget-title"><?php echo $time; ?></div>
+                                </div>
+
+
+
+                                        <form method="POST" id="log_attendance">
+                                            <!-- START WIDGET REGISTRED -->
+                                                <div class="widget-title">Log Attendance</div>
+                                                <div class="form-group">
+                                                    <label class="col-md-12">Select Schedule:</label>
+                                                    <div class="col-md-12">
+                                                        <select name="senate_schedule" id="senate_schedule" required class="form-control select">
+                                                            <?php
+                                                            $sql = "SELECT * FROM senate_sched";
+                                                            $result = mysqli_query($db, $sql);
+                                                            while($row = mysqli_fetch_array($result))
+                                                            {
+                                                                ?>
+                                                                <option value="<?php echo $row['sched_id']; ?>">
+                                                                    <?php echo $row['sched_in']; ?> - <?php echo $row['sched_out']; ?>
+                                                                    ( <?php echo $row['meeting_name']; ?> )
+                                                                </option>
+                                                                <?php
+                                                            }
+                                                            ?>
+                                                        </select>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <label class="col-md-12 col-xs-12 control-label">Select </label>
+                                                    <div class="col-md-12 col-xs-12">
+                                                        <select name="operation" class="form-control">
+                                                            <option value="time-in">Time In</option>
+                                                            <option value="time-out">Time Out</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-12 col-xs-12 control-label">Index Number</label>
+                                                    <div class="col-md-12 col-xs-12">
+                                                        <div class="input-group">
+                                                            <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                            <input type="text" value="<?php echo $_SESSION['student_id']; ?>" class="form-control" name="student_id" readonly/>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label class="col-md-12 col-xs-12 "></label>
+                                                    <div class="col-md-12 col-xs-12">
+                                                        <div class="input-group">
+                                                            <button type="submit" name="attendance" class="btn btn-primary">Submit</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                        </form>
+
+                                        <!-- END WIDGET REGISTRED -->
+
+                            </div>
+
+                            <!-- END WIDGET REGISTRED -->
+                            
+                        </div>
+
+
+
+                        <div class="col-md-4">
+
+                            <!-- START WIDGET MESSAGES -->
+                            <div class="widget widget-default widget-item-icon">
+                                <div class="widget-item-left">
+                                    <span class="fa fa-envelope"></span>
+                                </div>
+                                <div class="widget-data">
+                                    <div class="widget-int num-count">48</div>
+                                    <div class="widget-title">New messages</div>
+                                    <div class="widget-subtitle">In your mailbox</div>
+                                </div>
+                                <div class="widget-controls">
+                                    <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top" title="Remove Widget"><span class="fa fa-times"></span></a>
+                                </div>
+                            </div>
+                            <!-- END WIDGET MESSAGES -->
+
+                        </div>
+
+
+
+
+                        <div class="col-md-4">
+                            
+                            <!-- START WIDGET CLOCK -->
+                            <div class="widget widget-danger widget-padding-sm">
+                                <div class="widget-big-int plugin-clock">00:00</div>                            
+                                <div class="widget-subtitle plugin-date">Loading...</div>
+                                <div class="widget-controls">                                
+                                    <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="left" title="Remove Widget"><span class="fa fa-times"></span></a>
+                                </div>                            
+                                <div class="widget-buttons widget-c3">
+                                    <div class="col">
+                                        <a href="#"><span class="fa fa-clock-o"></span></a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="#"><span class="fa fa-bell"></span></a>
+                                    </div>
+                                    <div class="col">
+                                        <a href="#"><span class="fa fa-calendar"></span></a>
+                                    </div>
+                                </div>                            
+                            </div>                        
+                            <!-- END WIDGET CLOCK -->
+                            
+                        </div>
+                    </div>
+                    <!-- END WIDGETS -->                    
+                    
+                    <div class="row">
+
+                        <div class="col-md-4">
+                            
+                            <!-- START PROJECTS BLOCK -->
+                            <div class="panel panel-default">
+                                <div class="panel-heading">
+                                    <div class="panel-title-box">
+                                        <h3>Projects</h3>
+                                        <span>Projects activity</span>
+                                    </div>                                    
+                                    <ul class="panel-controls" style="margin-top: 2px;">
+                                        <li><a href="#" class="panel-fullscreen"><span class="fa fa-expand"></span></a></li>
+                                        <li><a href="#" class="panel-refresh"><span class="fa fa-refresh"></span></a></li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="fa fa-cog"></span></a>                                        
+                                            <ul class="dropdown-menu">
+                                                <li><a href="#" class="panel-collapse"><span class="fa fa-angle-down"></span> Collapse</a></li>
+                                                <li><a href="#" class="panel-remove"><span class="fa fa-times"></span> Remove</a></li>
+                                            </ul>                                        
+                                        </li>                                        
+                                    </ul>
+                                </div>
+                                <div class="panel-body panel-body-table">
+                                    
+                                    <div class="table-responsive">
+                                        <table class="table table-condensed table-bordered table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th width="50%">Project</th>
+                                                    <th width="20%">Status</th>
+                                                    <th width="30%">Activity</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td><strong>Atlant</strong></td>
+                                                    <td><span class="label label-danger">Developing</span></td>
+                                                    <td>
+                                                        <div class="progress progress-small progress-striped active">
+                                                            <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 85%;">85%</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Gemini</strong></td>
+                                                    <td><span class="label label-warning">Updating</span></td>
+                                                    <td>
+                                                        <div class="progress progress-small progress-striped active">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 40%;">40%</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>                                                
+                                                <tr>
+                                                    <td><strong>Taurus</strong></td>
+                                                    <td><span class="label label-warning">Updating</span></td>
+                                                    <td>
+                                                        <div class="progress progress-small progress-striped active">
+                                                            <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 72%;">72%</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Leo</strong></td>
+                                                    <td><span class="label label-success">Support</span></td>
+                                                    <td>
+                                                        <div class="progress progress-small progress-striped active">
+                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">100%</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <td><strong>Virgo</strong></td>
+                                                    <td><span class="label label-success">Support</span></td>
+                                                    <td>
+                                                        <div class="progress progress-small progress-striped active">
+                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">100%</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>                                                
+                                                <tr>
+                                                    <td><strong>Aquarius</strong></td>
+                                                    <td><span class="label label-success">Support</span></td>
+                                                    <td>
+                                                        <div class="progress progress-small progress-striped active">
+                                                            <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">100%</div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <!-- END PROJECTS BLOCK -->
+                            
                         </div>
                     </div>
 
 
-                    <div class="input-group mb-3">
-                        <select name="operation" class="form-control">
-                            <option value="time-in">Time In</option>
-                            <option value="time-out">Time Out</option>
-                        </select>
+                    <div class="row">
+
+
+
                     </div>
-                    <div class="input-group mb-3">
-                        <input type="text" name="student_id" class="form-control" readonly value="<?php echo $_SESSION['student_id']; ?>">
-                        <div class="input-group-append">
-                            <div class="input-group-text">
-                                <span class="fas fa-id-card"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary btn-flat" name="attendance">Submit</button>
-                </form>
+
+
+                </div>
+                <!-- END PAGE CONTENT WRAPPER -->
             </div>
+            <!-- END PAGE CONTENT -->
+        </div>
 
 
 
 
+        <?php
+        echo $_SESSION['mess'];
+        echo $_SESSION['success'];
+
+        $dd = date("H:i:s");
+
+        if($dd == $_SESSION['expire'])
+        {
+            session_unset();
+        }
+        ?>
+        <script>
+            document.getElementById("log_attendance").addEventListener("submit", function(event) {
+                var selectElement = document.getElementById("senate_schedule").value;
+                var errorElement = document.getElementById("scheduleError");
+
+
+                // console.log(selectElement);
+                if (selectElement === "0") {
+                    errorElement.textContent = "Please select a schedule";
+                    // alert("Please select a schedule");
+                    event.preventDefault(); // Prevent form submission
+                }
+                // else {
+                //     errorElement.textContent = ""; // Clear error message if there's no error
+                // }
+            });
+        </script>
+
+
+
+        <script type="text/javascript">
+            var interval = setInterval(function() {
+                var momentNow = moment();
+                $('#date').html(momentNow.format('dddd').substring(0, 3).toUpperCase() + ' - ' + momentNow.format('MMMM DD, YYYY'));
+                $('#time').html(momentNow.format('hh:mm:ss A'));
+            }, 100);
+        </script>
 
 
 
 
+        <!-- START PRELOADS -->
+        <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
+        <audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
+        <!-- END PRELOADS -->                  
+        
+    <!-- START SCRIPTS -->
+        <!-- START PLUGINS -->
+        <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
+        <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
+        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>        
+        <!-- END PLUGINS -->
 
+        <!-- START THIS PAGE PLUGINS-->        
+        <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>        
+        <script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
+        <script type="text/javascript" src="js/plugins/scrolltotop/scrolltopcontrol.js"></script>
+        
+        <script type="text/javascript" src="js/plugins/morris/raphael-min.js"></script>
+        <script type="text/javascript" src="js/plugins/morris/morris.min.js"></script>       
+        <script type="text/javascript" src="js/plugins/rickshaw/d3.v3.js"></script>
+        <script type="text/javascript" src="js/plugins/rickshaw/rickshaw.min.js"></script>
+        <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
+        <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>                
+        <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>                
+        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>                 
+        
+        <script type="text/javascript" src="js/plugins/moment.min.js"></script>
+        <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
+        <!-- END THIS PAGE PLUGINS-->        
 
-
-     <?php
-    echo $_SESSION['mess'];
-    echo $_SESSION['success'];
-
-    $dd = date("H:i:s");
-
-    if($dd == $_SESSION['expire'])
-    {
-      session_unset();
-    }
-    ?>
-            <script>
-                document.getElementById("log_attendance").addEventListener("submit", function(event) {
-                    var selectElement = document.getElementById("senate_schedule").value;
-                    var errorElement = document.getElementById("scheduleError");
-
-
-                    // console.log(selectElement);
-                    if (selectElement === "0") {
-                        errorElement.textContent = "Please select a schedule";
-                        // alert("Please select a schedule");
-                        event.preventDefault(); // Prevent form submission
-                    }
-                    // else {
-                    //     errorElement.textContent = ""; // Clear error message if there's no error
-                    // }
-                });
-            </script>
-
-    </div>
-    </div>
-    <br><br>
-    <script src="plugins/jquery/jquery.min.js"></script>
-    <script src="plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="dist/js/adminlte.min.js"></script>
-    <script src="plugins/moment/moment.min.js"></script>
-    <script src="plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js"></script>
-    <script src="plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js"></script>
-    <script src="plugins/sweetalert2/sweetalert2.min.js"></script>
-    <script src="plugins/toastr/toastr.min.js"></script>
-    <script type="text/javascript">
-    var interval = setInterval(function() {
-        var momentNow = moment();
-        $('#date').html(momentNow.format('dddd').substring(0, 3).toUpperCase() + ' - ' + momentNow.format('MMMM DD, YYYY'));
-        $('#time').html(momentNow.format('hh:mm:ss A'));
-    }, 100);
-    </script>
-
-
-<script>
-</script>
-</body>
-
-
+        <!-- START TEMPLATE -->
+        <script type="text/javascript" src="js/settings.js"></script>
+        
+        <script type="text/javascript" src="js/plugins.js"></script>        
+        <script type="text/javascript" src="js/actions.js"></script>
+        
+        <script type="text/javascript" src="js/demo_dashboard.js"></script>
+        <!-- END TEMPLATE -->
+    <!-- END SCRIPTS -->         
+    </body>
 </html>
+
+
+
+
+
+

@@ -136,6 +136,14 @@ global $db;
                                 </p>
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="senate_minutes.php" class="nav-link">
+                                <i class="nav-icon fas fa-briefcase"></i>
+                                <p>
+                                    Minutes
+                                </p>
+                            </a>
+                        </li>
 
 <!--                        <li class="nav-item">-->
 <!--                            <a href="print_payroll.php" class="nav-link">-->

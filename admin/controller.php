@@ -6,52 +6,53 @@ global $db;
 date_default_timezone_set('Africa/Accra');
 
 
-
-// LOGIN CODE
-if(isset($_POST['Sign_in']))
-{
-  $username = mysqli_real_escape_string($db,$_POST['log_username']);
-  $password = mysqli_real_escape_string($db,$_POST['log_password']);
-//  $password = md5($password);
-    $password = $password;
-
-    $sql = "SELECT * FROM senate_list WHERE student_id='$username' AND password='$password'";
-  $result = mysqli_query($db, $sql);
-  if (!$row = $result->fetch_assoc()){
-    echo '<script>
-             setTimeout(function() {
-                 Swal.fire({
-                     title: "Failed !",
-                     text: "Username or Password is incorrect !",
-                     type: "error"
-                   }).then(function() {
-                       window.location = "../login/index.php";
-                   });
-             }, 30);
-         </script>';
-  }
-  else {
-//      session_start();
-      $_SESSION['senator_fname'] = $row['senator_fname'];
-      $_SESSION['senator_lname'] = $row['senator_lname'];
-      $_SESSION['senator_photo'] = $row['senator_photo'];
-
-
-
-      $_SESSION['student_id'] = $row['student_id'];
-      $sql = "SELECT * FROM senate_list WHERE student_id = '$username' and password = '$password' ";
-      $result = mysqli_query($db, $sql);
-      $row = $result->fetch_assoc();
-      $_SESSION['student_id'] = $username;
-
-      if ($row['type'] === 'admin') {
-          header("Location: ../admin/home.php");
-      }
-      else if ($row['type']==='member'){
-          header("Location: ../normal_user/home.php");
-      }
-  }
-}
+//
+//// LOGIN CODE
+//if(isset($_POST['Sign_in']))
+//{
+//  $username = mysqli_real_escape_string($db,$_POST['log_username']);
+//  $password = mysqli_real_escape_string($db,$_POST['log_password']);
+////  $password = md5($password);
+//    $password = $password;
+//
+//    $sql = "SELECT * FROM senate_list WHERE student_id='$username' AND password='$password'";
+//  $result = mysqli_query($db, $sql);
+//  if (!$row = $result->fetch_assoc()){
+//    echo '<script>
+//             setTimeout(function() {
+//                 Swal.fire({
+//                     title: "Failed !",
+//                     text: "Username or Password is incorrect !",
+//                     type: "error"
+//                   }).then(function() {
+//                       window.location = "../login/index.php";
+//                   });
+//             }, 30);
+//         </script>';
+//  }
+//  else {
+////      session_start();
+//      $_SESSION['senator_fname'] = $row['senator_fname'];
+//      $_SESSION['senator_lname'] = $row['senator_lname'];
+//      $_SESSION['senator_photo'] = $row['senator_photo'];
+//      $_SESSION['senator_program']= $row['senator_program'];
+//
+//
+//
+//      $_SESSION['student_id'] = $row['student_id'];
+//      $sql = "SELECT * FROM senate_list WHERE student_id = '$username' and password = '$password' ";
+//      $result = mysqli_query($db, $sql);
+//      $row = $result->fetch_assoc();
+//      $_SESSION['student_id'] = $username;
+//
+//      if ($row['type'] === 'admin') {
+//          header("Location: ../admin/home.php");
+//      }
+//      else if ($row['type']==='member'){
+//          header("Location: ../normal_user/home.php");
+//      }
+//  }
+//}
 
 //CHECK IF USER IS LOGGED IN
 //function isLoggedIn() {
@@ -60,6 +61,78 @@ if(isset($_POST['Sign_in']))
 
 // LOGOUT CODE
 //============================
+
+
+
+////=============RESET PASSWORD==================
+//
+//if(isset($_POST['reset_pass'])) {
+//    // Assuming $db is your database connection
+//
+//    $username = $_POST['username'];
+//    $password = $_POST['reset_password'];
+//
+//    // Prepare and execute SELECT query
+//    $sql = "SELECT * FROM senate_list WHERE student_id=?";
+//    $stmt = $db->prepare($sql);
+//    $stmt->bind_param("s", $username);
+//    $stmt->execute();
+//    $result = $stmt->get_result();
+//
+//    if($result->num_rows > 0) {
+//        // Username exists, proceed with password update
+//        $sql2 = "UPDATE senate_list SET password = ? WHERE student_id = ?";
+//        $stmt2 = $db->prepare($sql2);
+////        $hashed_password = password_hash($password, PASSWORD_DEFAULT); // Hash the new password
+//        $hashed_password = $password; // Hash the new password
+//
+//        $stmt2->bind_param("ss", $hashed_password, $username);
+//        if($stmt2->execute()) {
+//            // Password reset successful
+//            echo '<script>
+//                    setTimeout(function() {
+//                        Swal.fire({
+//                            title: "Success !",
+//                            text: "Password has been reset!",
+//                            type: "success"
+//                        }).then(function() {
+//                            window.location = "../login/index.php";
+//                        });
+//                    }, 30);
+//                </script>';
+//        } else {
+//            // Error updating password
+//            echo '<script>
+//                    setTimeout(function() {
+//                        Swal.fire({
+//                            title: "Failed !",
+//                            text: "Password has not been reset !",
+//                            type: "error"
+//                        }).then(function() {
+//                            window.location = "../login/index.php";
+//                        });
+//                    }, 30);
+//                </script>';
+//        }
+//    } else {
+//        // Username does not exist
+//        echo '<script>
+//                setTimeout(function() {
+//                    Swal.fire({
+//                        title: "Failed !",
+//                        text: "Username does not exist !",
+//                        type: "error"
+//                    }).then(function() {
+//                        window.location = "../login/index.php";
+//                    });
+//                }, 30);
+//            </script>';
+//    }
+//}
+
+
+
+//================RESET PASSWORD================
 if(isset($_POST['logout'])) {
   session_start();
   if(session_destroy())
@@ -166,60 +239,60 @@ if(isset($_POST['add_senator']))
 
 
 //=======================================================================================================================================
-// ADD SENATOR
-if(isset($_POST['senator_registration']))
-{
-  $tag = $_POST['student_id'];
-  $fname = $_POST['emp_name'];
-  $lname = $_POST['emp_lastname'];
-  $sprogram = $_POST['senator_program'];
-    $address = $_POST['emp_address'];
-  $contact = $_POST['emp_contact'];
-  $gender = $_POST['emp_gender'];
-  $position = $_POST['emp_position'];
-  $password = $_POST['password'];
-  $date_of_birth = $_POST['date_of_birth'];
-  $type = $_POST['type'];
-  $regdate = date("Y-m-d");
-//  $sql = "SELECT sched_in, sched_out FROM senate_sched WHERE sched_id = '$sched'";
-//  $result = mysqli_query($db, $sql);
-//  while($row = mysqli_fetch_array($result))
-//  {
-//    $in = $row['sched_in'];
-//    $out = $row['sched_out'];
+//// ADD SENATOR
+//if(isset($_POST['senator_registration']))
+//{
+//  $tag = $_POST['student_id'];
+//  $fname = $_POST['emp_name'];
+//  $lname = $_POST['emp_lastname'];
+//  $sprogram = $_POST['senator_program'];
+//    $address = $_POST['emp_address'];
+//  $contact = $_POST['emp_contact'];
+//  $gender = $_POST['emp_gender'];
+//  $position = $_POST['emp_position'];
+//  $password = $_POST['password'];
+//  $date_of_birth = $_POST['date_of_birth'];
+//  $type = $_POST['type'];
+//  $regdate = date("Y-m-d");
+////  $sql = "SELECT sched_in, sched_out FROM senate_sched WHERE sched_id = '$sched'";
+////  $result = mysqli_query($db, $sql);
+////  while($row = mysqli_fetch_array($result))
+////  {
+////    $in = $row['sched_in'];
+////    $out = $row['sched_out'];
+////  }
+//
+//
+//
+//
+//
+//
+//  $target_dir = "../admin/img/";
+//  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+//  $filename = $_FILES['fileToUpload']['name'];
+//  if(!empty($filename)){
+//    move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/img/".$filename);
 //  }
-
-
-
-
-
-
-  $target_dir = "../admin/img/";
-  $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-  $filename = $_FILES['fileToUpload']['name'];
-  if(!empty($filename)){
-    move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/img/".$filename);
-  }
-//  $query = "INSERT INTO senate_list (student_id, emp_fname, emp_lname, emp_position, emp_address, emp_contact, emp_gender, emp_timein, emp_timeout, sched_id, emp_regdate, emp_photo)
-//                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$in', '$out', '$sched', '$regdate', '$target_file')";
-//  $resquery = mysqli_query($db, $query);
-
-    $query = "INSERT INTO senate_list (student_id, senator_fname, senator_lname,senator_program, senator_position, senator_address, senator_contact, senator_gender, senator_regdate, senator_photo, password, type, date_of_birth)
-                          VALUES ('$tag', '$fname', '$lname', '$sprogram','$position', '$address', '$contact', '$gender', '$regdate', '$target_file', '$password','$type', '$date_of_birth')";
-    $resquery = mysqli_query($db, $query);
-  echo '<script>
-           setTimeout(function() {
-               Swal.fire({
-                   title: "Success !",
-                   text: "Registration successful",
-                   type: "success"
-                 }).then(function() {
-                     window.location = "index.php";
-                 });
-           }, 30);
-       </script>';
-
-}
+////  $query = "INSERT INTO senate_list (student_id, emp_fname, emp_lname, emp_position, emp_address, emp_contact, emp_gender, emp_timein, emp_timeout, sched_id, emp_regdate, emp_photo)
+////                          VALUES ('$tag', '$fname', '$lname', '$position', '$address', '$contact', '$gender', '$in', '$out', '$sched', '$regdate', '$target_file')";
+////  $resquery = mysqli_query($db, $query);
+//
+//    $query = "INSERT INTO senate_list (student_id, senator_fname, senator_lname,senator_program, senator_position, senator_address, senator_contact, senator_gender, senator_regdate, senator_photo, password, type, date_of_birth)
+//                          VALUES ('$tag', '$fname', '$lname', '$sprogram','$position', '$address', '$contact', '$gender', '$regdate', '$target_file', '$password','$type', '$date_of_birth')";
+//    $resquery = mysqli_query($db, $query);
+//  echo '<script>
+//           setTimeout(function() {
+//               Swal.fire({
+//                   title: "Success !",
+//                   text: "Registration successful",
+//                   type: "success"
+//                 }).then(function() {
+//                     window.location = "index.php";
+//                 });
+//           }, 30);
+//       </script>';
+//
+//}
 
 //ADD SCHEDULE
 if(isset($_POST['add_sched']))
