@@ -405,7 +405,6 @@ if(isset($_POST["pos_delete"]))
 
    $sql = "DELETE FROM senate_position WHERE pos_id = '$id'";
    $result = mysqli_query($db, $sql);
-
    echo '<script>
             setTimeout(function() {
                 Swal.fire({

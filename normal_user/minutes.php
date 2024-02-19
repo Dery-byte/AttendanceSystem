@@ -223,27 +223,6 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
                     <button type="submit"   class="btn  btn-flat" name="logout"><i class="fas fa-sign-in-alt"><span class="fa fa-sign-out"></span>Logout</button>
                 </form
             </li>
-
-
-            <!--                    <li class="xn-icon-button pull-right last">-->
-            <!--                        <a href="#">-->
-            <!--                            -->
-            <!--                        </a>-->
-            <!--                        <ul class="xn-drop-left animated zoomIn">-->
-            <!--                            <li><a href="pages-lock-screen.html"><span class="fa fa-lock"></span> Lock Screen</a></li>-->
-            <!--                            <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span> Sign Out</a></li>-->
-            <!--                        </ul>                        -->
-            <!--                    </li> -->
-            <!-- END POWER OFF -->
-
-
-
-
-
-
-
-
-
         </ul>
         <!-- END X-NAVIGATION VERTICAL -->
 
@@ -252,104 +231,192 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
             <li><a href="#">Home</a></li>
             <li class="active">Dashboard</li>
         </ul>
-        <!-- END BREADCRUMB -->
+
+
+        <?php
+        if (isset($_GET['search']) && !empty($_GET['search'])) {
+        // Sanitize the input to prevent SQL injection
+        $search_query = mysqli_real_escape_string($db, $_GET['query']);
+        $sql = "SELECT * FROM sched_minutes WHERE description LIKE '%$search_query%'";
+        $result = mysqli_query($db, $sql);
+            if ($result->num_rows > 0) {
+
+            while ($row = $result->fetch_assoc()) {
+                echo "ID: " . $row["minutes_id"] . " - description: " . $row["description"] . "<br>";
+                // Display other relevant information from the database
+            }
 
 
 
 
-        <!-- START WIDGETS -->
+            }
+     else {
+        echo "No results found.";
+    }
+        }
+
+
+        ?>
+
+
+        <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
+
+
+            <li class="xn-search">
+                <form role="form">
+                    <input type="text" name="search" placeholder="Search..."/>
+                </form>
+            </li>
+
+        </ul>
+
+
+
         <div class="row">
-            <div class="col-md-3">
 
-                <!-- START WIDGET SLIDER -->
-                <div class="widget widget-default widget-carousel">
-                    <div class="owl-carousel" id="owl-example">
-                        <div>
-                            <div class="widget-title">Total Visitors</div>
-                            <div class="widget-subtitle">27/08/2017 15:23</div>
-                            <div class="widget-int">3,548</div>
+            <?php
+                $sql = "SELECT * FROM sched_minutes, senate_sched where senate_sched.sched_id = sched_minutes.schedule_id;";
+                $result = mysqli_query($db, $sql);
+                $row = mysqli_fetch_array($result);
+                $pdf_data = $row['file'];
+//            header('Content-type: application/pdf');
+//            header('Content-Disposition: attachment; filename=$pdf_data.pdf');
+//            echo $pdf_data;
+            while($row = mysqli_fetch_array($result))
+            {
+
+                $filename = basename($_GET['download']);
+                $file_path = "../admin/minutesFiles/".$filename;
+
+                ?>
+                <div class="col-md-3">
+
+                    <div class="widget widget-default widget-item-icon">
+                        <div class="widget-item-left">
+                            <img src="./pdfimage/pdfImage.png"  width="60" height="90">
+
+<!--                            <span class="fa fa-envelope"></span>-->
                         </div>
-                        <div>
-                            <div class="widget-title">Returned</div>
-                            <div class="widget-subtitle">Visitors</div>
-                            <div class="widget-int">1,695</div>
+                        <div class="widget-data">
+                            <div class="widget-title"><?php echo $row['meeting_name']; ?></div>
+                            <div class="widget-subtitle"><?php echo $row['description']; ?></div>
                         </div>
-                        <div>
-                            <div class="widget-title">New</div>
-                            <div class="widget-subtitle">Visitors</div>
-                            <div class="widget-int">1,977</div>
-                        </div>
-                    </div>
-                    <div class="widget-controls">
-                        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top" title="Remove Widget"><span class="fa fa-times"></span></a>
-                    </div>
-                </div>
-                <!-- END WIDGET SLIDER -->
-
-            </div>
-            <div class="col-md-3">
-
-                <!-- START WIDGET MESSAGES -->
-                <div class="widget widget-default widget-item-icon" onclick="location.href='pages-messages.html';">
-                    <div class="widget-item-left">
-                        <span class="fa fa-envelope"></span>
-                    </div>
-                    <div class="widget-data">
-                        <div class="widget-int num-count">48</div>
-                        <div class="widget-title">New messages</div>
-                        <div class="widget-subtitle">In your mailbox</div>
-                    </div>
-                    <div class="widget-controls">
-                        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top" title="Remove Widget"><span class="fa fa-times"></span></a>
-                    </div>
-                </div>
-                <!-- END WIDGET MESSAGES -->
-
-            </div>
-            <div class="col-md-3">
-
-                <!-- START WIDGET REGISTRED -->
-                <div class="widget widget-default widget-item-icon" onclick="location.href='pages-address-book.html';">
-                    <div class="widget-item-left">
-                        <span class="fa fa-user"></span>
-                    </div>
-                    <div class="widget-data">
-                        <div class="widget-int num-count">375</div>
-                        <div class="widget-title">Registred users</div>
-                        <div class="widget-subtitle">On your website</div>
-                    </div>
-                    <div class="widget-controls">
-                        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="top" title="Remove Widget"><span class="fa fa-times"></span></a>
-                    </div>
-                </div>
-                <!-- END WIDGET REGISTRED -->
-
-            </div>
-            <div class="col-md-3">
-
-                <!-- START WIDGET CLOCK -->
-                <div class="widget widget-danger widget-padding-sm">
-                    <div class="widget-big-int plugin-clock">00:00</div>
-                    <div class="widget-subtitle plugin-date">Loading...</div>
-                    <div class="widget-controls">
-                        <a href="#" class="widget-control-right widget-remove" data-toggle="tooltip" data-placement="left" title="Remove Widget"><span class="fa fa-times"></span></a>
-                    </div>
-                    <div class="widget-buttons widget-c3">
-                        <div class="col">
-                            <a href="#"><span class="fa fa-clock-o"></span></a>
-                        </div>
-                        <div class="col">
-                            <a href="#"><span class="fa fa-bell"></span></a>
-                        </div>
-                        <div class="col">
-                            <a href="#"><span class="fa fa-calendar"></span></a>
+                        <div class="row">
+                            <div class="form-group " >
+<!--                                <div class="col-md-3" style="margin-bottom: 50px">-->
+<!--                                    <button  type="submit" name="view" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -20px">view</button>-->
+<!--                                </div>-->
+                                <div class="col-md-6">
+<!--                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
+                                        <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="<?php echo $file_path; ?>">Download</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <!-- END WIDGET CLOCK -->
 
-            </div>
-        </div>
+                <?php
+
+            }
+            ?>
+
+<!---->
+<!--            <div class="col-md-3">-->
+<!---->
+<!--                <div class="widget widget-default widget-item-icon">-->
+<!--                    <div class="widget-item-left">-->
+<!--                        <span class="fa fa-envelope"></span>-->
+<!--                    </div>-->
+<!--                    <div class="widget-data">-->
+<!--                        <div class="widget-title">Schedule Name</div>-->
+<!--                        <div class="widget-subtitle">In your mailbox This message is not for you to consume but for you to understand and process</div>-->
+<!--                    </div>-->
+<!--                    <div class="row">-->
+<!--                        <div class="form-group">-->
+<!--                            <div class="col-md-4">-->
+<!--                                <button  type="submit" name="view" class="btn btn-primary  btn-block">view</button>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <button  type="submit" name="download" class="btn btn-primary   btn-block">Download</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!---->
+<!---->
+<!---->
+<!--            </div>-->
+<!--            <div class="col-md-3">-->
+<!---->
+<!--                <div class="widget widget-default widget-item-icon">-->
+<!--                    <div class="widget-item-left">-->
+<!--                        <span class="fa fa-envelope"></span>-->
+<!--                    </div>-->
+<!--                    <div class="widget-data">-->
+<!--                        <div class="widget-title">Schedule Name</div>-->
+<!--                        <div class="widget-subtitle">In your mailbox This message is not for you to consume but for you to understand and process</div>-->
+<!--                    </div>-->
+<!--                    <div class="row">-->
+<!--                    <div class="form-group">-->
+<!--                            <div class="col-md-4">-->
+<!--                                <button  type="submit" name="view" class="btn btn-primary  btn-block">view</button>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <button  type="submit" name="download" class="btn btn-primary   btn-block">Download</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!---->
+<!--            </div>-->
+<!---->
+<!---->
+<!--            <div class="col-md-3">-->
+<!---->
+<!--                <div class="widget widget-default widget-item-icon">-->
+<!--                    <div class="widget-item-left">-->
+<!--                        <span class="fa fa-envelope"></span>-->
+<!--                    </div>-->
+<!--                    <div class="widget-data">-->
+<!--                        <div class="widget-title">Schedule Name</div>-->
+<!--                        <div class="widget-subtitle">In your mailbox This message is not for you to consume but for you to understand and process</div>-->
+<!--                    </div>-->
+<!--                    <div class="row">-->
+<!--                        <div class="form-group">-->
+<!--                            <div class="col-md-4">-->
+<!--                                <button  type="submit" name="view" class="btn btn-primary  btn-block">view</button>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <button  type="submit" name="download" class="btn btn-primary   btn-block">Download</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!---->
+<!--            </div>-->
+<!--            <div class="col-md-3">-->
+<!--                <div class="widget widget-default widget-item-icon">-->
+<!--                    <div class="widget-item-left">-->
+<!--                        <span class="fa fa-envelope"></span>-->
+<!--                    </div>-->
+<!--                    <div class="widget-data">-->
+<!--                        <div class="widget-title">Schedule Name</div>-->
+<!--                        <div class="widget-subtitle">In your mailbox This message is not for you to consume but for you to understand and process</div>-->
+<!--                    </div>-->
+<!--                    <div class="row">-->
+<!--                        <div class="form-group">-->
+<!--                            <div class="col-md-4">-->
+<!--                                <button  type="submit" name="view" class="btn btn-primary  btn-block">view</button>-->
+<!--                            </div>-->
+<!--                            <div class="col-md-4">-->
+<!--                                <button  type="submit" name="download" class="btn btn-primary   btn-block">Download</button>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!---->
+<!--            </div>-->
+<!--        </div>-->
         <!-- END WIDGETS -->
 
         <!-- END PAGE CONTENT WRAPPER -->
@@ -376,7 +443,6 @@ if($dd == $_SESSION['expire'])
         var selectElement = document.getElementById("senate_schedule").value;
         var errorElement = document.getElementById("scheduleError");
 
-
         // console.log(selectElement);
         if (selectElement === "0") {
             errorElement.textContent = "Please select a schedule";
@@ -388,6 +454,21 @@ if($dd == $_SESSION['expire'])
         // }
     });
 </script>
+
+<!--        <script>-->
+<!--            document.getElementById("downloadBtn").addEventListener("click", function() {-->
+<!--            window.location.href = "download.php";-->
+<!--        });-->
+<!--    </script>-->
+
+    <script>
+        document.querySelectorAll('.download-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const file_path = this.getAttribute('data-file');
+                window.location.href = 'download.php?file=' + encodeURIComponent(file_path);
+            });
+        });
+    </script>
 
 
 

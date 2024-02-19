@@ -138,27 +138,12 @@ require_once('../normal_user/auth_user.php');
                             </a>
                         </li>
 
-<!--                        <li class="nav-item">-->
-<!--                            <a href="print_payroll.php" class="nav-link">-->
-<!--                                <i class="nav-icon fas fa-money-bill-alt"></i>-->
-<!--                                <p>Payroll</p>-->
-<!--                            </a>-->
-<!--                        </li>-->
-<!--                        <li class="nav-item">-->
-<!--                            <a href="print_sched.php" class="nav-link">-->
-<!--                                <i class="nav-icon far fa-clock"></i>-->
-<!--                                <p>Schedules</p>-->
-<!--                            </a>-->
-<!--                        </li>-->
                     </ul>
                 </nav>
             </div>
         </aside>
         <div class="content-wrapper">
             <div class="content-header">
-<!--                <div style="padding-top: 10px;">-->
-<!--                    <marquee onMouseOver="this.stop()" onMouseOut="this.start()"> <a href="https://www.youtube.com/@codecampbdofficial">Code Camp BD</a> is the sole owner of this script. It is not suitable for personal use. And releasing it in demo version. Besides, it is being provided for free only from <a href="https://www.youtube.com/@codecampbdofficial">Code Camp BD</a>. For any of your problems contact us on <a href="https://www.youtube.com/@codecampbdofficial">Code Camp BD</a> facebook group / page or message <a href="https://www.facebook.com/dev.mhrony">MH RONY</a> on facebook. Thanks for staying with <a href="https://www.youtube.com/@codecampbdofficial">Code Camp BD</a>.</marquee>-->
-<!--                </div>-->
                 <div class="container-fluid">
                     <div class="row mb-2">
                         <div class="col-sm-6">
@@ -179,20 +164,10 @@ require_once('../normal_user/auth_user.php');
                     <div class="col-12">
                         <div class="card">
                             <div class="card-body">
-<!--                               --><?php //echo $_SESSION['senator_photo'];?>
-
-<!--                                <img src="--><?php //echo $_SESSION['senator_photo'];?><!--" style="border-radius: 50%" width="40px" height="40px">-->
-
-<!--                                <div align="right">-->
-<!--                                    <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i> New</button>-->
-<!--                                </div><br>-->
                                 <div  data-toggle="modal" align="right" data-target="#modal-default">
                                     <button  class="btn btn-primary btn-flat" name="Sign_in"><i class="fas fas fa-plus"></i> Add Senator</button>
                                 </div>
-
                                 <br>
-
-
                                 <table id="example1" class="table table-bordered dataTable no-footer" role="grid" aria-describedby="example1_info">
                                     <thead>
                                         <tr>
@@ -214,18 +189,10 @@ require_once('../normal_user/auth_user.php');
 
                 while($row = mysqli_fetch_array($result))
                 {
-//                    $imagePath = $row['senator_photo'];
-
                     ?>
                                         <tr>
                                             <td><?php echo $row['student_id']; ?></td>
-
-
-
-                                            <td><img src="<?php echo $row['senator_photo'];?>" style="width: 40px; height: 40px; border-radius: 50%"></td>
-
-
-
+                                             <td><img src="<?php echo $row['senator_photo'];?>" style="width: 40px; height: 40px; border-radius: 50%"></td>
                                             <td><?php echo $row['senator_fname']; ?> <?php echo $row['senator_lname']; ?></td>
                                             <td><?php echo $row['senator_position']; ?></td>
 <!--                                            <td>--><?php //echo $row['emp_timein']; ?><!-- - --><?php //echo $row['emp_timeout']; ?><!--</td>-->

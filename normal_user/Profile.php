@@ -173,7 +173,7 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 
                 <li><a href="home.php"><span class="fa fa-book"></span> Dashboard</a></li>
 
-                <li><a href="minutes.php"><span class="fa fa-folder"></span> Meeting</a></li>
+                <li><a href="minutes.php"><span class="fa fa-folder"></span> Minutes</a></li>
             </ul>
 
             <!-- END X-NAVIGATION -->

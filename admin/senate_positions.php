@@ -296,13 +296,13 @@ global $db;
                             </div>
                         </div>
 
-                        <div class="form-group row">
-                            <label class="col-sm-1 col-form-label"></label>
-                            <label class="col-sm-3 col-form-label">Rate / Hour</label>
-                            <div class="col-sm-7">
-                                <input type="number" class="form-control" name="position_rate" placeholder="" required>
-                            </div>
-                        </div>
+<!--                        <div class="form-group row">-->
+<!--                            <label class="col-sm-1 col-form-label"></label>-->
+<!--                            <label class="col-sm-3 col-form-label">Rate / Hour</label>-->
+<!--                            <div class="col-sm-7">-->
+<!--                                <input type="number" class="form-control" name="position_rate" placeholder="" required>-->
+<!--                            </div>-->
+<!--                        </div>-->
 
                 </div>
 
@@ -356,7 +356,7 @@ global $db;
         });
     });
     </script>
-
+<!--==================================DELETE POSITION========================================================-->
     <div id="pos_delete_modal" class="modal fade">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -373,10 +373,10 @@ global $db;
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
                         <button type="submit" class="btn btn-danger btn-flat" name="pos_delete"><i class="fas fa-trash"></i> Delete</button>
+                    </div>
                 </form>
             </div>
         </div>
-    </div>
     </div>
 
     <script>
