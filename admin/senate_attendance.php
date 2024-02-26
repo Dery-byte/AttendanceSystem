@@ -145,6 +145,15 @@ global $db;
                             </a>
                         </li>
 
+                        <li class="nav-item">
+                            <a href="request.php" class="nav-link">
+                                <i class="nav-icon fas fa-briefcase"></i>
+                                <p>
+                                    Requests
+                                </p>
+                            </a>
+                        </li>
+
 <!--                        <li class="nav-item">-->
 <!--                            <a href="print_payroll.php" class="nav-link">-->
 <!--                                <i class="nav-icon fas fa-money-bill-alt"></i>-->
@@ -206,7 +215,7 @@ global $db;
                                     <tbody>
                                         <?php
 // $sql = "SELECT * FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.employee_id = senate_list.student_id AND senate_list.sched_id = senate_sched.sched_id";
-$sql = "SELECT * FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.senator_id = senate_list.student_id AND senate_attendance.schedule = senate_sched.sched_id";
+$sql = "SELECT * FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.senator_id = senate_list.student_id AND senate_attendance.schedule = senate_sched.sched_id AND approve_statuses = 1";
 
                                         $result = mysqli_query($db, $sql);
                 while($row = mysqli_fetch_array($result))

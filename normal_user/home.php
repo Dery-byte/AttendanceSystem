@@ -18,6 +18,8 @@ if(isset($_POST['attendance']))
     {
         $id = $_POST['student_id'];
         $schedule=$_POST['senate_schedule'];
+
+//        $statusCode = $_POST['status'];
         $sql = "SELECT * FROM senate_list WHERE student_id = '$id'";
         $result = mysqli_query($db, $sql);
         if(!$row = $result->fetch_assoc()) {
@@ -42,27 +44,43 @@ if(isset($_POST['attendance']))
                 $interval = $first->diff($second);
                 $hrs = $interval->format('%h');
                 $mins = $interval->format('%i');
-                $mins = $mins/60;
+                $mins = $mins / 60;
                 $int = $hrs + $mins;
-                $scheduleInattendance= $row['schedule'];
+                $scheduleInattendance = $row['schedule'];
+                $status=$row['approve_statuses'];
+
 //$schedule=$_POST['senate_schedule'];
 
-                if($scheduleInattendance !=$schedule ){
+                if ($scheduleInattendance != $schedule) {
                     $int = $int - 1;
-                }
-                $sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
+                } else {
+                    $sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
 VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
-                $result3 = mysqli_query($db, $sql3);
-                $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
+                    $result3 = mysqli_query($db, $sql3);
+                    $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
     <i class='fas fa-check'></i> Time in: $full .You've log your attendance.
 </div>";
-                header("Location: home.php");
-            }
-            else {
-                $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
+                    header("Location: home.php");
+                }
+
+                if($status==1){
+                    $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
+                                        <i class='fas fa-check'></i> Timed in already: $full Waiting admin approval.
+                                    </div>";
+//                } else {
+                    $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
     <i class='fas fa-exclamation'></i> You've already logged attendance.
-</div>";
-                header("Location: home.php");
+                                          </div>";
+                    header("Location: home.php");
+                }
+
+            }
+
+            else {
+//                $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
+//    <i class='fas fa-exclamation'></i> You've already logged attendance.
+//</div>";
+//                header("Location: home.php");
             }
         }
     }
@@ -129,21 +147,20 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
             <!-- START PAGE SIDEBAR -->
             <div class="page-sidebar">
                 <!-- START X-NAVIGATION -->
+
+
                 <ul class="x-navigation">
                     <li class="">
-                     <h1>   <a href="home.php" style="text-decoration: none"> SENATE UCC </a> </h1>
+                         <a href="home.php" > SENATE </a>
                         <a href="#" class="x-navigation-control"></a>
-
-
-
-
-<!--                        PROFILE STARTS-->
-
                     </li>
+
+
+
                     <li class="xn-profile">
-<!--                        <a href="#" class="profile-mini">-->
-<!--                            <img src="assets/images/users/avatar.jpg" alt="John Doe"/>-->
-<!--                        </a>-->
+                        <a href="#" class="profile-mini">
+                            <img src="<?php echo   $_SESSION['senator_photo'];?>" style="width: 35px; height: 35px" alt="John Doe"/>
+                        </a>
                         <div class="profile">
                             <div class="profile-image">
                                 <img src="<?php echo   $_SESSION['senator_photo'];?>" style="border-radius: 50%;width: 95px;height: 95px;" alt="User Image">
@@ -166,6 +183,7 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 
 
                     <li class="xn-title">Navigation</li>
+
                         <ul>
 
                             <li><a href="home.php"><span class="fa fa-book"></span> Dashboard</a></li>
@@ -315,6 +333,8 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
                                                         <div class="input-group">
                                                             <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
                                                             <input type="text" value="<?php echo $_SESSION['student_id']; ?>" class="form-control" name="student_id" readonly/>
+<!--                                                            <input type="text" value="0" class="form-control" name="status" hidden>-->
+
                                                         </div>
                                                     </div>
                                                 </div>

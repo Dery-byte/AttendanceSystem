@@ -2,6 +2,7 @@
 include("controller.php");
 require_once('../normal_user/auth_user.php');
 
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -147,6 +148,16 @@ require_once('../normal_user/auth_user.php');
                                 </p>
                             </a>
                         </li>
+
+
+                        <li class="nav-item">
+                            <a href="request.php" class="nav-link">
+                                <i class="nav-icon fas fa-briefcase"></i>
+                                <p>
+                                    Requests
+                                </p>
+                            </a>
+                        </li>
 <!--                        <li class="nav-item">-->
 <!--                            <a href="print_payroll.php" class="nav-link">-->
 <!--                                <i class="nav-icon fas fa-money-bill-alt"></i>-->
@@ -192,34 +203,81 @@ require_once('../normal_user/auth_user.php');
 
 
             <section class="content">
-                <?php
-      ini_set('display_errors', 0);
-      ini_set('display_errors', false);
-      $dd = date("H:i:s");
-      if(isset($_SESSION['success'])) {
-        echo "
-          <div class='alert alert-success alert-dismissible'>
-            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-            <h4><i class='icon fa fa-check'></i> Success!</h4>
-            ".$_SESSION['success']."
-          </div>
-        ";
-      }
-      if(isset($_SESSION['error'])) {
-        echo "
-          <div class='alert alert-danger alert-dismissible'>
-            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-            <h4><i class='icon fa fa-times'></i> Failed !</h4>
-            ".$_SESSION['error']."
-          </div>
-        ";
-      }
-      if($dd == $_SESSION['expire'])
-      {
-        session_unset();
-      }
-      //session_unset();
-      ?>
+<!--                --><?php
+//      ini_set('display_errors', 0);
+//      ini_set('display_errors', false);
+//      $dd = date("H:i:s");
+//      if(isset($_SESSION['success'])) {
+//        echo "
+//          <div class='alert alert-success alert-dismissible'>
+//            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+//            <h4><i class='icon fa fa-check'></i> Success!</h4>
+//            ".$_SESSION['success']."
+//          </div>
+//        ";
+//      }
+//      if(isset($_SESSION['error'])) {
+//        echo "
+//          <div class='alert alert-danger alert-dismissible'>
+//            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+//            <h4><i class='icon fa fa-times'></i> Failed !</h4>
+//            ".$_SESSION['error']."
+//          </div>
+//        ";
+//      }
+//      if($dd == $_SESSION['expire'])
+//      {
+//        session_unset();
+//      }
+//      //session_unset();
+//      ?>
+
+
+            <?php
+
+
+            if(isset($_POST['add_sched']))
+            {
+                $meeting_name=$_POST['meeting_name'];
+                $in = $_POST['sched_timein'];
+                $out = $_POST['sched_timeout'];
+
+                $in_24  = date("H:i", strtotime($in));
+                $out_24 = date("H:i", strtotime($out));
+
+                $chkquery = "SELECT * FROM senate_sched WHERE sched_in = '$in_24' AND sched_out = '$out_24'";
+                $chkresult = mysqli_query($db, $chkquery);
+
+                if(!$row = $chkresult->fetch_assoc()) {
+                    $sql = "INSERT INTO senate_sched (meeting_name, sched_in, sched_out) VALUES ('$meeting_name','$in_24', '$out_24')";
+                    $result = mysqli_query($db, $sql);
+
+//    $_SESSION['success'] = "New Schedule has been added ! ";
+//    $_SESSION['expire'] =  date("H:i:s", time() + 1);
+
+                    echo '<script>
+            setTimeout(function() {
+                Swal.fire({
+                    title: "Success !",
+                    text: "Schedule has been updated !",
+                    type: "success"
+                  }).then(function() {
+                      window.location = "senate_sched.php";
+                  });
+            }, 30);
+        </script>';
+                }
+
+//                else {
+////    $_SESSION['error'] = "Failed to add new schedule ! ";
+////    $_SESSION['expire'] =  date("H:i:s", time() + 1);
+//                }
+//                header('location: senate_sched.php');
+
+            }
+            ?>
+
+
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -332,7 +390,7 @@ require_once('../normal_user/auth_user.php');
         </div>
     </div>
 
-    <div id="sched_modal" class="modal fade">
+    <div id="sched_edit_modal" class="modal fade">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -342,12 +400,12 @@ require_once('../normal_user/auth_user.php');
                     </button>
                 </div>
                 <form method="POST">
-                    <div class="modal-body" id="sched_details">
+                    <div class="modal-body" id="sched_edit_details">
                     </div>
                     <div class="modal-body"></div>
                     <div class="modal-footer justify-content-between">
                         <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
-                        <button type="submit" class="btn btn-primary btn-flat" name="edit_sched"><i class="fas fa-edit"></i> Save</button>
+                        <button type="submit" class="btn btn-primary btn-flat" name="update_sched"><i class="fas fa-edit"></i> Update</button>
                 </form>
             </div>
         </div>
@@ -363,16 +421,16 @@ require_once('../normal_user/auth_user.php');
     <script>
     $(document).ready(function() {
         $('.sched_edit').click(function() {
-            var sched_id = $(this).attr("id");
+            var sched_edit_id = $(this).attr("id");
             $.ajax({
                 url: "controller.php",
                 method: "post",
                 data: {
-                    sched_id: sched_id
+                    sched_edit_id: sched_edit_id
                 },
                 success: function(data) {
-                    $('#sched_details').html(data);
-                    $('#sched_modal').modal("show");
+                    $('#sched_edit_details').html(data);
+                    $('#sched_edit_modal').modal("show");
                 }
             });
         });

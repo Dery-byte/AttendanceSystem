@@ -113,7 +113,7 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 <html lang="en">
 <head>
     <!-- META SECTION -->
-    <title>GRASSAG Senate</title>
+    <title>UCC SENATE </title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -133,14 +133,10 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
     <div class="page-sidebar">
         <!-- START X-NAVIGATION -->
         <ul class="x-navigation">
-            <li class="xn-logo">
-                <a href="index.html">SENATE</a>
+<!--            <li class="xn-logo">-->
+            <li class="">
+            <a href="index.html">SENATE</a>
                 <a href="#" class="x-navigation-control"></a>
-
-
-
-
-                <!--                        PROFILE STARTS-->
 
             </li>
             <li class="xn-profile">
@@ -163,7 +159,6 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
             </li>
 
 
-
             <!--                        PROFILE ENDS-->
 
 
@@ -181,22 +176,6 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
     <!-- END PAGE SIDEBAR -->
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     <!-- PAGE CONTENT -->
     <div class="page-content">
 
@@ -206,15 +185,6 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
             <li class="xn-icon-button">
                 <a href="#" class="x-navigation-minimize"><span class="fa fa-dedent"></span></a>
             </li>
-            <!-- END TOGGLE NAVIGATION -->
-            <!-- SEARCH -->
-<!--            <li class="xn-search">-->
-<!--                <form role="form">-->
-<!--                    <input type="text" name="search" placeholder="Search..."/>-->
-<!--                </form>-->
-<!--            </li>-->
-            <!-- END SEARCH -->
-
 
             <!-- POWER OFF -->
 
@@ -226,24 +196,16 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
             </li>
 
 
-            <!--                    <li class="xn-icon-button pull-right last">-->
-            <!--                        <a href="#">-->
-            <!--                            -->
-            <!--                        </a>-->
-            <!--                        <ul class="xn-drop-left animated zoomIn">-->
-            <!--                            <li><a href="pages-lock-screen.html"><span class="fa fa-lock"></span> Lock Screen</a></li>-->
-            <!--                            <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span> Sign Out</a></li>-->
-            <!--                        </ul>                        -->
-            <!--                    </li> -->
-            <!-- END POWER OFF -->
-
-
-
-
-
-
-
-
+<!--                                <li class="xn-icon-button pull-right last">-->
+<!--                                    <a href="#">-->
+<!---->
+<!--                                    </a>-->
+<!--                                    <ul class="xn-drop-left animated zoomIn">-->
+<!--                                        <li><a href="pages-lock-screen.html"><span class="fa fa-lock"></span> Lock Screen</a></li>-->
+<!--                                        <li><a href="#" class="mb-control" data-box="#mb-signout"><span class="fa fa-sign-out"></span> Sign Out</a></li>-->
+<!--                                    </ul>-->
+<!--                                </li>-->
+<!--             END POWER OFF-->
 
         </ul>
         <!-- END X-NAVIGATION VERTICAL -->
@@ -256,29 +218,36 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
         <!-- END BREADCRUMB -->
 
 
-
-
-
-
         <!-- PAGE CONTENT WRAPPER -->
         <div class="page-content-wrap">
 
             <div class="row">
+                <div class="col-md-2">
+                </div>
+
                 <div class="col-md-8">
 
                     <div class="panel panel-default">
                         <div class="panel-body profile" style="background: url('assets/images/gallery/music-4.jpg') center center no-repeat;">
                             <div class="profile-image">
-                                <img src="assets/images/users/user3.jpg" alt="Nadia Ali"/>
+<!--                                <img src="assets/images/users/user3.jpg" alt="Nadia Ali"/>-->
+                                <img src="<?php echo  $_SESSION['senator_photo'];?>" style="border-radius: 50%;width: 95px;height: 95px;" alt="User Image">
+
                             </div>
                             <div class="profile-data">
-                                <div class="profile-data-name">Nadia Ali</div>
-                                <div class="profile-data-title" style="color: #FFF;">Singer-Songwriter</div>
+
+                                <div class="profile-data-name"><?php echo $_SESSION['senator_fname']; ?> <?php echo $_SESSION['senator_lname']?></div>
+                                <div class="profile-data-title" style="color:slateblue; font-size: 20px"><?php echo $_SESSION['senator_program']; ?></div>
+<!--                                <div class="profile-data-name">Nadia Ali</div>-->
+<!--                                <div class="profile-data-title" style="color: #FFF;">Singer-Songwriter</div>-->
                             </div>
 <!--                            <div class="profile-controls">-->
 <!--                                <a href="#" class="profile-control-left twitter"><span class="fa fa-twitter"></span></a>-->
 <!--                                <a href="#" class="profile-control-right facebook"><span class="fa fa-facebook"></span></a>-->
 <!--                            </div>-->
+
+
+                        </div>
                         </div>
                         <div class="panel-body">
                             <div class="row">
@@ -286,14 +255,85 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
                                     <label class="btn btn-info  btn-block">Position</label>
                                 </div>
                                 <div class="col-md-6">
-                                    <button class="btn btn-primary  btn-block"> Senate Chair</button>
+<!--                                    <button class="btn btn-primary  btn-block"> --><?php //echo  $_SESSION['senator_program'] ?><!--</button>-->
+                                    <button class="btn btn-primary  btn-block"> <?php echo  $_SESSION['senator_position'] ?></button>
+
                                 </div>
 
-
+<?php
+$sql = "SELECT * FROM senate_list WHERE ";
+$sql = "select * from senate_list where student_id = '".$_SESSION['student_id']."'";
+$result = mysqli_query($db, $sql);
+$row = mysqli_fetch_array($result);
+?>
 
                                 <div class="row">
                                     <div class="col-md-12">
-                                       hellow
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 col-xs-12 control-label">Student ID</label>
+                                            <div class="col-md-12 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control" readonly  value="<?php echo $row['student_id']; ?>">
+                                                </div>
+                                                <!--                                                    <span class="help-block">This is sample of text field</span>-->
+                                            </div>
+                                        </div>
+
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 col-xs-12 control-label">Name</label>
+                                            <div class="col-md-12 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control" readonly value="<?php echo $row['senator_lname'] .' '.  $row['senator_fname']; ?>"  />
+                                                </div>
+                                                <!--                                                    <span class="help-block">This is sample of text field</span>-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 col-xs-12 control-label">Program</label>
+                                            <div class="col-md-12 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control" readonly  value="<?php echo $row['senator_program']; ?>" />
+                                                </div>
+                                                <!--                                                    <span class="help-block">This is sample of text field</span>-->
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label class="col-md-3 col-xs-12 control-label"> Address</label>
+                                            <div class="col-md-12 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control" readonly  value="<?php echo $row['senator_address']; ?>" />
+                                                </div>
+                                                <!--                                                    <span class="help-block">This is sample of text field</span>-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 col-xs-12 control-label">Date of Birth</label>
+                                            <div class="col-md-12 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control" readonly value="<?php echo $row['date_of_birth']; ?>"  />
+                                                </div>
+                                                <!--                                                    <span class="help-block">This is sample of text field</span>-->
+                                            </div>
+                                        </div>
+                                        <div class="form-group">
+                                            <label class="col-md-3 col-xs-12 control-label">Contact</label>
+                                            <div class="col-md-12 col-xs-12">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><span class="fa fa-pencil"></span></span>
+                                                    <input type="text" class="form-control"  readonly value="<?php echo $row['senator_contact']; ?>"/>
+                                                </div>
+                                                <!--                                                    <span class="help-block">This is sample of text field</span>-->
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -306,55 +346,9 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
                         </div>
                     </div>
 
-                <div class="col-md-4">
+                <div class="col-md-2">
 
-                    <!-- START TIMELINE -->
-                    <div class="timeline timeline-right">
-                        <div class="panel-body list-group border-bottom">
-                            <a href="#" class="list-group-item active"><span class="fa fa-bar-chart-o"></span> Activity</a>
-                            <a href="#" class="list-group-item"><span class="fa fa-coffee"></span> Groups <span class="badge badge-default">18</span></a>
-                            <a href="#" class="list-group-item"><span class="fa fa-users"></span> Friends <span class="badge badge-danger">+7</span></a>
-                            <a href="#" class="list-group-item"><span class="fa fa-folder"></span> Apps</a>
-                            <a href="#" class="list-group-item"><span class="fa fa-cog"></span> Settings</a>
-                        </div>
-                        <!-- START TIMELINE ITEM -->
-
-                        <!-- END TIMELINE ITEM -->
-
-                        <!-- START TIMELINE ITEM -->
-
-                        <!-- END TIMELINE ITEM -->
-
-                        <!-- START TIMELINE ITEM -->
-
-                        <!-- END TIMELINE ITEM -->
-
-                        <!-- START TIMELINE ITEM -->
-
-                        <!-- END TIMELINE ITEM -->
-
-                        <!-- START TIMELINE ITEM -->
-                        <!-- END TIMELINE ITEM -->
-
-                        <!-- START TIMELINE ITEM -->
-
-
-                        <!-- END TIMELINE ITEM -->
-
-                        <!-- START TIMELINE ITEM -->
-
-
-
-
-                        <!-- END TIMELINE ITEM -->
-
-
-                        <!-- START TIMELINE ITEM -->
-<!--                        <div class="timeline-item timeline-main">-->
-<!--                            <div class="timeline-date"><a href="#"><span class="fa fa-ellipsis-h"></span></a></div>-->
-<!--                        </div>-->
-                        <!-- END TIMELINE ITEM -->
-                    </div>
+<!--                   -->
                     <!-- END TIMELINE -->
 
                 </div>

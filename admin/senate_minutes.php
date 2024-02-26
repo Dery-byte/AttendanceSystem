@@ -4,48 +4,47 @@ require_once('../normal_user/auth_user.php');
 
 global $db;
 
-?>
 
-<?php
 
 // Check if form is submitted
-if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
-    $file_name = $_FILES["fileToUpload"]["name"];
-    $file_tmp = $_FILES["fileToUpload"]["tmp_name"];
-    // Read file content
-    $pdf_content = file_get_contents($file_tmp);
-    // Insert into database
-    $description = $_POST["description"];
-    $sched_id = $_POST["sched_id"];
-    $target_dir = "../admin/minutesFiles/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
-    $filename = $_FILES['fileToUpload']['name'];
-    if(!empty($filename)){
-        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/minutesFiles/".$filename);
-    }
-
-    $stmt = $db->prepare("INSERT INTO sched_minutes (file, description, schedule_id) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $pdf_content, $description, $sched_id);
-
-    if ($stmt->execute()) {
-        echo '<script>
-           setTimeout(function() {
-               Swal.fire({
-                   title: "Success !",
-                   text: "Minutes Uploaded successfully",
-                   type: "success"
-                 }).then(function() {
-                     window.location = "senate_minutes.php";
-                 });
-           }, 30);
-       </script>';
-    } else {
-        echo "Error uploading file: " . $stmt->error;
-    }
-
-//    $stmt->close();
-//    $db->close();
-}
+//if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
+//
+//    if(isset($_POST["pdf_file"]) && isset($_FILES["fileToUpload"])){
+////    $file_name = $_FILES["fileToUpload"]["name"];
+//    $file_tmp = $_FILES["fileToUpload"]["tmp_name"];
+//    // Read file content
+//    $pdf_content = file_get_contents($file_tmp);
+//    // Insert into database
+//    $description = $_POST["description"];
+//    $sched_id = $_POST["sched_id"];
+//    $target_dir = "../admin/minutesFiles/";
+//    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+//    $filename = $_FILES['fileToUpload']['name'];
+//    if(!empty($filename)){
+//        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/minutesFiles/".$filename);
+//    }
+//    $stmt = $db->prepare("INSERT INTO sched_minutes (file, description, schedule_id) VALUES (?, ?, ?)");
+//    $stmt->bind_param("ssi", $pdf_content, $description, $sched_id);
+//
+//    if ($stmt->execute()) {
+//        echo '<script>
+//           setTimeout(function() {
+//               Swal.fire({
+//                   title: "Success !",
+//                   text: "Minutes Uploaded successfully",
+//                   type: "success"
+//                 }).then(function() {
+//                     window.location = "senate_minutes.php";
+//                 });
+//           }, 30);
+//       </script>';
+//    } else {
+//        echo "Error uploading file: " . $stmt->error;
+//    }
+////    die[POST];
+////    $stmt->close();
+////    $db->close();
+//}
 
 ?>
 
@@ -76,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
 </head>
 
 
-<body class="hold-transition sidebar-mini layout-fixed">
+<div class="hold-transition sidebar-mini layout-fixed">
 <div class="wrapper">
 
 
@@ -190,6 +189,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
                             </p>
                         </a>
                     </li>
+
+
+
+                    <li class="nav-item">
+                        <a href="request.php" class="nav-link">
+                            <i class="nav-icon fas fa-briefcase"></i>
+                            <p>
+                                Requests
+                            </p>
+                        </a>
+                    </li>
+
+
                 </ul>
             </nav>
 
@@ -215,304 +227,79 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
         </div>
 
 <!--=========================================================================================-->
+
+
+
         <section class="content">
             <div class="container-fluid">
                 <div align="right">
                     <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i> Add Minutes</button>
                 </div><br>
                 <div class="row">
-
         <?php
-//        $sql = "SELECT * FROM sched_minutes";
-
         $sql = "SELECT * FROM sched_minutes, senate_sched where senate_sched.sched_id = sched_minutes.schedule_id;";
         $result = mysqli_query($db, $sql);
-
         while($row = mysqli_fetch_array($result))
         {
             ?>
-
-            <div class="col-lg-3 col-6">
+            <div class="col-lg-3 ">
                 <div class="small-box bg-white">
-                    <div class="inner">
-<!--                        --><?php
-//                        $sql0 = "SELECT count(senate_id) As 'Total' FROM senate_list";
-//                        $result0 = mysqli_query($db, $sql0);
-//                        $row0 = mysqli_fetch_array($result0);
-//                        $num0 = $row0['Total'];
-//                        ?>
-                        <label><?php echo $row['meeting_name']; ?></label>
-                        <p><?php echo $row['description']; ?></p>
-                        <hr>
-                    </div>
-                    <div class="icon">
-                        <i class="ion ion-bag"></i>
-                    </div>
+                        <div class="row">
+                            <div class="inner">
+                            <div class="col-md-2 left">
+                                    <img src="pdfimage/pdfImage.png" height="100" width="90">
+                            </div>
+                            <div class="col-md-10 align-content-center" style="margin-left: 12px">
+                                <label style="color: #bc1e7d; text-transform: uppercase"><?php echo $row['meeting_name']; ?></label>
+                                <p style="font-style: italic"><?php echo $row['description']; ?></p>
+                            </div>
+                        </div>
+                        </div>
+                    <hr>
                     <div align="right">
-                        <button class="btn btn-success btn-flat pos_edit left" data-toggle="modal" data-target="#modal-defaultedit"><i class="fas fa-edit"></i></button>
-                        <button class="btn btn-danger btn-flat pos_delete"  data-toggle="modal"  data-target="#minutes_delete_modal" id="<?php echo $row['minutes_id']; ?>"><i class="fas fa-trash"></i></button>                            </div>
+ <button class="btn btn-danger btn-flat min_delete"  data-toggle="modal"  data-target="#minutes_delete_modal" id="<?php echo $row['minutes_id']; ?>"><i class="fas fa-trash"></i></button>                            </div>
                 </div>
             </div>
-
-
-
             <?php
         }
         ?>
-
-
-
                 </div>
             </div>
         </section>
-
-<!--        ====================================================-->
-
         <?php
-
-        //DELETE Minutes
-        if(isset($_POST["minutes_del"]))
-        {
-            $id = $_POST['minutes_id'];
-
-            $sql = "DELETE FROM sched_minutes WHERE minutes_id = '$id'";
-            $result = mysqli_query($db, $sql);
-
-            echo '<script>
-            setTimeout(function() {
-                Swal.fire({
-                    title: "Success !",
-                    text: "Minutes has been Deleted !",
-                    type: "success"
-                  }).then(function() {
-                      window.location = "senate_minutes.php";
-                  });
-            }, 30);
-        </script>';
-        }
-
         ?>
-<!--        ===================================================-->
 
-
-
-
-
-<!--        ================================================================================================-->
-
-
-
-
-
-<!---->
-<!--        <section class="content">-->
-<!--            <div class="container-fluid">-->
-<!--                <div align="right">-->
-<!--                    <button class="btn btn-primary btn-flat" data-toggle="modal" data-target="#modal-default"><i class="fas fa-plus"></i> Add Minutes</button>-->
-<!--                </div><br>-->
-<!--                <div class="row">-->
-<!---->
-<!---->
-<!---->
-<!---->
-<!--                    <div class="col-lg-3 col-6">-->
-<!--                        <div class="small-box bg-white">-->
-<!--                            <div class="inner">-->
-<!--                                --><?php
-//                                $sql0 = "SELECT count(senate_id) As 'Total' FROM senate_list";
-//                                $result0 = mysqli_query($db, $sql0);
-//                                $row0 = mysqli_fetch_array($result0);
-//                                $num0 = $row0['Total'];
-//                                ?>
-<!--                                <h3>--><?php //echo $num0; ?><!--</h3>-->
-<!--                                <p>Senators</p>-->
-<!--                                <hr>-->
-<!--                            </div>-->
-<!--                            <div class="icon">-->
-<!--                                <i class="ion ion-bag"></i>-->
-<!--                            </div>-->
-<!--                            <div align="right">-->
-<!--                                <button class="btn btn-success btn-flat pos_edit left" data-toggle="modal" data-target="#modal-defaultedit"><i class="fas fa-edit"></i></button>-->
-<!--                                <button class="btn btn-danger btn-flat pos_delete" data-toggle="modal"  data-target="#minutes_delete_modal" id="--><?php //echo $row['pos_id']; ?><!--"><i class="fas fa-trash"></i></button>                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!---->
-<!---->
-<!---->
-<!--                    <div class="col-lg-3 col-6">-->
-<!--                        <div class="small-box bg-white">-->
-<!--                            <div class="inner">-->
-<!--                                --><?php
-//                                $sql1 = "SELECT count(pos_id) As 'Pos' FROM senate_position";
-//                                $result1 = mysqli_query($db, $sql1);
-//                                $row1 = mysqli_fetch_array($result1);
-//                                $num1 = $row1['Pos'];
-//                                ?>
-<!--                                <h3>--><?php //echo $num1; ?><!--</h3>-->
-<!--                                <p>Total Positions</p>-->
-<!--                                <hr>-->
-<!--                            </div>-->
-<!--                            <div class="icon">-->
-<!--                                <i class="ion ion-stats-bars"></i>-->
-<!--                            </div>-->
-<!--                            <div align="right">-->
-<!--                                <button class="btn btn-success btn-flat pos_edit left" data-toggle="modal" data-target="#modal-defaultedit"><i class="fas fa-edit"></i></button>-->
-<!--                                <button class="btn btn-danger btn-flat pos_delete" data-toggle="modal"  data-target="#minutes_delete_modal" id="--><?php //echo $row['pos_id']; ?><!--"><i class="fas fa-trash"></i></button>                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!---->
-<!--                    <div class="col-lg-3 col-6">-->
-<!---->
-<!--                        <div class="small-box bg-white">-->
-<!--                            <div class="inner">-->
-<!--                                --><?php
-//                                $sql2 = "SELECT count(*) As 'Ontime' FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.attendance_timein <= senate_sched.sched_in AND senate_attendance.senator_id = senate_list.student_id AND senate_sched.sched_id = senate_attendance.schedule AND senate_attendance.attendance_date = CURDATE();";
-//                                $result2 = mysqli_query($db, $sql2);
-//                                $row2 = mysqli_fetch_array($result2);
-//                                ?>
-<!--                                <h3>--><?php //echo $row2['Ontime']; ?><!--</h3>-->
-<!---->
-<!--                                <p>On Time Today</p>-->
-<!--                                <hr>-->
-<!--                            </div>-->
-<!--                            <div class="icon">-->
-<!--                                <i class="ion ion-person-add"></i>-->
-<!--                            </div>-->
-<!--                            <div align="right">-->
-<!--                                <button class="btn btn-success btn-flat pos_edit left" data-toggle="modal" data-target="#modal-defaultedit"><i class="fas fa-edit"></i></button>-->
-<!--                                <button class="btn btn-danger btn-flat pos_delete" data-toggle="modal"  data-target="#minutes_delete_modal" id="--><?php //echo $row['pos_id']; ?><!--"><i class="fas fa-trash"></i></button>                            </div>-->
-<!--                        </div>-->
-<!--                        </div>-->
-<!--                    <div class="col-lg-3 col-6">-->
-<!--                        <div class="small-box bg-white">-->
-<!--                            <div class="inner">-->
-<!--                                --><?php
-//                                $sql3 = "SELECT count(*) As 'Late' FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.attendance_timein > senate_sched.sched_in AND senate_attendance.senator_id = senate_list.student_id AND senate_sched.sched_id = senate_attendance.schedule AND senate_attendance.attendance_date = CURDATE(); ";
-//                                $result3 = mysqli_query($db, $sql3);
-//                                $row3 = mysqli_fetch_array($result3);
-//                                ?>
-<!--                                <h3>--><?php //echo $row3['Late']; ?><!--</h3>-->
-<!--                                <p>Late Today</p>-->
-<!--                                <hr>-->
-<!--                            </div>-->
-<!--                            <div class="icon">-->
-<!--                                <i class="ion ion-pie-graph"></i>-->
-<!--                            </div>-->
-<!---->
-<!--                            <div align="right">-->
-<!--                                <button class="btn btn-success btn-flat pos_edit left" data-toggle="modal" data-target="#modal-defaultedit"><i class="fas fa-edit"></i></button>-->
-<!--                                <button class="btn btn-danger btn-flat pos_delete" data-toggle="modal"  data-target="#minutes_delete_modal" id="--><?php //echo $row['pos_id']; ?><!--"><i class="fas fa-trash"></i></button>                            </div>-->
-<!--                           </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </section>-->
     </div>
 </div>
-
-
-<!--======================EDIT THE MINUTES UPLOADED======================================================-->
-<div class="modal fade" id="modal-defaultedit">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-body">
-                <div class="login-box">
-                    <div class="login-logo">
-                        <p class="bold">Edit Minutes</p>
-                    </div>
-                    <div class="card">
-                        <div class="card-body login-card-body">
-                            <p class="login-box-msg">Upload file to a meeting</p>
-                            <form method="POST"  enctype="multipart/form-data">
-                                <div class="input-group mb-3">
-                                    <select name="sched_id" class="form-control" required>
-                                        <option hidden> - Select meeting -</option>
-                                        <?php
-                                        $sql = "SELECT * FROM senate_sched";
-                                        $result = mysqli_query($db, $sql);
-                                        while($row = mysqli_fetch_array($result))
-                                        {
-                                            ?>
-                                            <option value="<?php echo $row['sched_id']; ?>">
-
-                                                <?php echo $row['meeting_name']; ?>
-                                            </option>
-                                            <?php
-                                        }
-                                        ?>
-                                    </select>
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="input-group mb-3">
-                                    <input type="text" class="form-control" name="description" id="description" required>
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                        </div>
-                                    </div>
-                                </div>
-
-
-                                <div class="input-group mb-3">
-                                    <input type="file" class="form-control" name="fileToUpload" id="fileToUpload" required>
-                                    <div class="input-group-append">
-                                        <div class="input-group-text">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div align="right">
-                                    <button type="submit" class="btn btn-primary btn-flat" name="pdf_file"><i class="fas fa-sign-in-alt"></i> Upload</button>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-
-                </div>
-
-            </div>
-        </div>
-    </div>
 </div>
-
 
 <!--==========================DELETE MINUTES==============================-->
-<div id="minutes_delete_modal" class="modal fade">
+<div id="min_delete_modal" class="modal fade">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Deleting Minutes...</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
+            <div class="text-center">
+                <label>Delete Minutes</label>
             </div>
             <form method="POST">
-                <div class="modal-body" id="pos_delete_details">
+                <div class="modal-body" id="min_delete_details">
                 </div>
-                <div class="modal-body"></div>
                 <div class="modal-footer justify-content-between">
                     <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>
-                    <button type="submit" class="btn btn-danger btn-flat" name="minutes_del"><i class="fas fa-trash"></i> Delete</button>
+                    <button type="submit" class="btn btn-danger btn-flat " name="delete_min"><i class="fas fa-trash"></i> Delete</button>
                 </div>
             </form>
         </div>
     </div>
 </div>
 
-        <!--============================================UPLOAD MINUTES========================================================================-->
+
+<!--============================================UPLOAD MINUTES========================================================================-->
+
+
 <div class="modal fade" id="modal-default">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
-                <div class="login-box">
-                    <div class="login-logo">
-                        <p class="bold">Minutes Upload</p>
-                    </div>
                     <div class="card">
                         <div class="card-body login-card-body">
                             <p class="login-box-msg">Upload file to a meeting</p>
@@ -524,10 +311,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
                                         $sql = "SELECT * FROM senate_sched";
                                         $result = mysqli_query($db, $sql);
                                         while($row = mysqli_fetch_array($result))
-                                        {
-                                            ?>
+                                        {                                            ?>
                                             <option value="<?php echo $row['sched_id']; ?>">
-
                                                 <?php echo $row['meeting_name']; ?>
                                             </option>
                                             <?php
@@ -535,22 +320,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
                                         ?>
                                     </select>
                                     <div class="input-group-append">
-                                        <div class="input-group-text">
-                                            <span class="fas fa-user"></span>
-                                        </div>
+
                                     </div>
                                 </div>
-
-
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" name="description" id="description" required>
+                                    <input type="text" class="form-control" placeholder="Minute description" name="description" id="description" required>
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                         </div>
                                     </div>
                                 </div>
-
-
                                 <div class="input-group mb-3">
                                     <input type="file" class="form-control" name="fileToUpload" id="fileToUpload" required>
                                     <div class="input-group-append">
@@ -564,10 +343,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
                             </form>
                         </div>
                     </div>
-
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -575,63 +351,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_FILES["fileToUpload"])) {
 <!--===================================================================================================-->
 
 
+
 <script>
     $(document).ready(function() {
-        $('.pos_edit').click(function() {
-            var pos_id = $(this).attr("id");
+        $('.min_delete').click(function() {
+            var min_del_id = $(this).attr("id");
             $.ajax({
                 url: "controller.php",
                 method: "post",
                 data: {
-                    pos_id: pos_id
+                    min_del_id: min_del_id
                 },
                 success: function(data) {
-                    $('#pos_edit_details').html(data);
-                    $('#pos_edit_modal').modal("show");
+                    $('#min_delete_details').html(data);
+                    $('#min_delete_modal').modal("show");
                 }
             });
         });
     });
-</script>
-
-<!--<div id="pos_delete_modal" class="modal fade">-->
-<!--    <div class="modal-dialog" role="document">-->
-<!--        <div class="modal-content">-->
-<!--            <div class="modal-header">-->
-<!--                <h5 class="modal-title" id="exampleModalLabel">Deleting...</h5>-->
-<!--                <button class="close" type="button" data-dismiss="modal" aria-label="Close">-->
-<!--                    <span aria-hidden="true">×</span>-->
-<!--                </button>-->
-<!--            </div>-->
-<!--            <form method="POST">-->
-<!--                <div class="modal-body" id="pos_delete_details">-->
-<!--                </div>-->
-<!--                <div class="modal-body"></div>-->
-<!--                <div class="modal-footer justify-content-between">-->
-<!--                    <button type="button" class="btn btn-default btn-flat" data-dismiss="modal"><i class="fas fa-times"></i> Close</button>-->
-<!--                    <button type="submit" class="btn btn-danger btn-flat" name="pos_delete"><i class="fas fa-trash"></i> Delete</button>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
-
-<script>
-    // $(document).ready(function() {
-    //     $('.pos_delete').click(function() {
-    //         var pos_del_id = $(this).attr("id");
-    //         $.ajax({
-    //             url: "controller.php",
-    //             method: "post",
-    //             data: {
-    //                 pos_del_id: pos_del_id
-    //             },
-    //             success: function(data) {
-    //                 $('#pos_delete_details').html(data);
-    //                 $('#pos_delete_modal').modal("show");
-    //             }
-    //         });
-    //     });
-    // });
 </script>
 
 <script src="plugins/toastr/toastr.min.js"></script>

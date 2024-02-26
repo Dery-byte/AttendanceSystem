@@ -4,6 +4,47 @@ require_once('../normal_user/auth_user.php');
 
 global $db;
 
+
+
+
+
+// ADD POSITION
+if(isset($_POST['add_position']))
+{
+    $title = $_POST['position_title'];
+    $rate = $_POST['position_rate'];
+
+    $chkquery = "SELECT * FROM senate_position WHERE position_title = '$title' AND position_rate = '$rate'";
+    $chkresult = mysqli_query($db, $chkquery);
+
+    if(!$row = $chkresult->fetch_assoc()) {
+        $sql = "INSERT INTO senate_position (position_title, position_rate) VALUES ('$title', '$rate')";
+        $result = mysqli_query($db, $sql);
+
+//    $_SESSION['success'] = "New position has been added ! ";
+//    $_SESSION['expire'] =  date("H:i:s", time() + 1);
+
+        echo '<script>
+            setTimeout(function() {
+                Swal.fire({
+                    title: "Success !",
+                    text: "position  has been added !",
+                    type: "success"
+                  }).then(function() {
+                      window.location = "senate_positions.php";
+                  });
+            }, 30);
+        </script>';
+
+    }
+//    else {
+//        $_SESSION['error'] = "Failed to add new position ! ";
+//        $_SESSION['expire'] =  date("H:i:s", time() + 1);
+//    }
+//    header('location: senate_positions.php');
+}
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -152,6 +193,16 @@ global $db;
                                 </p>
                             </a>
                         </li>
+
+
+                        <li class="nav-item">
+                            <a href="request.php" class="nav-link">
+                                <i class="nav-icon fas fa-briefcase"></i>
+                                <p>
+                                    Requests
+                                </p>
+                            </a>
+                        </li>
 <!--                        <li class="nav-item">-->
 <!--                            <a href="print_payroll.php" class="nav-link">-->
 <!--                                <i class="nav-icon fas fa-money-bill-alt"></i>-->
@@ -194,34 +245,34 @@ global $db;
 
 
             <section class="content">
-                <?php
-      ini_set('display_errors', 0);
-      ini_set('display_errors', false);
-      $dd = date("H:i:s");
-      if(isset($_SESSION['success'])) {
-        echo "
-          <div class='alert alert-success alert-dismissible'>
-            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-            <h4><i class='icon fa fa-check'></i> Success!</h4>
-            ".$_SESSION['success']."
-          </div>
-        ";
-      }
-      if(isset($_SESSION['error'])) {
-        echo "
-          <div class='alert alert-danger alert-dismissible'>
-            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
-            <h4><i class='icon fa fa-times'></i> Failed !</h4>
-            ".$_SESSION['error']."
-          </div>
-        ";
-      }
-      if($dd == $_SESSION['expire'])
-      {
-        session_unset();
-      }
-      //session_unset();
-      ?>
+<!--                --><?php
+//      ini_set('display_errors', 0);
+//      ini_set('display_errors', false);
+//      $dd = date("H:i:s");
+//      if(isset($_SESSION['success'])) {
+//        echo "
+//          <div class='alert alert-success alert-dismissible'>
+//            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+//            <h4><i class='icon fa fa-check'></i> Success!</h4>
+//            ".$_SESSION['success']."
+//          </div>
+//        ";
+//      }
+//      if(isset($_SESSION['error'])) {
+//        echo "
+//          <div class='alert alert-danger alert-dismissible'>
+//            <button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;</button>
+//            <h4><i class='icon fa fa-times'></i> Failed !</h4>
+//            ".$_SESSION['error']."
+//          </div>
+//        ";
+//      }
+//      if($dd == $_SESSION['expire'])
+//      {
+//        session_unset();
+//      }
+//      //session_unset();
+//      ?>
                 <div class="row">
                     <div class="col-12">
                         <div class="card">
@@ -231,18 +282,11 @@ global $db;
                                 </div><br>
                                 <table id="example1" class="table table-bordered dataTable no-footer" role="grid" aria-describedby="example1_info">
                                     <thead>
-
-
                                         <tr>
                                             <th>Id</th>
                                             <th>Position Title</th>
-                                            <th>Tools</th>
+                                            <th>Action</th>
                                         </tr>
-
-
-
-
-
                                     </thead>
                                     <tbody>
                                         <?php
@@ -251,8 +295,6 @@ global $db;
                 while($row = mysqli_fetch_array($result))
                 {
                 ?>
-
-
                                         <tr>
                                             <td><?php echo $row['pos_id']; ?></td>
                                             <td><?php echo $row['position_title']; ?></td>
@@ -296,13 +338,11 @@ global $db;
                             </div>
                         </div>
 
-<!--                        <div class="form-group row">-->
-<!--                            <label class="col-sm-1 col-form-label"></label>-->
-<!--                            <label class="col-sm-3 col-form-label">Rate / Hour</label>-->
-<!--                            <div class="col-sm-7">-->
-<!--                                <input type="number" class="form-control" name="position_rate" placeholder="" required>-->
-<!--                            </div>-->
-<!--                        </div>-->
+                        <div class="form-group row">
+                            <div class="col-sm-7">
+                                <input type="number" class="form-control" name="position_rate" value="0" placeholder="" required hidden>
+                            </div>
+                        </div>
 
                 </div>
 
@@ -422,3 +462,7 @@ global $db;
 </body>
 
 </html>
+
+
+
+

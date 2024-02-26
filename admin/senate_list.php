@@ -4,6 +4,8 @@ require_once('../normal_user/auth_user.php');
 
 //global $db;
 
+
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -138,6 +140,16 @@ require_once('../normal_user/auth_user.php');
                             </a>
                         </li>
 
+
+                        <li class="nav-item">
+                            <a href="request.php" class="nav-link">
+                                <i class="nav-icon fas fa-briefcase"></i>
+                                <p>
+                                    Requests
+                                </p>
+                            </a>
+                        </li>
+
                     </ul>
                 </nav>
             </div>
@@ -174,8 +186,16 @@ require_once('../normal_user/auth_user.php');
                                             <th>Senator ID</th>
                                             <th>Photo</th>
                                             <th>Name</th>
+
+                                            <th>Bank Details</th>
+                                            <th>DOB</th>
+                                            <th>Contact</th>
+                                            <th>Program</th>
+
+
+
+
                                             <th>Position</th>
-<!--                                            <th>Schedule</th>-->
                                             <th>Member Since</th>
                                             <th>Action</th>
                                         </tr>
@@ -194,6 +214,10 @@ require_once('../normal_user/auth_user.php');
                                             <td><?php echo $row['student_id']; ?></td>
                                              <td><img src="<?php echo $row['senator_photo'];?>" style="width: 40px; height: 40px; border-radius: 50%"></td>
                                             <td><?php echo $row['senator_fname']; ?> <?php echo $row['senator_lname']; ?></td>
+                                            <td><?php echo $row['senator_address']; ?></td>
+                                            <td><?php echo $row['date_of_birth']; ?></td>
+                                            <td><?php echo $row['senator_contact']; ?></td>
+                                            <td><?php echo $row['senator_program']; ?></td>
                                             <td><?php echo $row['senator_position']; ?></td>
 <!--                                            <td>--><?php //echo $row['emp_timein']; ?><!-- - --><?php //echo $row['emp_timeout']; ?><!--</td>-->
                                             <td><?php echo $row['senator_regdate']; ?></td>
@@ -315,7 +339,7 @@ require_once('../normal_user/auth_user.php');
                                     while($row = mysqli_fetch_array($result))
                                     {
                                         ?>
-                                        <option value="<?php echo $row['pos_id']; ?>">
+                                        <option value="<?php echo $row['position_title']; ?>">
 
                                             <?php echo $row['position_title']; ?>
 
@@ -326,26 +350,6 @@ require_once('../normal_user/auth_user.php');
                                 </select>
                             </div>
                         </div>
-
-                        <!--                            <div class="form-group row">-->
-                        <!--                                <label class="col-sm-3 col-form-label">Schedule</label>-->
-                        <!--                                <div class="col-sm-7">-->
-                        <!--                                    <select name="emp_schedule" class="form-control" required>-->
-                        <!--                                        <option hidden> - Select Schedule -</option>-->
-                        <!--                                        --><?php
-                        //                                        $sql = "SELECT * FROM senate_sched";
-                        //                                        $result = mysqli_query($db, $sql);
-                        //                                        while($row = mysqli_fetch_array($result))
-                        //                                        {
-                        //                                            ?>
-                        <!--                                            <option value="--><?php //echo $row['sched_id']; ?><!--">--><?php //echo $row['sched_in']; ?><!-- - --><?php //echo $row['sched_out']; ?><!--</option>-->
-                        <!--                                            --><?php
-                        //                                        }
-                        //                                        ?>
-                        <!--                                    </select>-->
-                        <!--                                </div>-->
-                        <!---->
-                        <!--                            </div>-->
 
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label"></label>
@@ -363,8 +367,6 @@ require_once('../normal_user/auth_user.php');
                                 <input type="password" class="form-control" name="password" placeholder="Enter password" required>
                             </div>
                         </div>
-
-
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label"></label>
                             <!--                                <label class="col-sm-3 col-form-label">Member Type</label>-->
@@ -539,6 +541,44 @@ require_once('../normal_user/auth_user.php');
 
 <!--==========================================================================-->
 
+
+<!--if(isset($_POST["min_edit_id"]))-->
+<!--{-->
+<!--$output = '';-->
+<!--$sql = "SELECT * FROM sched_minutes WHERE minutes_id = '".$_POST["min_edit_id"]."'";-->
+<!--$result = mysqli_query($db, $sql);-->
+<!--$output .= '-->
+<!--<form method="POST">';-->
+<!--    while($row = mysqli_fetch_array($result))-->
+<!--    {   $id = $row["minutes_id"];-->
+<!--    $title = $row['description'];-->
+<!--    $output .= '-->
+<!--    <input type="text" name="min_edit_id" class="form-control" value="'.$id.'" hidden>-->
+<!--    <div class="text-center">-->
+<!--        <p>DELETE POSITION</p>-->
+<!--        <h2>'.$title.'</h2>-->
+<!--    </div>-->
+<!--    ';-->
+<!--    }-->
+<!--    $output .= "</form>";-->
+<!--echo $output;-->
+<!--}-->
+<!--if(isset($_POST["min_edit"]))-->
+<!--{   $id = $_POST['min_edit_id'];-->
+<!--$sql = "DELETE FROM sched_minutes WHERE minutes_id = '$id'";-->
+<!--$result = mysqli_query($db, $sql);-->
+<!--echo '<script>-->
+<!--    setTimeout(function() {-->
+<!--        Swal.fire({-->
+<!--            title: "Success !",-->
+<!--            text: "Minutes has been Deleted!",-->
+<!--            type: "success"-->
+<!--        }).then(function() {-->
+<!--            window.location = "senate_minutes.php";-->
+<!--        });-->
+<!--    }, 30);-->
+<!--</script>';-->
+<!--}-->
 
 
 

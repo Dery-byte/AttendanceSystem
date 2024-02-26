@@ -57,6 +57,7 @@ CREATE TABLE `senate_attendance` (
   `attendance_timein` time NOT NULL,
   `attendance_timeout` time NOT NULL,
   `attendance_hour` int NOT NULL, 
+  `attendance_status` int default 0,
   `schedule` varchar(255)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 

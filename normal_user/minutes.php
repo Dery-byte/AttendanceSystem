@@ -45,30 +45,51 @@ if(isset($_POST['attendance']))
                 $mins = $mins/60;
                 $int = $hrs + $mins;
                 $scheduleInattendance= $row['schedule'];
+                $status=$row['approve_statuses'];
 //$schedule=$_POST['senate_schedule'];
-
-
-
 
                 if($scheduleInattendance !=$schedule ){
                     $int = $int - 1;
                 }
-                $sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
+                else {
+                    $sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
 VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
-                $result3 = mysqli_query($db, $sql3);
-                $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
-    <i class='fas fa-check'></i> Time in: $full .You've log your attendance.
+                    $result3 = mysqli_query($db, $sql3);
+                    $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
+    <i class='fas fa-check'></i> Time in: $full .Operation successful, waiting admin approval.
 </div>";
-                header("Location: home.php");
+                    header("Location: home.php");
+                }
+
+                if($status==1){
+                    $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
+                                        <i class='fas fa-check'></i> Timed in already: $full Waiting admin approval.
+                                    </div>";
+                } else {
+                    $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
+    <i class='fas fa-exclamation'></i> You've already logged attendance.
+                                          </div>";
+                    header("Location: home.php");
+                }
             }
             else {
                 $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
     <i class='fas fa-exclamation'></i> You've already logged attendance.
-</div>";
+                                          </div>";
                 header("Location: home.php");
             }
+
+
+
+
         }
     }
+
+
+
+
+
+
     if($code == "time-out")
     {
         $id = $_POST['student_id'];
@@ -133,8 +154,9 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
     <div class="page-sidebar">
         <!-- START X-NAVIGATION -->
         <ul class="x-navigation">
-            <li class="xn-logo">
-                <a href="home.php">SENATE</a>
+<!--            <li class="xn-logo">-->
+            <li class="">
+            <a href="home.php">SENATE</a>
                 <a href="#" class="x-navigation-control"></a>
 
 
@@ -232,31 +254,27 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
             <li class="active">Dashboard</li>
         </ul>
 
-
-        <?php
-        if (isset($_GET['search']) && !empty($_GET['search'])) {
-        // Sanitize the input to prevent SQL injection
-        $search_query = mysqli_real_escape_string($db, $_GET['query']);
-        $sql = "SELECT * FROM sched_minutes WHERE description LIKE '%$search_query%'";
-        $result = mysqli_query($db, $sql);
-            if ($result->num_rows > 0) {
-
-            while ($row = $result->fetch_assoc()) {
-                echo "ID: " . $row["minutes_id"] . " - description: " . $row["description"] . "<br>";
-                // Display other relevant information from the database
-            }
-
-
-
-
-            }
-     else {
-        echo "No results found.";
-    }
-        }
-
-
-        ?>
+<!---->
+<!--        --><?php
+//        if (isset($_GET['search']) && !empty($_GET['search'])) {
+//        // Sanitize the input to prevent SQL injection
+//        $search_query = mysqli_real_escape_string($db, $_GET['query']);
+//        $sql = "SELECT * FROM sched_minutes WHERE description LIKE '%$search_query%'";
+//        $result = mysqli_query($db, $sql);
+//            if ($result->num_rows > 0) {
+//
+//            while ($row = $result->fetch_assoc()) {
+//                echo "ID: " . $row["minutes_id"] . " - description: " . $row["description"] . "<br>";
+//                // Display other relevant information from the database
+//            }
+//            }
+//     else {
+//        echo "No results found.";
+//    }
+//        }
+//
+//
+//        ?>
 
 
         <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
@@ -273,159 +291,100 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 
 
         <div class="row">
+<!--            ===================QUERY DISPLAY NONE QUERY DISPLAY================================-->
+<?php
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+    // Sanitize the input to prevent SQL injection
+    $search_query = mysqli_real_escape_string($db, $_GET['search']);
 
+    $sqls = "SELECT * FROM sched_minutes 
+INNER JOIN senate_sched ON senate_sched.sched_id = sched_minutes.schedule_id WHERE senate_sched.meeting_name  LIKE '%$search_query%'";
+
+    $results = mysqli_query($db, $sqls);
+    if ($results->num_rows > 0) {
+        while ($row = $results->fetch_assoc()) {
+
+            ?>
+            <div class="col-md-3">
+
+                <div class="widget widget-default widget-item-icon">
+                    <div class="widget-item-left">
+                        <img src="./pdfimage/pdfImage.png"  width="60" height="90">
+
+                        <!--                            <span class="fa fa-envelope"></span>-->
+                    </div>
+                    <div class="widget-data">
+                        <div class="widget-title"><?php echo $row['meeting_name']; ?></div>
+        <div class="widget-subtitle"><?php echo $row['description']; ?></div>
+    </div>
+    <div class="row">
+        <div class="form-group " >
+
+            <div class="col-md-6">
+                <!--                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
+                <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="<?php echo $file_path; ?>">Download</button>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
             <?php
-                $sql = "SELECT * FROM sched_minutes, senate_sched where senate_sched.sched_id = sched_minutes.schedule_id;";
-                $result = mysqli_query($db, $sql);
-                $row = mysqli_fetch_array($result);
-                $pdf_data = $row['file'];
-//            header('Content-type: application/pdf');
-//            header('Content-Disposition: attachment; filename=$pdf_data.pdf');
-//            echo $pdf_data;
-            while($row = mysqli_fetch_array($result))
-            {
+            // Display other relevant information from the database
+        }
+    }
+    else {
+        echo "No results found.";
+    }
 
-                $filename = basename($_GET['download']);
-                $file_path = "../admin/minutesFiles/".$filename;
+}else
+//============================show without search==============================================
+{
+$sql = "SELECT * FROM sched_minutes, senate_sched where senate_sched.sched_id = sched_minutes.schedule_id;";
+$result = mysqli_query($db, $sql);
+$row = mysqli_fetch_array($result);
+$pdf_data = $row['file'];
+while($row = mysqli_fetch_array($result))
+{
 
-                ?>
-                <div class="col-md-3">
+$filename = basename($_GET['download']);
+$file_path = "../admin/minutesFiles/".$filename;
 
-                    <div class="widget widget-default widget-item-icon">
-                        <div class="widget-item-left">
-                            <img src="./pdfimage/pdfImage.png"  width="60" height="90">
+?>
+            <div class="col-md-3">
 
-<!--                            <span class="fa fa-envelope"></span>-->
-                        </div>
-                        <div class="widget-data">
-                            <div class="widget-title"><?php echo $row['meeting_name']; ?></div>
-                            <div class="widget-subtitle"><?php echo $row['description']; ?></div>
-                        </div>
-                        <div class="row">
-                            <div class="form-group " >
-<!--                                <div class="col-md-3" style="margin-bottom: 50px">-->
-<!--                                    <button  type="submit" name="view" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -20px">view</button>-->
-<!--                                </div>-->
-                                <div class="col-md-6">
-<!--                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
-                                        <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="<?php echo $file_path; ?>">Download</button>
-                                </div>
+                <div class="widget widget-default widget-item-icon">
+                    <div class="widget-item-left">
+                        <img src="./pdfimage/pdfImage.png"  width="60" height="90">
+
+                        <!--                            <span class="fa fa-envelope"></span>-->
+                    </div>
+                    <div class="widget-data">
+                        <div class="widget-title"><?php echo $row['meeting_name']; ?></div>
+                        <div class="widget-subtitle"><?php echo $row['description']; ?></div>
+                    </div>
+                    <div class="row">
+                        <div class="form-group " >
+
+                            <div class="col-md-6">
+                                <!--                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
+                                <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="<?php echo $file_path; ?>">Download</button>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
+    <?php
+}
 
-                <?php
-
-            }
-            ?>
-
-<!---->
-<!--            <div class="col-md-3">-->
-<!---->
-<!--                <div class="widget widget-default widget-item-icon">-->
-<!--                    <div class="widget-item-left">-->
-<!--                        <span class="fa fa-envelope"></span>-->
-<!--                    </div>-->
-<!--                    <div class="widget-data">-->
-<!--                        <div class="widget-title">Schedule Name</div>-->
-<!--                        <div class="widget-subtitle">In your mailbox This message is not for you to consume but for you to understand and process</div>-->
-<!--                    </div>-->
-<!--                    <div class="row">-->
-<!--                        <div class="form-group">-->
-<!--                            <div class="col-md-4">-->
-<!--                                <button  type="submit" name="view" class="btn btn-primary  btn-block">view</button>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-4">-->
-<!--                                <button  type="submit" name="download" class="btn btn-primary   btn-block">Download</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!---->
-<!---->
-<!---->
-<!--            </div>-->
-<!--            <div class="col-md-3">-->
-<!---->
-<!--                <div class="widget widget-default widget-item-icon">-->
-<!--                    <div class="widget-item-left">-->
-<!--                        <span class="fa fa-envelope"></span>-->
-<!--                    </div>-->
-<!--                    <div class="widget-data">-->
-<!--                        <div class="widget-title">Schedule Name</div>-->
-<!--                        <div class="widget-subtitle">In your mailbox This message is not for you to consume but for you to understand and process</div>-->
-<!--                    </div>-->
-<!--                    <div class="row">-->
-<!--                    <div class="form-group">-->
-<!--                            <div class="col-md-4">-->
-<!--                                <button  type="submit" name="view" class="btn btn-primary  btn-block">view</button>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-4">-->
-<!--                                <button  type="submit" name="download" class="btn btn-primary   btn-block">Download</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!---->
-<!--            </div>-->
-<!---->
-<!---->
-<!--            <div class="col-md-3">-->
-<!---->
-<!--                <div class="widget widget-default widget-item-icon">-->
-<!--                    <div class="widget-item-left">-->
-<!--                        <span class="fa fa-envelope"></span>-->
-<!--                    </div>-->
-<!--                    <div class="widget-data">-->
-<!--                        <div class="widget-title">Schedule Name</div>-->
-<!--                        <div class="widget-subtitle">In your mailbox This message is not for you to consume but for you to understand and process</div>-->
-<!--                    </div>-->
-<!--                    <div class="row">-->
-<!--                        <div class="form-group">-->
-<!--                            <div class="col-md-4">-->
-<!--                                <button  type="submit" name="view" class="btn btn-primary  btn-block">view</button>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-4">-->
-<!--                                <button  type="submit" name="download" class="btn btn-primary   btn-block">Download</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!---->
-<!--            </div>-->
-<!--            <div class="col-md-3">-->
-<!--                <div class="widget widget-default widget-item-icon">-->
-<!--                    <div class="widget-item-left">-->
-<!--                        <span class="fa fa-envelope"></span>-->
-<!--                    </div>-->
-<!--                    <div class="widget-data">-->
-<!--                        <div class="widget-title">Schedule Name</div>-->
-<!--                        <div class="widget-subtitle">In your mailbox This message is not for you to consume but for you to understand and process</div>-->
-<!--                    </div>-->
-<!--                    <div class="row">-->
-<!--                        <div class="form-group">-->
-<!--                            <div class="col-md-4">-->
-<!--                                <button  type="submit" name="view" class="btn btn-primary  btn-block">view</button>-->
-<!--                            </div>-->
-<!--                            <div class="col-md-4">-->
-<!--                                <button  type="submit" name="download" class="btn btn-primary   btn-block">Download</button>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
-<!---->
-<!--            </div>-->
-<!--        </div>-->
-        <!-- END WIDGETS -->
+?>
+    <?php
+}
+?>
 
         <!-- END PAGE CONTENT WRAPPER -->
     </div>
     <!-- END PAGE CONTENT -->
 </div>
-
-
-
 
 <?php
 echo $_SESSION['mess'];

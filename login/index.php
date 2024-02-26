@@ -48,8 +48,8 @@ include("../admin/controller.php");
     {
         $username = mysqli_real_escape_string($db,$_POST['log_username']);
         $password = mysqli_real_escape_string($db,$_POST['log_password']);
-//  $password = md5($password);
-        $password = $password;
+  $password = md5($password);
+//        $password = $password;
 
         $sql = "SELECT * FROM senate_list WHERE student_id='$username' AND password='$password'";
         $result = mysqli_query($db, $sql);
@@ -72,7 +72,7 @@ include("../admin/controller.php");
             $_SESSION['senator_lname'] = $row['senator_lname'];
             $_SESSION['senator_photo'] = $row['senator_photo'];
             $_SESSION['senator_program']= $row['senator_program'];
-
+            $_SESSION['senator_position']= $row['senator_position'];
 
 
             $_SESSION['student_id'] = $row['student_id'];
@@ -80,6 +80,8 @@ include("../admin/controller.php");
             $result = mysqli_query($db, $sql);
             $row = $result->fetch_assoc();
             $_SESSION['student_id'] = $username;
+            $_SESSION['senator_position']= $row['senator_position'];
+
 
             if ($row['type'] === 'admin') {
                 header("Location: ../admin/home.php");
@@ -89,9 +91,6 @@ include("../admin/controller.php");
             }
         }
     }
-
-
-
     ?>
         
         <div class="login-container login-v2">
@@ -132,7 +131,6 @@ include("../admin/controller.php");
 
 <!--                        POPUP BUTTON-->
 <!--                        END POPUP BUTTON-->
-
 
                     </div>
                     <div class="form-group">
@@ -404,7 +402,9 @@ if(isset($_POST['senator_registration']))
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <button class="btn btn-default mb-control" data-box="#change_pass">Already have Account?</button>
+<!--                                <button class="btn btn-default mb-control" data-box="#change_pass">Already have Account?</button>-->
+                                <a href="index.php" >Already have Account?</a>
+
                             </div>
                         </div>
                     </div>
@@ -431,7 +431,10 @@ if(isset($_POST['senator_registration']))
 
             $username = $_POST['username'];
             $password = $_POST['reset_password'];
+            $confirm_password =$_POST['confirm_password'];
 
+
+            if($password===$confirm_password){
             // Prepare and execute SELECT query
             $sql = "SELECT * FROM senate_list WHERE student_id=?";
             $stmt = $db->prepare($sql);
@@ -444,8 +447,8 @@ if(isset($_POST['senator_registration']))
                 $sql2 = "UPDATE senate_list SET password = ? WHERE student_id = ?";
                 $stmt2 = $db->prepare($sql2);
 //        $hashed_password = password_hash($password, PASSWORD_DEFAULT); // Hash the new password
-                $hashed_password = $password; // Hash the new password
-
+                $hashed_password = md5($password);
+//                $hashed_password = $password; // Hash the new password
                 $stmt2->bind_param("ss", $hashed_password, $username);
                 if($stmt2->execute()) {
                     // Password reset successful
@@ -460,7 +463,8 @@ if(isset($_POST['senator_registration']))
                         });
                     }, 30);
                 </script>';
-                } else {
+                }
+            }else {
                     // Error updating password
                     echo '<script>
                     setTimeout(function() {
@@ -490,6 +494,7 @@ if(isset($_POST['senator_registration']))
             }
         }
 
+
         ?>
 
 <!--    CHANGE PASSWORD POPUP-->
@@ -515,7 +520,7 @@ if(isset($_POST['senator_registration']))
                                         <div class="input-group-addon">
                                             <span class="fa fa-lock"></span>
                                         </div>
-                                        <input type="password" class="form-control" name="reset_password" placeholder="New Password" required/>
+                                        <input type="password" class="form-control" id="reset_password" name="reset_password" placeholder="New Password" required/>
                                     </div>
                                 </div>
                             </div>
@@ -526,8 +531,11 @@ if(isset($_POST['senator_registration']))
                                         <div class="input-group-addon">
                                             <span class="fa fa-lock"></span>
                                         </div>
-                                        <input type="password" class="form-control" name="confirm_password" placeholder="Confirm Password" required/>
+                                        <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm Password" required/>
+
                                     </div>
+                                    <p id="message" style="color: #0a001f; font-size: 20px"></p>
+
                                 </div>
                             </div>
 
@@ -544,7 +552,9 @@ if(isset($_POST['senator_registration']))
                         <form  method="post">
                         <div class="form-group">
                             <div class="col-md-12">
-                                <a href="index.php" class="btn btn-default mb-control" >login</a>
+<!--                                <a href="index.php" class="btn btn-default mb-control" >login</a>-->
+                                <a href="index.php" >Login</a>
+
 
                             </div>
                         </div>
@@ -599,6 +609,28 @@ if(isset($_POST['senator_registration']))
         </script>
 
 
+
+
+    <script>
+        const confirm_password = document.getElementById('confirm_password');
+        const reset_password = document.getElementById('reset_password');
+        const message = document.getElementById('message');
+
+        confirm_password.addEventListener('input', checkEquality);
+        reset_password.addEventListener('input', checkEquality);
+
+        function checkEquality() {
+            const value1 = confirm_password.value;
+            const value2 = reset_password.value;
+
+            if (value1 === value2) {
+                message.textContent = "Passwords are the same";
+            } else {
+                message.textContent = "Both password must be the same!";
+            }
+        }
+
+    </script>
 
 
 
