@@ -293,6 +293,11 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
         <div class="row">
 <!--            ===================QUERY DISPLAY NONE QUERY DISPLAY================================-->
 <?php
+include("../admin/controller.php");
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+
 if (isset($_GET['search']) && !empty($_GET['search'])) {
     // Sanitize the input to prevent SQL injection
     $search_query = mysqli_real_escape_string($db, $_GET['search']);
@@ -322,7 +327,7 @@ INNER JOIN senate_sched ON senate_sched.sched_id = sched_minutes.schedule_id WHE
 
             <div class="col-md-6">
                 <!--                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
-                <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="<?php echo $file_path; ?>">Download</button>
+<!--                <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="--><?php //echo $file_path; ?><!--">Download </button>-->
             </div>
         </div>
     </div>
@@ -341,14 +346,20 @@ INNER JOIN senate_sched ON senate_sched.sched_id = sched_minutes.schedule_id WHE
 {
 $sql = "SELECT * FROM sched_minutes, senate_sched where senate_sched.sched_id = sched_minutes.schedule_id;";
 $result = mysqli_query($db, $sql);
-$row = mysqli_fetch_array($result);
-$pdf_data = $row['file'];
-while($row = mysqli_fetch_array($result))
+//$row = mysqli_fetch_array($result);
+
+    while($row = mysqli_fetch_array($result))
 {
+//    echo "<pre>";
+//    print_r($row);
+//        echo "</pre>";
+;
 
-$filename = basename($_GET['download']);
-$file_path = "../admin/minutesFiles/".$filename;
-
+    $filename = $row['file'];
+//    $file_id=$row['minutes_id'];
+//    $filename = basename($pdf_data);
+    $file_path = "../admin/minutesFiles/".$filename;
+    $munites_id = $row["minutes_id"];
 ?>
             <div class="col-md-3">
 
@@ -366,8 +377,9 @@ $file_path = "../admin/minutesFiles/".$filename;
                         <div class="form-group " >
 
                             <div class="col-md-6">
-                                <!--                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
-                                <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="<?php echo $file_path; ?>">Download</button>
+                                <a  class="btn btn-primary  download-btn" style="margin-bottom: -30px; margin-left: -10px" href="download.php?filename=<?php echo $filename; ?>">Download</a>
+                                <!--                                                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
+<!--                                <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="--><?php //echo $filename; ; ?><!--">Download</button>-->
                             </div>
                         </div>
                     </div>

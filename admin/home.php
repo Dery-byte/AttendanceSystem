@@ -140,7 +140,7 @@ global $db;
 <!--                        </li>-->
                         <li class="nav-item">
                             <a href="senate_positions.php" class="nav-link">
-                                <i class="nav-icon fas fa-briefcase"></i>
+                                <i class="nav-icon fas fa-id-badge"></i>
                                 <p>
                                     Positions
                                 </p>
@@ -149,7 +149,8 @@ global $db;
 
                         <li class="nav-item">
                             <a href="senate_minutes.php" class="nav-link">
-                                <i class="nav-icon fas fa-briefcase"></i>
+                                <i class="nav-icon fas fa-clipboard"></i>
+
                                 <p>
                                     Minutes
                                 </p>
@@ -159,7 +160,7 @@ global $db;
 
                         <li class="nav-item">
                             <a href="request.php" class="nav-link">
-                                <i class="nav-icon fas fa-briefcase"></i>
+                                <i class="nav-icon fas fa-exclamation-circle"></i>
                                 <p>
                                     Requests
                                 </p>

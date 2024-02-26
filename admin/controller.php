@@ -1004,7 +1004,6 @@ if(isset($_POST["delsched_id"]))
     while($row = mysqli_fetch_array($result))
     {
           $id = $row["sched_id"];
-
          $output .= '
               <input type="text" name="del_id" class="form-control" value="'.$id.'" hidden>
               <div class="text-center">
@@ -1109,24 +1108,33 @@ if(isset($_POST["change"]))
 
 
 if(isset($_POST["pdf_file"]) && isset($_FILES["fileToUpload"])){
+    $allowed_file_type =['application/pdf'];
+
 //    $file_name = $_FILES["fileToUpload"]["name"];
     $file_tmp = $_FILES["fileToUpload"]["tmp_name"];
     // Read file content
-    $pdf_content = file_get_contents($file_tmp);
+//    $pdf_content = file_get_contents($file_tmp);
+
+//    $pdf_content = $file_tmp;
+
     // Insert into database
     $description = $_POST["description"];
     $sched_id = $_POST["sched_id"];
     $target_dir = "../admin/minutesFiles/";
     $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
     $filename = $_FILES['fileToUpload']['name'];
-    if(!empty($filename)){
-        move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/minutesFiles/".$filename);
-    }
-    $stmt = $db->prepare("INSERT INTO sched_minutes (file, description, schedule_id) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $pdf_content, $description, $sched_id);
+    $pdf_content=$filename;
 
-    if ($stmt->execute()) {
-        echo '<script>
+
+    if(in_array($_FILES["fileToUpload"]["type"], $allowed_file_type)){
+        if(!empty($filename)){
+            move_uploaded_file($_FILES['fileToUpload']['tmp_name'], "../admin/minutesFiles/".$filename);
+        }
+        $stmt = $db->prepare("INSERT INTO sched_minutes (file, description, schedule_id) VALUES (?, ?, ?)");
+        $stmt->bind_param("ssi", $pdf_content, $description, $sched_id);
+
+        if ($stmt->execute()) {
+            echo '<script>
            setTimeout(function() {
                Swal.fire({
                    title: "Success !",
@@ -1136,10 +1144,28 @@ if(isset($_POST["pdf_file"]) && isset($_FILES["fileToUpload"])){
                      window.location = "senate_minutes.php";
                  });
            }, 30);
+           
        </script>';
-    } else {
-        echo "Error uploading file: " . $stmt->error;
+
+        } else {
+            echo "Error uploading file: " . $stmt->error;
+        }
+    } else{
+        echo '<script>
+           setTimeout(function() {
+               Swal.fire({
+                   title: "Failed!",
+                   text: "Only pdf files can be uploaded",
+                   type: "error"
+                 }).then(function() {
+                     window.location = "senate_minutes.php";
+                 });
+           }, 30);
+       </script>';
     }
+
+
+
 //    die[POST];
 //    $stmt->close();
 //    $db->close();
