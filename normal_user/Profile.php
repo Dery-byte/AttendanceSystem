@@ -363,8 +363,8 @@ $row = mysqli_fetch_array($result);
 
 
 <?php
-echo $_SESSION['mess'];
-echo $_SESSION['success'];
+//echo $_SESSION['mess'];
+//echo $_SESSION['success'];
 
 $dd = date("H:i:s");
 

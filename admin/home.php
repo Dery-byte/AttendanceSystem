@@ -147,6 +147,9 @@ global $db;
                             </a>
                         </li>
 
+
+
+
                         <li class="nav-item">
                             <a href="senate_minutes.php" class="nav-link">
                                 <i class="nav-icon fas fa-clipboard"></i>
@@ -157,6 +160,31 @@ global $db;
                             </a>
                         </li>
 
+
+
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Commitee
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="comm_names.php" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>Name</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="comm_members.php" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>Members</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
                         <li class="nav-item">
                             <a href="request.php" class="nav-link">
@@ -255,7 +283,7 @@ global $db;
                             <div class="small-box bg-dark">
                                 <div class="inner">
                                     <?php
-                $sql2 = "SELECT count(*) As 'Ontime' FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.attendance_timein <= senate_sched.sched_in AND senate_attendance.senator_id = senate_list.student_id AND senate_sched.sched_id = senate_attendance.schedule AND senate_attendance.attendance_date = CURDATE();";
+                $sql2 = "SELECT count(*) As 'Ontime' FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.attendance_timein <= senate_sched.sched_in AND senate_attendance.senator_id = senate_list.student_id AND senate_sched.sched_id = senate_attendance.schedule AND senate_attendance.attendance_date = CURDATE() AND approve_statuses=1;";
                 $result2 = mysqli_query($db, $sql2);
                 $row2 = mysqli_fetch_array($result2);
                 ?>
@@ -274,7 +302,7 @@ global $db;
                             <div class="small-box bg-dark">
                                 <div class="inner">
                                     <?php
-                $sql3 = "SELECT count(*) As 'Late' FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.attendance_timein > senate_sched.sched_in AND senate_attendance.senator_id = senate_list.student_id AND senate_sched.sched_id = senate_attendance.schedule AND senate_attendance.attendance_date = CURDATE(); ";
+                $sql3 = "SELECT count(*) As 'Late' FROM senate_attendance, senate_list, senate_sched WHERE senate_attendance.attendance_timein > senate_sched.sched_in AND senate_attendance.senator_id = senate_list.student_id AND senate_sched.sched_id = senate_attendance.schedule AND senate_attendance.attendance_date = CURDATE() AND approve_statuses=1; ";
                 $result3 = mysqli_query($db, $sql3);
                 $row3 = mysqli_fetch_array($result3);
                 ?>

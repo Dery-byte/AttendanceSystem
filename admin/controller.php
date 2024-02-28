@@ -715,62 +715,71 @@ if(isset($_POST["pos_delete"]))
 if(isset($_POST["emp_edit_id"]))
 {
     $output = '';
+
+//    $sql2 = "SELECT * FROM commitee";
+//    $minutes_result = mysqli_query($db, $sql2);
+    $sql2 = "SELECT * FROM commitee";
+    $committee_result = mysqli_query($db, $sql2);
+
     $sql = "SELECT * FROM senate_list WHERE senate_id = '".$_POST["emp_edit_id"]."'";
     $result = mysqli_query($db, $sql);
     $output .= '
     <form method="POST">';
-    while($row = mysqli_fetch_array($result))
-    {
-          $card = $row["senate_id"];
-          $emp = $row['student_id'];
-          $fname = $row['senator_fname'];
-          $lname = $row['senator_lname'];
-          $address = $row['senator_address'];
-          $contact = $row['senator_contact'];
-          $gender = $row['senator_gender'];
+//    while ($row2 = mysqli_fetch_array($minutes_result)) {
+//        $com_id= $row2['com_id'];
+//        $comm_name = $row2['title'];
+    while($row = mysqli_fetch_array($result)) {
+        $card = $row["senate_id"];
+        $emp = $row['student_id'];
+        $fname = $row['senator_fname'];
+        $lname = $row['senator_lname'];
+        $address = $row['senator_address'];
+        $contact = $row['senator_contact'];
+        $gender = $row['senator_gender'];
 
-         $output .= '
-              <input type="text" name="id" class="form-control" value="'.$card.'" hidden>
+        $output .= '
+              <input type="text" name="id" class="form-control" value="' . $card . '" hidden>
               <div class="form-group row">
                 <label class="col-sm-1 col-form-label"></label>
                 <label class="col-sm-3 col-form-label">Senator ID</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" name="emp_card" value="'.$emp.'" placeholder="" disabled>
+                  <input type="text" class="form-control" name="emp_card" value="' . $emp . '" placeholder="" disabled>
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-1 col-form-label"></label>
                 <label class="col-sm-3 col-form-label">Firstname</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" name="update_fname" value="'.$fname.'" placeholder="">
+                  <input type="text" class="form-control" name="update_fname" value="' . $fname . '" placeholder="">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-1 col-form-label"></label>
                 <label class="col-sm-3 col-form-label">Lastname</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" name="update_lname" value="'.$lname.'" placeholder="">
+                  <input type="text" class="form-control" name="update_lname" value="' . $lname . '" placeholder="">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-1 col-form-label"></label>
                 <label class="col-sm-3 col-form-label">Bank Details</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" name="update_address" value="'.$address.'" placeholder="">
+                  <input type="text" class="form-control" name="update_address" value="' . $address . '" placeholder="">
                 </div>
               </div>
               <div class="form-group row">
                 <label class="col-sm-1 col-form-label"></label>
                 <label class="col-sm-3 col-form-label">Contact</label>
                 <div class="col-sm-7">
-                  <input type="text" class="form-control" name="update_contact" value="'.$contact.'" placeholder="">
+                  <input type="text" class="form-control" name="update_contact" value="' . $contact . '" placeholder="">
                 </div>
               </div>
+       
               <div class="form-group row">
                 <label class="col-sm-1 col-form-label"></label>
                 <label class="col-sm-3 col-form-label">Gender</label>
                 <div class="col-sm-7">
-                  <select name="update_gender" class="form-control" value="'.$gender.'">
+                  <select name="update_gender" class="form-control" value="' . $gender . '">
                     <option hidden> - Select -</option>
                     <option value="Male">Male</option>
                     <option value="Female">Female</option>
@@ -778,10 +787,33 @@ if(isset($_POST["emp_edit_id"]))
                   </select>
                 </div>
               </div>
+              
+<div class="form-group row">
+            <label class="col-sm-1 col-form-label"></label>
+            <label class="col-sm-3 col-form-label">Committee</label>
+            <div class="col-sm-7">
+                <select name="update_commitee" class="form-control">
+                    <option>none</option>';
+        // Populate the select widget with options fetched from the committee table
+        while($committee_row = mysqli_fetch_array($committee_result)) {
+            $output .= '<option value="' . $committee_row['title'] . '">' . $committee_row['title'] . '</option>';
+        }
+        $output .= '
+                </select>
+            </div>
+        </div>
+              
+              
+              
               ';
     }
-    $output .= "</form>";
-    echo $output;
+
+
+
+
+        $output .= "</form>";
+        echo $output;
+
 
 }
 
@@ -795,8 +827,9 @@ if(isset($_POST["emp_update"]))
    $address = $_POST['update_address'];
    $contact = $_POST['update_contact'];
    $gender = $_POST['update_gender'];
+   $commtee=$_POST['update_commitee'];
 
-   $sql = "UPDATE senate_list SET senator_fname = '".$fname."', senator_lname = '".$lname."', senator_address = '".$address."', senator_contact = '".$contact."', senator_gender = '".$gender."'
+   $sql = "UPDATE senate_list SET senator_fname = '".$fname."', senator_lname = '".$lname."', senator_address = '".$address."', senator_contact = '".$contact."', senator_gender = '".$gender."', comm_member='".$commtee."'
    WHERE senate_id = '".$card."'";
    $result = mysqli_query($db, $sql);
 
@@ -970,29 +1003,6 @@ if(isset($_POST["update_sched"]))
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 //GET SCHEDULE ID TO DELETE
 if(isset($_POST["delsched_id"]))
 {
@@ -1043,7 +1053,105 @@ if(isset($_POST["delete_sched"]))
 
 
 
-//=====================================================================================================================================
+//========================================DELETE COMMITEE=============================================================================================
+if(isset($_POST["com_del_id"]))
+{
+    $output = '';
+    $sql = "SELECT * FROM commitee WHERE com_id = '".$_POST["com_del_id"]."'";
+    $result = mysqli_query($db, $sql);
+    $output .= '
+    <form method="POST">';
+    while($row = mysqli_fetch_array($result))
+    {
+        $id = $row["com_id"];
+        $output .= '
+              <input type="text" name="del_id" class="form-control" value="'.$id.'" hidden>
+              <div class="text-center">
+	                	<p>DELETE COMMITTEE</p>
+	                	<h2>'.$row['title'] .' </h2>
+	            </div>
+              ';
+    }
+    $output .= "</form>";
+    echo $output;
+
+}
+
+
+
+//delete commitee
+if(isset($_POST["com_delete"]))
+{
+    $id = $_POST['del_id'];
+
+    $sql = "DELETE FROM commitee WHERE com_id = '$id'";
+    $result = mysqli_query($db, $sql);
+
+    echo '<script>
+            setTimeout(function() {
+                Swal.fire({
+                    title: "Success !",
+                    text: "Commitee has been Deleted !",
+                    type: "success"
+                  }).then(function() {
+                      window.location = "comm_names.php";
+                  });
+            }, 30);
+        </script>';
+}
+
+
+//========================================UPDATE COMMITEE=============================================================================================
+//com_update
+
+
+
+if(isset($_POST["com_update_id"]))
+{
+    $output = '';
+    $sql = "SELECT * FROM commitee WHERE com_id = '".$_POST["com_update_id"]."'";
+    $result = mysqli_query($db, $sql);
+    $output .= '
+    <form method="POST">';
+    while($row = mysqli_fetch_array($result))
+    {
+        $id = $row["com_id"];
+        $title = $row['title'];
+
+        $output .= '
+              <input type="text" name="update_id" class="form-control" value="'.$id.'" hidden>
+              <div class="form-group row">
+                <label class="col-sm-1 col-form-label"></label>
+                <label class="col-sm-3 col-form-label">Committee Title</label>
+                <div class="col-sm-7">
+                  <input type="text" class="form-control" name="update_title" value="'.$title.'" placeholder="" required>
+                </div>
+              </div>
+              
+              ';
+    }
+    $output .= "</form>";
+    echo $output;
+
+}
+// UPDATE POSITION
+if(isset($_POST["com_update"]))
+{    $id = $_POST['update_id'];
+    $title = $_POST['update_title'];
+    $sql = "UPDATE commitee SET title = '$title'  WHERE com_id = '$id'";
+    $result = mysqli_query($db, $sql);
+    echo '<script>
+            setTimeout(function() {
+                Swal.fire({
+                    title: "Success !",
+                    text: "Committee has been updated!",
+                    type: "success"
+                  }).then(function() {
+                      window.location = "comm_names.php";
+                  });
+            }, 30);
+        </script>';
+}
 
 
 
@@ -1053,6 +1161,7 @@ if(isset($_POST["delete_sched"]))
 
 
 
+//====================================================================================================================
 
 
 

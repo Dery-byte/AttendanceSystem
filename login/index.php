@@ -38,6 +38,24 @@ include("../admin/controller.php");
         <script src="dist/js/2.js"></script>
         <script src="dist/js/3.js"></script>
     </head>
+
+    <style>
+
+        @media screen  and (max-width:1080px){
+            .create{
+                /*color: red;*/
+                /*background-color: red;*/
+                margin-top: -40px;
+            }
+
+            .form-container {
+                max-height: 470px; /* Adjust the height as needed */
+                overflow-y: auto;
+            }
+        }
+
+
+    </style>
     <body>
 
 
@@ -121,10 +139,10 @@ include("../admin/controller.php");
                     <div class="form-group">
                         <div class="col-md-6">
 <!--                            <a href="#">Forgot your password?</a>-->
-                            <button type="button" class="btn btn-default mb-control" data-box="#change_pass">Forgot your password?</button>
+                            <button type="button" class="btn btn-default mb-control" data-box="#change_pass">Forgot password?</button>
 
                         </div>          
-                        <div class="col-md-6 text-right">
+                        <div class="col-md-6 text-right create">
                             <button type="button" class="btn btn-default mb-control" data-box="#create_account">Create an account</button>
                         </div>
 
@@ -212,6 +230,7 @@ if(isset($_POST['senator_registration']))
 
 
 
+    <!--    ================================================CREATE ACCOUNT BEGINS======================================================================                    -->
 
 
         <div class="message-box animated fadeIn" id="create_account">
@@ -221,9 +240,12 @@ if(isset($_POST['senator_registration']))
                         <div class="login-title"><strong>Welcome</strong>,Create Account.</div>
                         <div class="form-horizontal">
 
-                            <div class="row">
+                            <div class="form-container">
+
                                 <form  method="POST"   enctype="multipart/form-data">
-                            <div class="col-md-6">
+                                    <div class="row">
+
+                                    <div class="col-xs-12 col-sm-6">
                             <div class="form-group">
                                 <div class="col-md-12">
                                     <div class="input-group">
@@ -232,69 +254,33 @@ if(isset($_POST['senator_registration']))
                                         </div>
                                         <input type="text" class="form-control" name="student_id" id="student_id" placeholder="Enter Student ID" required/>
                                     </div>
-
                                     <span id="status" style="color: purple; font-style: italic"></span>
-
                                 </div>
                             </div>
                             <div class="form-group">
                                 <div class="col-md-12">
-<!--                                    <div class="input-group">-->
-<!--                                        <div class="input-group-addon">-->
-<!--                                            <span class="fa fa-lock"></span>-->
-<!--                                        </div>-->
                                         <input type="text" class="form-control" name="emp_name" placeholder=" Enter First name" required/>
-<!--                                    </div>-->
                                 </div>
                             </div>
-
                                 <div class="form-group">
                                     <div class="col-md-12">
-<!--                                        <div class="input-group">-->
-<!--                                            <div class="input-group-addon">-->
-<!--                                                <span class="fa fa-user"></span>-->
-<!--                                            </div>-->
                                             <input type="text" class="form-control" name="emp_lastname" placeholder="Enter last Name" required/>
-<!--                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="col-md-12">
-<!--                                        <label> Provide Bank Details</label>-->
-<!--                                        <div class="input-group">-->
-<!--                                            <div class="input-group-addon">-->
-<!--                                                <span class="fa fa-lock"></span>-->
-<!--                                            </div>-->
+                                        <label>Date of Birth</label>
                                             <input type="date" class="form-control"  name="date_of_birth" placeholder="Provide Date of Birth" required/>
-<!--                                        </div>-->
                                     </div>
                                 </div>
-
                                 <div class="form-group">
                                     <div class="col-md-12">
-<!--                                        <label> Provide Bank Details</label>-->
-<!--                                        <div class="input-group">-->
-<!--                                            <div class="input-group-addon">-->
-<!--                                                <span class="fa fa-user"></span>-->
-<!--                                            </div>-->
                                             <input type="text" class="form-control" name="senator_program" placeholder="Enter Program of study" required/>
-<!--                                        </div>-->
                                     </div>
                                 </div>
                                 <div class="form-group">
-
                                     <div class="col-md-12">
-<!--                                        <label> Provide Bank Details</label>-->
-<!--                                        <div class="input-group">-->
-<!--                                            <div class="input-group-addon">-->
-<!--<!--                                                <span class="fa fa-lock"></span>-->
-<!--                                            </div>-->
-
-<!--                                            <textarea cols="34" rows="3" type="text" class="form-control" name="emp_address" placeholder="Bank Account No. And Name">-->
-<!---->
-<!--                                            </textarea>-->
-                                            <input type="text" class="form-control"  name="emp_address" placeholder="Bank Account No. And Name" required/>
-<!--                                        </div>-->
+                                            <input type="text" class="form-control"  name="emp_address" placeholder="Bank Account Details" required/>
                                     </div>
                                 </div>
 
@@ -303,37 +289,23 @@ if(isset($_POST['senator_registration']))
                  <div class="col-md-6">
                             <div class="form-group">
                                 <div class="col-md-12">
-<!--                                    <div class="input-group">-->
-<!--                                        <div class="input-group-addon">-->
-<!--                                            <span class="fa fa-lock"></span>-->
-<!--                                        </div>-->
                                         <input type="number" class="form-control" name="emp_contact" placeholder=" Contact Number" required/>
-<!--                                    </div>-->
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <div class="col-md-12">
-<!--                                    <div class="input-group">-->
-<!--                                        <div class="input-group-addon">-->
-<!--                                            <span class="fa fa-lock"></span>-->
-<!--                                        </div>-->
                                         <select name="emp_gender" class="form-control" required>
                                             <option hidden> - Select Gender-</option>
                                             <option value="Male">Male</option>
                                             <option value="Female">Female</option>
                                             <option value="Prefer Not">Prefer Not to say</option>
                                         </select>
-<!--                                    </div>-->
                                 </div>
                             </div>
 
                      <div class="form-group">
                          <div class="col-md-12">
-<!--                             <div class="input-group">-->
-<!--                                 <div class="input-group-addon">-->
-<!--                                     <span class="fa fa-user"></span>-->
-<!--                                 </div>-->
                                  <select name="emp_position" class="form-control" required>
                                      <option hidden> - Select Position -</option>
                                      <?php
@@ -356,12 +328,8 @@ if(isset($_POST['senator_registration']))
                      </div>
                      <div class="form-group">
                          <div class="col-md-12">
-<!--                             <div class="input-group">-->
-<!--                                 <div class="input-group-addon">-->
-<!--                                     <span class="fa fa-lock"></span>-->
-<!--                                 </div>-->
+                             <label>Profile Picture</label>
                                  <input type="file" class="form-control" name="fileToUpload" id="fileToUpload" accept="image/*" required/>
-<!--                             </div>-->
                          </div>
                      </div>
 
@@ -378,18 +346,15 @@ if(isset($_POST['senator_registration']))
                      <div class="form-group">
                          <div class="col-md-12">
                              <div class="input-group">
-<!--                                 <div class="input-group-addon">-->
-<!--                                     <span class="fa fa-lock"></span>-->
-<!--                                 </div>-->
                                  <input type="text" class="form-control" name="type"  value="member" hidden placeholder="Member Type"  required/>
                              </div>
                          </div>
                      </div>
-
                     </div>
 
                 </div>
                         </div>
+<!--    ================================================CREATE ACCOUNT END======================================================================                    -->
 
 <br>
 
@@ -399,6 +364,7 @@ if(isset($_POST['senator_registration']))
                                 </div>
                             </div>
                         </form>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-12">
@@ -413,6 +379,9 @@ if(isset($_POST['senator_registration']))
                             &copy; 2024 Senate Activity Log
                         </div>
                     </div>
+
+                    </div>
+
                 </div>
 
             </div>

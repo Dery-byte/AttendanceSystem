@@ -154,6 +154,33 @@ global $db;
                     </li>
 
 
+                    <li class="nav-item has-treeview">
+                        <a href="#" class="nav-link">
+                            <i class="nav-icon fas fa-users"></i>
+                            <p>
+                                Commitee
+                                <i class="fas fa-angle-left right"></i>
+                            </p>
+                        </a>
+                        <ul class="nav nav-treeview">
+                            <li class="nav-item">
+                                <a href="comm_names.php" class="nav-link">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <p>Name</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="comm_members.php" class="nav-link">
+                                    <i class="fas fa-circle nav-icon"></i>
+                                    <p>Members</p>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+
+
+
                     <li class="nav-item">
                         <a href="request.php" class="nav-link active" >
                             <i class="nav-icon fas fa-exclamation-circle"></i>
@@ -233,9 +260,9 @@ global $db;
 
 
                                 <tr>
-                                    <th>Id</th>
                                     <th>Student ID</th>
                                     <th>Senator name</th>
+                                    <th>Photo</th>
                                     <th>Action</th>
                                 </tr>
 
@@ -254,9 +281,10 @@ global $db;
 
 
                                     <tr>
-                                        <td><?php echo $row['attendance_id']; ?></td>
                                         <td><?php echo $row['senator_id']; ?></td>
                                         <td><?php echo $row['senator_name']; ?></td>
+                                        <td><img src="<?php echo $row['senator_photo'];?>" style="width: 40px; height: 40px; border-radius: 50%"></td>
+
 
                                         <td>
                                             <button class="btn btn-success btn-flat pos_confirm" id="<?php echo $row['attendance_id']; ?>">Approve</button>

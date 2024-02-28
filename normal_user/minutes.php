@@ -166,9 +166,7 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 
             </li>
             <li class="xn-profile">
-<!--                <a href="#" class="profile-mini">-->
-<!--                    <img src="assets/images/users/avatar.jpg" alt="John Doe"/>-->
-<!--                </a>-->
+
                 <div class="profile">
                     <div class="profile-image">
                         <img src="<?php echo   $_SESSION['senator_photo'];?>" style="border-radius: 50%;width: 95px;height: 95px;" alt="User Image">
@@ -183,14 +181,7 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
                     </div>
                 </div>
             </li>
-
-
-
-            <!--                        PROFILE ENDS-->
-
-
-
-            <li class="xn-title">Navigation</li>
+                        <li class="xn-title">Navigation</li>
             <ul>
 
                 <li><a href="home.php"><span class="fa fa-book"></span> Dashboard</a></li>
@@ -309,6 +300,13 @@ INNER JOIN senate_sched ON senate_sched.sched_id = sched_minutes.schedule_id WHE
     if ($results->num_rows > 0) {
         while ($row = $results->fetch_assoc()) {
 
+
+            $filename = $row['file'];
+//    $file_id=$row['minutes_id'];
+//    $filename = basename($pdf_data);
+            $file_path = "../admin/minutesFiles/".$filename;
+            $munites_id = $row["minutes_id"];
+
             ?>
             <div class="col-md-3">
 
@@ -326,6 +324,8 @@ INNER JOIN senate_sched ON senate_sched.sched_id = sched_minutes.schedule_id WHE
         <div class="form-group " >
 
             <div class="col-md-6">
+                <a  class="btn btn-primary  download-btn" style="margin-bottom: -30px; margin-left: -10px" href="download.php?filename=<?php echo $filename; ?>">Download</a>
+
                 <!--                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
 <!--                <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="--><?php //echo $file_path; ?><!--">Download </button>-->
             </div>
@@ -350,10 +350,6 @@ $result = mysqli_query($db, $sql);
 
     while($row = mysqli_fetch_array($result))
 {
-//    echo "<pre>";
-//    print_r($row);
-//        echo "</pre>";
-;
 
     $filename = $row['file'];
 //    $file_id=$row['minutes_id'];
@@ -362,12 +358,9 @@ $result = mysqli_query($db, $sql);
     $munites_id = $row["minutes_id"];
 ?>
             <div class="col-md-3">
-
                 <div class="widget widget-default widget-item-icon">
                     <div class="widget-item-left">
                         <img src="./pdfimage/pdfImage.png"  width="60" height="90">
-
-                        <!--                            <span class="fa fa-envelope"></span>-->
                     </div>
                     <div class="widget-data">
                         <div class="widget-title"><?php echo $row['meeting_name']; ?></div>
@@ -378,6 +371,8 @@ $result = mysqli_query($db, $sql);
 
                             <div class="col-md-6">
                                 <a  class="btn btn-primary  download-btn" style="margin-bottom: -30px; margin-left: -10px" href="download.php?filename=<?php echo $filename; ?>">Download</a>
+
+
                                 <!--                                                                    <button type="submit" id="downloadBtn" name="download" class="btn btn-primary" style="margin-bottom: -90px; margin-left: -10px">Download</button>-->
 <!--                                <button type="button" style="margin-bottom: -90px; margin-left: -10px" class="btn btn-primary download-btn" data-file="--><?php //echo $filename; ; ?><!--">Download</button>-->
                             </div>
@@ -399,8 +394,8 @@ $result = mysqli_query($db, $sql);
 </div>
 
 <?php
-echo $_SESSION['mess'];
-echo $_SESSION['success'];
+//echo $_SESSION['mess'];
+//echo $_SESSION['success'];
 
 $dd = date("H:i:s");
 
@@ -482,7 +477,7 @@ if($dd == $_SESSION['expire'])
 <!-- END THIS PAGE PLUGINS-->
 
 <!-- START TEMPLATE -->
-<script type="text/javascript" src="js/settings.js"></script>
+<!--<script type="text/javascript" src="js/settings.js"></script>-->
 
 <script type="text/javascript" src="js/plugins.js"></script>
 <script type="text/javascript" src="js/actions.js"></script>

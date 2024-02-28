@@ -1,3 +1,4 @@
+
 <?php
 include("../admin/controller.php");
 require_once('../normal_user/auth_user.php');
@@ -18,8 +19,6 @@ if(isset($_POST['attendance']))
     {
         $id = $_POST['student_id'];
         $schedule=$_POST['senate_schedule'];
-
-//        $statusCode = $_POST['status'];
         $sql = "SELECT * FROM senate_list WHERE student_id = '$id'";
         $result = mysqli_query($db, $sql);
         if(!$row = $result->fetch_assoc()) {
@@ -44,43 +43,33 @@ if(isset($_POST['attendance']))
                 $interval = $first->diff($second);
                 $hrs = $interval->format('%h');
                 $mins = $interval->format('%i');
-                $mins = $mins / 60;
+                $mins = $mins/60;
                 $int = $hrs + $mins;
-                $scheduleInattendance = $row['schedule'];
+                $scheduleInattendance= $row['schedule'];
                 $status=$row['approve_statuses'];
-
 //$schedule=$_POST['senate_schedule'];
 
-                if ($scheduleInattendance != $schedule) {
+
+
+
+                if($scheduleInattendance !=$schedule ){
                     $int = $int - 1;
-                } else {
-                    $sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
+                }
+                $sql3 = "INSERT INTO senate_attendance (senator_id, senator_name, attendance_date, attendance_timein, attendance_timeout, attendance_hour,schedule)
 VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
-                    $result3 = mysqli_query($db, $sql3);
-                    $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
-    <i class='fas fa-check'></i> Time in: $full .You've log your attendance.
+                $result3 = mysqli_query($db, $sql3);
+                $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
+    <i class='fas fa-check'></i> Time in: $full .You've log your attendance. Pending admin approval
 </div>";
-                    header("Location: home.php");
-                }
-
-                if($status==1){
-                    $_SESSION['mess'] = "<div id='time' class='alert alert-success' role='alert'>
-                                        <i class='fas fa-check'></i> Timed in already: $full Waiting admin approval.
-                                    </div>";
-//                } else {
-                    $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
-    <i class='fas fa-exclamation'></i> You've already logged attendance.
-                                          </div>";
-                    header("Location: home.php");
-                }
-
+                header("Location: home.php");
             }
-
             else {
-//                $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
-//    <i class='fas fa-exclamation'></i> You've already logged attendance.
-//</div>";
-//                header("Location: home.php");
+
+
+                $_SESSION['mess'] = "<div id='time' class='alert alert-warning' role='alert'>
+    <i class='fas fa-exclamation'></i> You've already logged attendance.
+</div>";
+                header("Location: home.php");
             }
         }
     }
@@ -124,26 +113,28 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 ?>
 
 
+
+
 <!DOCTYPE html>
 <html lang="en">
-    <head>        
+    <head>
         <!-- META SECTION -->
         <title>GRASSAG Senate</title>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <meta http-equiv="X-UA-Compatible" content="IE=edge" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        
+
         <link rel="icon" href="favicon.ico" type="image/x-icon" />
         <!-- END META SECTION -->
-        
-        <!-- CSS INCLUDE -->        
+
+        <!-- CSS INCLUDE -->
         <link rel="stylesheet" type="text/css" id="theme" href="css/theme-default.css"/>
-        <!-- EOF CSS INCLUDE -->                                      
+        <!-- EOF CSS INCLUDE -->
     </head>
     <body>
         <!-- START PAGE CONTAINER -->
         <div class="page-container">
-            
+
             <!-- START PAGE SIDEBAR -->
             <div class="page-sidebar">
                 <!-- START X-NAVIGATION -->
@@ -173,7 +164,7 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
                                 <a href="Profile.php" class="profile-control-left"><span class="fa fa-info"></span></a>
 <!--                                <a href="pages-messages.html" class="profile-control-right"><span class="fa fa-envelope"></span></a>-->
                             </div>
-                        </div>                                                                        
+                        </div>
                     </li>
 
 
@@ -214,7 +205,7 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 
             <!-- PAGE CONTENT -->
             <div class="page-content">
-                
+
                 <!-- START X-NAVIGATION VERTICAL -->
                 <ul class="x-navigation x-navigation-horizontal x-navigation-panel">
                     <!-- TOGGLE NAVIGATION -->
@@ -265,7 +256,7 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 
                 <!-- START BREADCRUMB -->
                 <ul class="breadcrumb">
-                    <li><a href="#">Home</a></li>                    
+                    <li><a href="#">Home</a></li>
                     <li class="active">Dashboard</li>
                 </ul>
                 <!-- END BREADCRUMB -->
@@ -274,11 +265,11 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
 
 
 
-                
+
                 <!-- PAGE CONTENT WRAPPER -->
                 <div class="page-content-wrap">
-                    
-                    <!-- START WIDGETS -->                    
+
+                    <!-- START WIDGETS -->
                     <div class="row">
 
                         <div class="col-md-3">
@@ -347,6 +338,8 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
                                                     </div>
                                                 </div>
                                         </form>
+                                <?php echo $_SESSION['mess']; ?>
+
                             </div>
                         </div>
 
@@ -378,12 +371,8 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
             document.getElementById("log_attendance").addEventListener("submit", function(event) {
                 var selectElement = document.getElementById("senate_schedule").value;
                 var errorElement = document.getElementById("scheduleError");
-
-
-                // console.log(selectElement);
                 if (selectElement === "0") {
                     errorElement.textContent = "Please select a schedule";
-                    // alert("Please select a schedule");
                     event.preventDefault(); // Prevent form submission
                 }
                 // else {
@@ -392,6 +381,21 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
             });
         </script>
 
+
+<!--        =================================ADDED TIMMER FOR THE MESSAGE WE TIME IN OR OUT============================================-->
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+                var messageElement = document.getElementByClassName('log');
+                var duration = 2000; // 3000 milliseconds = 3 seconds
+                setTimeout(function() {
+                    if (messageElement) {
+                        messageElement.remove(messageElement);
+                        // messageElement.ClassList.add('hidden');
+                    }
+                }, duration);
+            });
+        </script>
+<!--=================================ADDED TIMMER FOR THE MESSAGE WE TIME IN OR OUT============================================-->
 
 
         <script type="text/javascript">
@@ -408,42 +412,42 @@ VALUES ('$id', '$full', '$date', '$in', '$out', '$int','$schedule' )";
         <!-- START PRELOADS -->
         <audio id="audio-alert" src="audio/alert.mp3" preload="auto"></audio>
         <audio id="audio-fail" src="audio/fail.mp3" preload="auto"></audio>
-        <!-- END PRELOADS -->                  
-        
+        <!-- END PRELOADS -->
+
     <!-- START SCRIPTS -->
         <!-- START PLUGINS -->
         <script type="text/javascript" src="js/plugins/jquery/jquery.min.js"></script>
         <script type="text/javascript" src="js/plugins/jquery/jquery-ui.min.js"></script>
-        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>        
+        <script type="text/javascript" src="js/plugins/bootstrap/bootstrap.min.js"></script>
         <!-- END PLUGINS -->
 
-        <!-- START THIS PAGE PLUGINS-->        
-        <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>        
+        <!-- START THIS PAGE PLUGINS-->
+        <script type='text/javascript' src='js/plugins/icheck/icheck.min.js'></script>
         <script type="text/javascript" src="js/plugins/mcustomscrollbar/jquery.mCustomScrollbar.min.js"></script>
         <script type="text/javascript" src="js/plugins/scrolltotop/scrolltopcontrol.js"></script>
-        
+
         <script type="text/javascript" src="js/plugins/morris/raphael-min.js"></script>
-        <script type="text/javascript" src="js/plugins/morris/morris.min.js"></script>       
+        <script type="text/javascript" src="js/plugins/morris/morris.min.js"></script>
         <script type="text/javascript" src="js/plugins/rickshaw/d3.v3.js"></script>
         <script type="text/javascript" src="js/plugins/rickshaw/rickshaw.min.js"></script>
         <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js'></script>
-        <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>                
-        <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>                
-        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>                 
-        
+        <script type='text/javascript' src='js/plugins/jvectormap/jquery-jvectormap-world-mill-en.js'></script>
+        <script type='text/javascript' src='js/plugins/bootstrap/bootstrap-datepicker.js'></script>
+        <script type="text/javascript" src="js/plugins/owl/owl.carousel.min.js"></script>
+
         <script type="text/javascript" src="js/plugins/moment.min.js"></script>
         <script type="text/javascript" src="js/plugins/daterangepicker/daterangepicker.js"></script>
-        <!-- END THIS PAGE PLUGINS-->        
+        <!-- END THIS PAGE PLUGINS-->
 
         <!-- START TEMPLATE -->
         <script type="text/javascript" src="js/settings.js"></script>
-        
-        <script type="text/javascript" src="js/plugins.js"></script>        
+
+        <script type="text/javascript" src="js/plugins.js"></script>
         <script type="text/javascript" src="js/actions.js"></script>
-        
+
         <script type="text/javascript" src="js/demo_dashboard.js"></script>
         <!-- END TEMPLATE -->
-    <!-- END SCRIPTS -->         
+    <!-- END SCRIPTS -->
     </body>
 </html>
 

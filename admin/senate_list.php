@@ -141,6 +141,33 @@ require_once('../normal_user/auth_user.php');
                         </li>
 
 
+                        <li class="nav-item has-treeview">
+                            <a href="#" class="nav-link">
+                                <i class="nav-icon fas fa-users"></i>
+                                <p>
+                                    Commitee
+                                    <i class="fas fa-angle-left right"></i>
+                                </p>
+                            </a>
+                            <ul class="nav nav-treeview">
+                                <li class="nav-item">
+                                    <a href="comm_names.php" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>Name</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="comm_members.php" class="nav-link">
+                                        <i class="fas fa-circle nav-icon"></i>
+                                        <p>Members</p>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+
+
+
                         <li class="nav-item">
                             <a href="request.php" class="nav-link">
                                 <i class="nav-icon fas fa-exclamation-circle"></i>
@@ -240,7 +267,7 @@ require_once('../normal_user/auth_user.php');
         </div>
 
     </div>
-<!--=================================================================================================-->
+<!--============================== ADD MEMBER===================================================================-->
 
     <div class="modal fade" id="modal-default">
         <div class="modal-dialog">
@@ -287,12 +314,6 @@ require_once('../normal_user/auth_user.php');
                             </div>
                         </div>
 
-
-
-
-
-
-
                         <div class="form-group row">
                             <label class="col-sm-1 col-form-label"></label>
                             <label class="col-sm-3 col-form-label">Program</label>
@@ -305,7 +326,7 @@ require_once('../normal_user/auth_user.php');
                             <label class="col-sm-1 col-form-label"></label>
                             <label class="col-sm-3 col-form-label">Bank Details</label>
                             <div class="col-sm-7">
-                                <input type="text" class="form-control" name="emp_address" placeholder="Bank Account No. And Name" required>
+                                <input type="text" class="form-control" name="emp_address" placeholder="Bank Account Details" required>
                             </div>
                         </div>
                         <div class="form-group row">
